@@ -10,6 +10,25 @@ const statusLabel = (status) =>
   ({ SUCCESS: 'Thành công', PENDING_OTP: 'Chờ OTP', FAILED: 'Thất bại', EXPIRED: 'Hết hạn' })[
     status
   ] || status;
+const paymentTime = (payment) =>
+  payment.status === 'SUCCESS' && payment.paidAt ? payment.paidAt : payment.createdAt;
+const dateFormatter = new Intl.DateTimeFormat('vi-VN', {
+  day: '2-digit',
+  month: '2-digit',
+  year: 'numeric',
+  timeZone: 'Asia/Ho_Chi_Minh',
+});
+const clockFormatter = new Intl.DateTimeFormat('vi-VN', {
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: false,
+  timeZone: 'Asia/Ho_Chi_Minh',
+});
+const formatTime = (value) => {
+  if (!value) return '—';
+  const date = new Date(value);
+  return `${dateFormatter.format(date)} ${clockFormatter.format(date)}`;
+};
 
 async function api(base, path, token, options = {}) {
   const response = await fetch(base + path, {
@@ -99,6 +118,10 @@ function Dashboard({ profile, wallet, history, onPayment, onLogout }) {
                     <span>
                       {history[0].studentId} · {statusLabel(history[0].status)}
                     </span>
+                    <time className="recent-time" dateTime={paymentTime(history[0])}>
+                      {history[0].status === 'SUCCESS' ? 'Thanh toán lúc' : 'Khởi tạo lúc'}{' '}
+                      {formatTime(paymentTime(history[0]))}
+                    </time>
                   </div>
                   <b>{money(history[0].amount)}</b>
                 </div>
@@ -494,6 +517,7 @@ function App() {
                     <th>Sinh viên</th>
                     <th>Số tiền</th>
                     <th>Trạng thái</th>
+                    <th>Thời gian</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -507,6 +531,10 @@ function App() {
                       </td>
                       <td>{money(p.amount)}</td>
                       <td>{statusLabel(p.status)}</td>
+                      <td className="payment-time">
+                        <time dateTime={paymentTime(p)}>{formatTime(paymentTime(p))}</time>
+                        <small>{p.status === 'SUCCESS' ? 'Thanh toán' : 'Khởi tạo'}</small>
+                      </td>
                     </tr>
                   ))}
                 </tbody>

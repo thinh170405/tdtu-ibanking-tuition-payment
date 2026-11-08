@@ -515,6 +515,16 @@ td:first-child {
 td small {
   color: #8195a2;
 }
+.payment-time {
+  white-space: nowrap;
+}
+.payment-time time,
+.payment-time small {
+  display: block;
+}
+.payment-time small {
+  margin-top: 3px;
+}
 .history .hint {
   text-align: center;
   padding: 25px;
@@ -610,6 +620,12 @@ td small {
 }
 .recent-payment span {
   margin-top: 5px;
+}
+.recent-payment .recent-time {
+  display: block;
+  margin-top: 6px;
+  color: #728899;
+  font-size: 12px;
 }
 .recent-payment b {
   color: #075f91;
@@ -756,6 +772,13 @@ td small {
   .history td:nth-child(4):before {
     content: 'Trạng thái: ';
     color: #6f8798;
+  }
+  .history td:nth-child(5):before {
+    content: 'Thời gian: ';
+    color: #6f8798;
+  }
+  .payment-time time {
+    display: inline;
   }
 }
 @media (prefers-reduced-motion: reduce) {
