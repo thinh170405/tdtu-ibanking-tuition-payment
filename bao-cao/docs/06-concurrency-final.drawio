@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="drawio" version="26.0.0" type="device">
+  <diagram id="06-concurrency" name="06 Concurrency and Consistency">
+    <mxGraphModel dx="1560" dy="1030" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1560" pageHeight="1030" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="06-concurrency-title" value="CONCURRENCY AND CONSISTENCY" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=26;fontStyle=1;fontColor=#173B55;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="42" y="24" width="1476" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="06-concurrency-subtitle" value="PostgreSQL SELECT FOR UPDATE serializes conflicting confirmations; both scenarios are tested on the live stack." style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=13;fontColor=#617B8D;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="44" y="76" width="1472" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-t21-title" value="T21  |  SAME WALLET, TWO TUITION CHARGES" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="65" y="145" width="1430" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-a" value="Payment A&#xa;7M VND" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="85" y="230" width="220" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-b" value="Payment B&#xa;7M VND" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="85" y="365" width="220" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-wallet" value="Lock wallet row&#xa;starting balance 10M" style="rhombus;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#FFF1D6;strokeColor=#B77E27;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="520" y="285" width="300" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-a-win" value="One SUCCESS&#xa;final balance 3M" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="230" width="330" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-b-lose" value="Other: 422&#xa;INSUFFICIENT_BALANCE" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#FCE7E4;strokeColor=#BC625A;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="365" width="330" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-1" value="confirm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="cc-a" target="cc-wallet">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-2" value="confirm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="cc-b" target="cc-wallet">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-3" value="first commit" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="cc-wallet" target="cc-a-win">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-4" value="recheck 3M &lt; 7M" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="cc-wallet" target="cc-b-lose">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-t22-title" value="T22  |  TWO WALLETS, SAME TUITION CHARGE" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="65" y="525" width="1430" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-u1" value="Wallet 1 pays&#xa;same tuition" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="85" y="610" width="220" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-u2" value="Wallet 2 pays&#xa;same tuition" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="85" y="745" width="220" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-tuition" value="Lock tuition row&#xa;check UNPAID" style="rhombus;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#FFF1D6;strokeColor=#B77E27;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="520" y="665" width="300" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-paid" value="One SUCCESS&#xa;tuition becomes PAID" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="610" width="330" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-reject" value="Other: 409 TUITION_ALREADY_PAID&#xa;second wallet unchanged" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#FCE7E4;strokeColor=#BC625A;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="745" width="330" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-5" value="confirm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="cc-u1" target="cc-tuition">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-6" value="confirm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="cc-u2" target="cc-tuition">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-7" value="first commit" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="cc-tuition" target="cc-paid">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-8" value="recheck PAID" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="cc-tuition" target="cc-reject">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-foot" value="Source: src/services/payment/app.py and src/tests/integration_postgres.py. SQLite tests use BEGIN IMMEDIATE instead of row locks." style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=13;fontColor=#617B8D;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="65" y="915" width="1420" height="45" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

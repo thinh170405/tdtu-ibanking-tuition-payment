@@ -67,11 +67,11 @@ Phân hệ đóng học phí iBanking cho phép khách hàng đăng nhập bằn
 
 ## 1.4. Cấu trúc sơ đồ Use Case
 
-Sơ đồ [Use Case Diagram](./01-phan-tich-nghiep-vu-use-case.drawio) có khung **iBanking Tuition Payment Subsystem** chứa UC01–UC06; **User** ở trái và **Email Service** ở phải. User liên kết với UC01–UC05; UC06 là xử lý nội bộ được kích hoạt sau xác thực, không phải thao tác trực tiếp của User. Quan hệ `«include»` diễn tả UC04 cần dữ liệu UC03; UC06 `«extend»` UC05 khi OTP hợp lệ. Đường liên kết tới Email Service thể hiện gửi OTP ở UC04 và thư xác nhận ở UC06. Database được thể hiện trong ERD, không đưa vào sơ đồ Use Case như actor.
+Sơ đồ [Use Case Diagram](./01-use-case-final.drawio) có khung **iBanking Tuition Payment Subsystem** chứa UC01–UC06; **Customer** ở trái và **Email provider** ở phải. Customer liên kết với UC01–UC05; UC06 là xử lý nội bộ được kích hoạt sau xác thực, không phải thao tác trực tiếp của Customer. Quan hệ `«include»` diễn tả UC04 cần dữ liệu UC03; UC06 `«extend»` UC05 khi OTP hợp lệ. Đường liên kết tới Email provider thể hiện gửi OTP ở UC04 và thư xác nhận ở UC06. Database được thể hiện trong ERD, không đưa vào sơ đồ Use Case như actor.
 
 ## 1.5. ERD khái niệm ban đầu
 
-Sơ đồ [Initial ERD](./01-phan-tich-nghiep-vu-erd.drawio) gồm năm thực thể cốt lõi. Đây là mô hình nghiệp vụ ban đầu; tên cột vật lý có thể điều chỉnh theo migration của từng service.
+Sơ đồ [Conceptual ERD](./03-conceptual-erd-final.drawio) gồm năm thực thể cốt lõi. Đây là mô hình nghiệp vụ ban đầu; tên cột vật lý được đối chiếu riêng trong ERD triển khai.
 
 | Thực thể | Thuộc tính chính | Ràng buộc và quan hệ |
 |---|---|---|

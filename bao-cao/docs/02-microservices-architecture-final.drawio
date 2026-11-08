@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="drawio" version="26.0.0" type="device">
+  <diagram id="02-microservices-architecture" name="02 Microservices Architecture">
+    <mxGraphModel dx="1740" dy="1080" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1740" pageHeight="1080" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="02-microservices-architecture-title" value="MICROSERVICES ARCHITECTURE" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=26;fontStyle=1;fontColor=#173B55;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="42" y="24" width="1656" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="02-microservices-architecture-subtitle" value="One PostgreSQL instance hosts three separately owned databases; Mailpit receives SMTP in the local demo." style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=13;fontColor=#617B8D;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="44" y="76" width="1652" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="ar-customer" value="Customer&#xa;(browser)" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontStyle=1;fontColor=#173B55;fillColor=#EEE9F7;strokeColor=#8266A4;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="55" y="465" width="185" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="ar-frontend" value="Frontend&#xa;React + Vite :5173" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontStyle=1;fontColor=#173B55;fillColor=#EEE9F7;strokeColor=#8266A4;strokeWidth=2;" vertex="1" parent="1" data-source="src/frontend; src/compose.yaml">
+          <mxGeometry x="325" y="455" width="285" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="ar-account" value="Account Service&#xa;login · profile · JWT&#xa;FastAPI :8081" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="1" data-source="src/services/account/app.py">
+          <mxGeometry x="750" y="205" width="320" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ar-payment" value="Payment Service&#xa;wallet · tuition · OTP · transaction&#xa;FastAPI :8082" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="1" data-source="src/services/payment/app.py">
+          <mxGeometry x="750" y="455" width="320" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="ar-notification" value="Notification Service&#xa;email · messageId idempotency&#xa;FastAPI :8083" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="1" data-source="src/services/notification/app.py">
+          <mxGeometry x="750" y="705" width="320" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ar-postgres" value="PostgreSQL 16 instance" style="swimlane;startSize=38;horizontal=1;container=1;collapsible=0;pointerEvents=0;html=1;fontFamily=Arial;fontSize=16;fontStyle=1;fillColor=#F8FBFD;strokeColor=#95B2C4;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1220" y="150" width="450" height="720" as="geometry" />
+        </mxCell>
+        <mxCell id="ar-account-db" value="Account DB&#xa;users" style="shape=cylinder3;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="ar-postgres">
+          <mxGeometry x="60" y="70" width="330" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ar-payment-db" value="Payment DB&#xa;wallets · students · tuitions&#xa;payments · otps · email_jobs" style="shape=cylinder3;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="ar-postgres">
+          <mxGeometry x="60" y="315" width="330" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ar-notification-db" value="Notification DB&#xa;email_messages" style="shape=cylinder3;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="ar-postgres">
+          <mxGeometry x="60" y="560" width="330" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ar-smtp" value="SMTP server&#xa;Mailpit for local demo" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontColor=#173B55;fillColor=#F3F6F8;strokeColor=#8295A3;strokeWidth=2;dashed=1;" vertex="1" parent="1" data-source="src/compose.yaml">
+          <mxGeometry x="790" y="910" width="280" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="ar-1" value="HTTP demo" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ar-customer" target="ar-frontend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ar-2" value="REST login / profile" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.15;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ar-frontend" target="ar-account">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="265" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ar-3" value="REST + Bearer JWT" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.6;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ar-frontend" target="ar-payment">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ar-4" value="Internal REST + X-Internal-Key" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ar-payment" target="ar-notification">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ar-5" value="SQL" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ar-account" target="ar-account-db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ar-6" value="SQL transaction" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ar-payment" target="ar-payment-db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ar-7" value="SQL" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ar-notification" target="ar-notification-db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ar-8" value="SMTP" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ar-notification" target="ar-smtp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ar-footer" value="Payment validates the JWT locally. Blue: service  |  Purple: client  |  Green: owned database  |  Dashed gray: external SMTP" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=13;fontColor=#617B8D;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="55" y="1015" width="1550" height="35" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

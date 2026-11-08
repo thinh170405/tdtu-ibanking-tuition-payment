@@ -2,7 +2,7 @@
 
 ## 4.1. Mô hình dữ liệu triển khai
 
-Hệ thống có ba database PostgreSQL độc lập. Account DB chứa bảng `users` với khóa chính `id`, `username` duy nhất, `password_hash`, `full_name`, `phone`, `email`. Notification DB chứa `email_messages` với `message_id` làm khóa chính, `payload_hash`, `status`, `updated_at`. Payment DB chứa `wallets`, `students`, `tuitions`, `payments`, `otps` và `email_jobs`. `user_id` ở Payment là tham chiếu logic tới Account; không tạo foreign key xuyên database.
+Sơ đồ [Physical ERD](./04-physical-erd-final.drawio) mô tả tám bảng triển khai. Hệ thống có ba database PostgreSQL độc lập. Account DB chứa bảng `users` với khóa chính `id`, `username` duy nhất, `password_hash`, `full_name`, `phone`, `email`. Notification DB chứa `email_messages` với `message_id` làm khóa chính, `payload_hash`, `status`, `updated_at`. Payment DB chứa `wallets`, `students`, `tuitions`, `payments`, `otps` và `email_jobs`. `user_id` ở Payment là tham chiếu logic tới Account; không tạo foreign key xuyên database.
 
 Trong Payment DB, `wallets.balance >= 0`, `tuitions.amount > 0`, `(payments.user_id, payments.request_id)` duy nhất, mỗi payment có tối đa một bản ghi OTP và một email job xác nhận. Bảng `payments` giữ số tiền được chốt ở lúc tạo giao dịch, trạng thái và các mốc thời gian để phục vụ lịch sử. OTP chỉ lưu hash, thời điểm phát hành, hết hạn và thời điểm sử dụng. Học phí được đánh dấu `PAID` trong cùng transaction với trừ số dư và cập nhật payment `SUCCESS`.
 
@@ -20,7 +20,7 @@ Account Service được viết bằng FastAPI và SQLAlchemy. Mật khẩu đư
 
 ## 5.2. Payment Service
 
-Payment Service thật cung cấp toàn bộ API ví, tra cứu học phí, tạo giao dịch, lịch sử và xác nhận OTP. Tạo payment chỉ cho phép thanh toán toàn bộ số tiền từ Tuition; `requestId` UUID giúp xử lý yêu cầu lặp. OTP gồm sáu chữ số, gắn đúng payment, có thời hạn năm phút, được băm trước khi lưu và gửi qua Notification. Khi xác nhận, service kiểm tra lại điều kiện để chống thay đổi số dư/học phí trong lúc chờ OTP. Hai loại tranh chấp được xử lý ở server: nhiều payment cùng ví và nhiều ví cùng trả một khoản.
+Sơ đồ [Payment and OTP Flow](./05-payment-otp-flow-final.drawio) thể hiện luồng thành công và lỗi. Payment Service thật cung cấp toàn bộ API ví, tra cứu học phí, tạo giao dịch, lịch sử và xác nhận OTP. Tạo payment chỉ cho phép thanh toán toàn bộ số tiền từ Tuition; `requestId` UUID giúp xử lý yêu cầu lặp. OTP gồm sáu chữ số, gắn đúng payment, có thời hạn năm phút, được băm trước khi lưu và gửi qua Notification. Khi xác nhận, service kiểm tra lại điều kiện để chống thay đổi số dư/học phí trong lúc chờ OTP. Hai loại tranh chấp được xử lý ở server: nhiều payment cùng ví và nhiều ví cùng trả một khoản.
 
 ## 5.3. Notification Service
 
@@ -31,6 +31,8 @@ Notification nhận `POST /internal/v1/notifications/email` từ Payment với `
 Giao diện React thực hiện đăng nhập, hiển thị hồ sơ và số dư ở chế độ chỉ đọc, tự tra cứu khi MSSV đủ tám chữ số, chấp nhận điều khoản, tạo giao dịch, nhập OTP, hiển thị kết quả và lịch sử. Request tra cứu cũ bị hủy, đồng thời số thứ tự request ngăn phản hồi chậm ghi đè MSSV mới. Sau thanh toán, frontend đọc lại số dư và lịch sử từ backend, không tự tính số dư.
 
 # 6. Transaction và xử lý đồng thời
+
+Sơ đồ [Concurrency and Consistency](./06-concurrency-final.drawio) minh họa T21 và T22 trên PostgreSQL.
 
 **Trường hợp T21:** Một ví có 10 triệu đồng tạo hai giao dịch thanh toán hai khoản học phí, mỗi khoản 7 triệu. Hai yêu cầu xác nhận chạy đồng thời; chỉ một giao dịch được `SUCCESS`, số dư cuối là 3 triệu và khoản còn lại chưa được thanh toán. Kiểm thử tự động đã xác nhận kết quả này trên SQLite và PostgreSQL của stack Docker.
 

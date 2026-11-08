@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="drawio" version="26.0.0" type="device">
+  <diagram id="05-payment-otp-flow" name="05 Payment and OTP Flow">
+    <mxGraphModel dx="1650" dy="1060" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1650" pageHeight="1060" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="05-payment-otp-flow-title" value="PAYMENT AND OTP FLOW" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=26;fontStyle=1;fontColor=#173B55;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="42" y="24" width="1566" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="05-payment-otp-flow-subtitle" value="Create records the full Tuition amount. Confirm is the only operation that debits the wallet." style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=13;fontColor=#617B8D;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="44" y="76" width="1562" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-lookup" value="Log in and&#xa;look up tuition" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="50" y="220" width="260" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-check" value="Check UNPAID&#xa;and balance" style="rhombus;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#FFF1D6;strokeColor=#B77E27;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="360" y="220" width="260" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-create" value="Commit PENDING_OTP&#xa;and hashed OTP" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="670" y="220" width="260" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-email" value="Send OTP email&#xa;TTL 5 minutes" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="980" y="220" width="260" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-enter" value="Customer enters OTP" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="220" width="260" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-lock" value="Lock payment + OTP&#xa;validate single-use code" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="600" width="260" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-recheck" value="Lock wallet + tuition&#xa;recheck status / balance" style="rhombus;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#FFF1D6;strokeColor=#B77E27;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="980" y="600" width="260" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-commit" value="Atomic DB commit&#xa;debit · PAID · SUCCESS&#xa;use OTP · create receipt job" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="670" y="600" width="260" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-job" value="Send receipt email&#xa;retry every 30 seconds" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="360" y="600" width="260" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-done" value="Payment complete" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="50" y="600" width="260" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="fl-lookup" target="fl-check">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-2" value="eligible" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="fl-check" target="fl-create">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="fl-create" target="fl-email">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="fl-email" target="fl-enter">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-5" value="confirm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="fl-enter" target="fl-lock">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="fl-lock" target="fl-recheck">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-7" value="valid" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="fl-recheck" target="fl-commit">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-8" value="after commit" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="fl-commit" target="fl-job">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="fl-job" target="fl-done">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-ineligible" value="Already PAID or insufficient balance&#xa;409 / 422; no payment created" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#FCE7E4;strokeColor=#BC625A;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="350" y="430" width="280" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-mail-fail" value="OTP delivery fails&#xa;503; payment marked FAILED" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#FCE7E4;strokeColor=#BC625A;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="970" y="430" width="280" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-otp-fail" value="Invalid / expired OTP&#xa;422; no debit" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#FCE7E4;strokeColor=#BC625A;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="825" width="280" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-finance-fail" value="Already PAID / insufficient balance&#xa;409 / 422; no debit" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#FCE7E4;strokeColor=#BC625A;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="945" y="825" width="300" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-check-fail" value="reject" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;endFill=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="fl-check" target="fl-ineligible">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-email-fail" value="SMTP failure" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;endFill=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="fl-email" target="fl-mail-fail">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-otp-fail-edge" value="reject" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;endFill=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="fl-lock" target="fl-otp-fail">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-finance-fail-edge" value="reject" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;endFill=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="fl-recheck" target="fl-finance-fail">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fl-foot" value="Database errors before commit roll back. Receipt failure leaves SUCCESS and a pending job; Notification uses a stable messageId for retries." style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=13;fontColor=#617B8D;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="55" y="970" width="1510" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -10,3 +10,4 @@ src/frontend/dist/
 .pytest_cache/
 bao-cao/tmp/
 bao-cao/docs/previews/contact*.png
+*.dtmp

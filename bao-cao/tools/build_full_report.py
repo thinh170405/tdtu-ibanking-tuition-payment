@@ -14,12 +14,12 @@ DOCS = ROOT / "docs"
 OUT = ROOT / "bao-cao-giua-ky-ibanking-day-du.docx"
 SOURCES = [DOCS / "01-phan-tich-nghiep-vu-uml.md", DOCS / "02-kien-truc-microservices-va-rest-api.md", DOCS / "04-08-hien-thuc-kiem-thu-trien-khai.md"]
 FIGURES = {
-    "1.4.": (DOCS / "previews" / "01-01-use-case-diagram.png", "Hình 1. Use Case Diagram của phân hệ đóng học phí"),
-    "1.5.": (DOCS / "previews" / "03-03-conceptual-erd.png", "Hình 2. ERD khái niệm với năm thực thể cốt lõi"),
-    "2.3.": (DOCS / "previews" / "02-02-microservices-architecture.png", "Hình 3. Microservices Architecture Diagram của hệ thống tích hợp"),
-    "4.1.": (DOCS / "previews" / "04-04-physical-erd.png", "Hình 4. ERD vật lý của tám bảng trong ba database"),
-    "5.2.": (DOCS / "previews" / "05-05-payment-and-otp-flow.png", "Hình 5. Luồng thanh toán, OTP và transaction"),
-    "6.": (DOCS / "previews" / "06-06-concurrency-and-consistency.png", "Hình 6. Xử lý hai tình huống giao dịch đồng thời"),
+    "1.4.": (DOCS / "previews" / "01-use-case-final.png", "Hình 1. Use Case Diagram của phân hệ đóng học phí"),
+    "1.5.": (DOCS / "previews" / "03-conceptual-erd-final.png", "Hình 2. ERD khái niệm với năm thực thể cốt lõi"),
+    "2.3.": (DOCS / "previews" / "02-microservices-architecture-final.png", "Hình 3. Microservices Architecture Diagram của hệ thống tích hợp"),
+    "4.1.": (DOCS / "previews" / "04-physical-erd-final.png", "Hình 4. ERD vật lý của tám bảng trong ba database"),
+    "5.2.": (DOCS / "previews" / "05-payment-otp-flow-final.png", "Hình 5. Luồng thanh toán, OTP và transaction"),
+    "6.": (DOCS / "previews" / "06-concurrency-final.png", "Hình 6. Xử lý hai tình huống giao dịch đồng thời"),
 }
 
 

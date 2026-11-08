@@ -84,4 +84,4 @@ Sau khi xác thực OTP, hệ thống phải thực hiện đủ các bước:
 
 ## Bản chạy hiện tại
 
-Hệ thống tích hợp gồm Account, Payment, Notification và giao diện React. Từ thư mục `src`, chạy `docker compose up --build -d`, rồi mở http://localhost:5173. Xem [báo cáo giữa kỳ](bao-cao/bao-cao-giua-ky-ibanking-day-du.docx), [bộ sáu sơ đồ draw.io](bao-cao/docs/ibanking-so-do-day-du.drawio) và [hướng dẫn sơ đồ](bao-cao/docs/so-do-huong-dan.md).
+Hệ thống tích hợp gồm Account, Payment, Notification và giao diện React. Từ thư mục `src`, chạy `docker compose up --build -d`, rồi mở http://localhost:5173. Xem [báo cáo giữa kỳ](bao-cao/bao-cao-giua-ky-ibanking-day-du.docx), [bộ sáu sơ đồ draw.io](bao-cao/docs/ibanking-diagrams-final.drawio) và [hướng dẫn sơ đồ](bao-cao/docs/so-do-huong-dan.md).

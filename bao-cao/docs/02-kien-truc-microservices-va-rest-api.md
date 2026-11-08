@@ -45,7 +45,7 @@ flowchart LR
     EMAIL -->|OTP / receipt| U
 ```
 
-Các cổng là cấu hình phát triển của dự án; khi triển khai có thể đặt reverse proxy/TLS ở phía trước mà không đổi quyền sở hữu dữ liệu. Stack tích hợp hiện dùng Payment Service ở `:8082` và Mailpit làm SMTP thử.
+Sơ đồ [Microservices Architecture](./02-microservices-architecture-final.drawio) thể hiện các kết nối và quyền sở hữu dữ liệu. Các cổng là cấu hình phát triển của dự án; khi triển khai có thể đặt reverse proxy/TLS ở phía trước mà không đổi quyền sở hữu dữ liệu. Stack tích hợp hiện dùng Payment Service ở `:8082` và Mailpit làm SMTP thử.
 
 # 3. Thiết kế REST API
 
