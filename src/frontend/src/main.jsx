@@ -272,28 +272,48 @@ function App() {
   if (!token)
     return (
       <main className="login-page">
-        <form className="card login" onSubmit={login}>
-          <div className="brand">
-            i<span>Banking</span>
+        <section className="login-hero" aria-labelledby="login-hero-title">
+          <div className="login-hero-inner">
+            <p className="login-eyebrow">TDTU · DỊCH VỤ HỌC PHÍ</p>
+            <h1 id="login-hero-title">
+              Đóng học phí <span>thuận tiện và an toàn.</span>
+            </h1>
+            <p className="login-hero-copy">
+              Tra cứu theo mã số sinh viên, thanh toán toàn bộ khoản học phí và xác nhận giao dịch
+              qua email.
+            </p>
+            <div className="login-steps" aria-label="Các bước thanh toán">
+              <span>01 · Tra cứu</span>
+              <span>02 · Thanh toán</span>
+              <span>03 · Xác nhận email</span>
+            </div>
           </div>
-          <h1>Đăng nhập iBanking</h1>
-          <p>Truy cập tài khoản và dịch vụ đóng học phí.</p>
-          <label>
-            Tên đăng nhập
-            <input value={username} onChange={(e) => setUsername(e.target.value)} required />
-          </label>
-          <label>
-            Mật khẩu
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </label>
-          {notice && <div className={`notice ${notice.kind}`}>{notice.text}</div>}
-          <button disabled={busy}>{busy ? 'Đang đăng nhập…' : 'Đăng nhập'}</button>
-        </form>
+        </section>
+        <section className="login-panel" aria-label="Đăng nhập iBanking">
+          <form className="card login" onSubmit={login}>
+            <div className="brand">
+              i<span>Banking</span>
+            </div>
+            <p className="login-kicker">CHÀO MỪNG TRỞ LẠI</p>
+            <h2>Đăng nhập</h2>
+            <p className="login-description">Truy cập tài khoản để thanh toán học phí.</p>
+            <label>
+              Tên đăng nhập
+              <input value={username} onChange={(e) => setUsername(e.target.value)} required />
+            </label>
+            <label>
+              Mật khẩu
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </label>
+            {notice && <div className={`notice ${notice.kind}`}>{notice.text}</div>}
+            <button disabled={busy}>{busy ? 'Đang đăng nhập…' : 'Đăng nhập'}</button>
+          </form>
+        </section>
       </main>
     );
   if (page !== '/tuition-payment')

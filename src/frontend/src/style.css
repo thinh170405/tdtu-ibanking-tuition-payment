@@ -67,62 +67,112 @@ p {
 .login-page {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(400px, 0.95fr);
-  background: #fff;
+  grid-template-columns: minmax(0, 1fr) minmax(480px, 0.9fr);
+  background: #f8fafc;
 }
-.login-page:before {
+.login-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: clamp(48px, 7vw, 112px);
+  background:
+    radial-gradient(circle at 15% 15%, #2b83b1 0, transparent 42%),
+    linear-gradient(145deg, #116c9b 0%, #0b456f 60%, #082f51 100%);
+  color: #fff;
+}
+.login-hero:after {
   content: '';
   position: absolute;
-  inset: 0 50% 0 0;
-  background: radial-gradient(circle at 20% 18%, #2e8cb6 0, #075f91 35%, #0b3158 95%);
+  width: 480px;
+  height: 480px;
+  right: -210px;
+  bottom: -260px;
+  border: 1px solid #ffffff24;
+  border-radius: 50%;
+  box-shadow: 0 0 0 80px #ffffff08;
 }
-.login {
-  grid-column: 2;
-  align-self: center;
-  justify-self: center;
-  width: min(460px, calc(100vw - 40px));
+.login-hero-inner {
   position: relative;
-  padding: 46px 42px;
-  box-shadow: none;
-  border: 0;
+  z-index: 1;
+  max-width: 650px;
+  margin: 0 auto;
 }
-.login:before {
-  content: 'TDTU  /  DỊCH VỤ HỌC PHÍ';
-  position: absolute;
-  left: calc(-100% - 70px);
-  top: 12%;
-  width: 90%;
+.login-eyebrow {
+  margin: 0 0 24px;
+  color: #addff4;
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.18em;
-  color: #add9ec;
+  letter-spacing: 0.16em;
 }
-.login:after {
-  content: 'Tra cứu chính xác. Thanh toán an toàn.\A Xác nhận bằng OTP qua email.';
-  white-space: pre-line;
-  position: absolute;
-  left: calc(-100% - 70px);
-  top: 34%;
-  width: 90%;
-  font:
-    800 clamp(29px, 3.3vw, 54px) / 1.23 Manrope,
-    sans-serif;
+.login-hero h1 {
+  max-width: 13ch;
+  margin: 0;
+  font-size: clamp(38px, 3.5vw, 64px);
+  line-height: 1.16;
   letter-spacing: -0.04em;
-  color: white;
+}
+.login-hero h1 span {
+  color: #bce2f2;
+}
+.login-hero-copy {
+  max-width: 480px;
+  margin: 28px 0 0;
+  color: #d8eaf3;
+  font-size: 17px;
+}
+.login-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 44px;
+}
+.login-steps span {
+  padding: 9px 13px;
+  border: 1px solid #ffffff45;
+  border-radius: 999px;
+  color: #e4f3fa;
+  font-size: 12px;
+  font-weight: 700;
+}
+.login-panel {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  padding: 40px;
+}
+.login {
+  width: 100%;
+  max-width: 480px;
+  min-width: 0;
+  padding: clamp(30px, 3vw, 46px);
+  border-color: #d9e5ee;
+  box-shadow: 0 24px 60px #14354a12;
 }
 .login .brand {
   font-size: 26px;
-  margin-bottom: 24px;
+  margin-bottom: 36px;
 }
-.login h1 {
+.login-kicker {
+  margin: 0 0 7px;
+  color: #086a98;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+.login h2 {
+  margin: 0 0 8px;
   font-size: 30px;
 }
-.login p {
+.card.login h2:before {
+  display: none;
+}
+.login .login-description {
   color: #62788a;
-  margin: 0 0 28px;
+  margin: 0 0 30px;
 }
 .login button {
-  margin-top: 25px !important;
+  margin-top: 24px;
 }
 .brand {
   color: #075f91;
@@ -568,15 +618,23 @@ td small {
 
 @media (max-width: 900px) {
   .login-page {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
-  .login-page:before,
-  .login:after,
-  .login:before {
-    display: none;
+  .login-hero {
+    padding: 44px 32px;
   }
-  .login {
-    grid-column: 1;
+  .login-hero-inner {
+    width: min(100%, 640px);
+  }
+  .login-hero h1 {
+    max-width: 20ch;
+    font-size: clamp(32px, 5vw, 44px);
+  }
+  .login-steps {
+    margin-top: 24px;
+  }
+  .login-panel {
+    padding: 32px 20px 48px;
   }
   .grid,
   .dashboard-grid {
@@ -616,8 +674,25 @@ td small {
   .amount strong {
     font-size: 19px;
   }
+  .login-hero {
+    padding: 36px 24px;
+  }
+  .login-hero-copy,
+  .login-steps {
+    display: none;
+  }
+  .login-eyebrow {
+    margin-bottom: 12px;
+    font-size: 11px;
+  }
+  .login-panel {
+    padding: 24px 16px 40px;
+  }
   .login {
     padding: 30px 26px;
+  }
+  .login .brand {
+    margin-bottom: 26px;
   }
 }
 @media (max-width: 650px) {
