@@ -1,8 +1,4 @@
 import importlib
-import os
-from datetime import datetime, timedelta, timezone
-
-import jwt
 
 from fastapi.testclient import TestClient
 
@@ -50,21 +46,3 @@ def test_notification_idempotency_conflict_and_retry(tmp_path, monkeypatch):
     monkeypatch.setattr(notification, "send_email", lambda mail: sent.append(mail))
     assert client.post("/internal/v1/notifications/email", json=failing, headers=headers).status_code == 200
     assert len(sent) == 2
-
-
-def test_payment_mock_ui_contract():
-    mock = importlib.import_module("services.payment_mock.app")
-    client = TestClient(mock.app)
-    now = datetime.now(timezone.utc)
-    token = jwt.encode({"sub": "u1", "email": "demo1@example.test", "iss": "ibanking-demo", "aud": "ibanking-api", "iat": now, "exp": now + timedelta(hours=1)}, os.getenv("JWT_SECRET", "development-only-change-this-secret-32-bytes"), algorithm="HS256")
-    headers = {"Authorization": "Bearer " + token}
-    tuition = client.get("/api/v1/tuition/52600001", headers=headers)
-    assert tuition.status_code == 200 and tuition.json()["amount"] == 7000000
-    body = {"tuitionId": "HP001", "termsAccepted": True, "requestId": "e677a6b0-8292-4f77-8216-9b39b4e17a87"}
-    created = client.post("/api/v1/payments", json=body, headers=headers)
-    assert created.status_code == 201 and created.json()["status"] == "PENDING_OTP"
-    assert client.post("/api/v1/payments", json=body, headers=headers).status_code == 200
-    pid = created.json()["paymentId"]
-    assert client.post(f"/api/v1/payments/{pid}/confirm", json={"otp": "000000"}, headers=headers).json()["code"] == "INVALID_OTP"
-    assert client.post(f"/api/v1/payments/{pid}/confirm", json={"otp": "123456"}, headers=headers).json()["status"] == "SUCCESS"
-    assert client.get("/api/v1/wallet", headers=headers).json()["balance"] == 3000000

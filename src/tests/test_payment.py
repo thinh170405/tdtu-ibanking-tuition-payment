@@ -1,4 +1,4 @@
-"""Financial behavior tests against the durable Payment Service, not the mock."""
+"""Financial behavior tests against the Payment Service."""
 import importlib
 import os
 from concurrent.futures import ThreadPoolExecutor

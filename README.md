@@ -1,6 +1,6 @@
 # Đề bài giữa kỳ: Phân hệ đóng học phí iBanking
 
-Nguồn: [trang 1](de-bai/1.png), [trang 2](de-bai/2.png), [trang 3](de-bai/3.png). README này diễn giải yêu cầu của đề để đối chiếu khi thiết kế, hiện thực và nghiệm thu; không khẳng định các chức năng đã hoàn thành.
+Nguồn: [trang 1](de-bai/1.png), [trang 2](de-bai/2.png), [trang 3](de-bai/3.png). Các mục dưới đây diễn giải yêu cầu của đề để đối chiếu khi thiết kế và nghiệm thu. Hướng dẫn chạy bản hiện thực nằm trong [`src/README.md`](src/README.md).
 
 ## Mục tiêu
 
@@ -77,7 +77,11 @@ Sau khi xác thực OTP, hệ thống phải thực hiện đủ các bước:
 
 | Thư mục | Nội dung |
 |---|---|
-| [`src/`](src/) | Mã nguồn. Xem [`src/README-A.md`](src/README-A.md) để cài đặt và chạy phần A hiện có. |
+| [`src/`](src/) | Mã nguồn và [hướng dẫn chạy hệ thống đầy đủ](src/README.md). |
 | [`bao-cao/`](bao-cao/) | Báo cáo, tài liệu thiết kế và sơ đồ. |
 | [`de-bai/`](de-bai/) | Ba ảnh đề bài gốc. |
 | [`cau-hinh-chung/`](cau-hinh-chung/) | Hợp đồng API, dữ liệu mẫu, ma trận kiểm thử và cấu hình dùng chung. |
+
+## Bản chạy hiện tại
+
+Hệ thống tích hợp gồm Account, Payment, Notification và giao diện React. Từ thư mục `src`, chạy `docker compose up --build -d`, rồi mở http://localhost:5173. Xem [báo cáo giữa kỳ](bao-cao/bao-cao-giua-ky-ibanking-day-du.docx) và [sơ đồ kiến trúc](bao-cao/docs/02-tuition-payment-microservices-architecture.drawio).
