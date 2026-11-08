@@ -48,7 +48,6 @@ label input::placeholder{color:#9bacb9}
 .balance small,.balance strong{display:block}
 .balance small{color:#b8d9eb;font-size:12px;font-weight:700;letter-spacing:.06em}
 .balance strong{font:800 25px Manrope,sans-serif;letter-spacing:-.04em;margin-top:8px}
-.content:before{content:'01   TRA CỨU HỌC PHÍ                         02   XÁC NHẬN THANH TOÁN                         03   NHẬP OTP                         04   HOÀN TẤT';display:block;white-space:pre;overflow:hidden;background:#fff;border:1px solid #e0e9f0;border-radius:13px;padding:17px 22px;color:#497086;font-size:11px;font-weight:800;letter-spacing:.065em;margin-bottom:24px}
 .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:22px;align-items:start}
 .card{background:#fff;border:1px solid #e0e9f0;border-radius:18px;box-shadow:0 10px 30px #183c570a;padding:28px}
 .grid .card{min-height:295px}
@@ -86,7 +85,6 @@ tbody tr:hover{background:#f8fbfd}
 td:first-child{font-size:12px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#486478}
 td small{color:#8195a2}
 .history .hint{text-align:center;padding:25px}
-.dashboard-content:before{display:none}
 .dashboard-intro{margin:10px 0 30px}
 .dashboard-intro p{color:#657d8f;margin:0}
 .dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:stretch}
@@ -108,8 +106,8 @@ td small{color:#8195a2}
 .recent-payment span{margin-top:5px}
 .recent-payment b{color:#075f91;white-space:nowrap}
 
-@media(max-width:900px){.login-page{grid-template-columns:1fr}.login-page:before,.login:before,.login:after{display:none}.login{grid-column:1}.grid,.dashboard-grid{grid-template-columns:1fr}.grid .card{min-height:0}.content:before{font-size:10px}}
-@media(max-width:650px){.content{padding:28px 16px 65px}.title{display:block}.balance{margin-top:23px;min-width:0}.card{padding:22px}.fields{grid-template-columns:1fr 1fr;gap:18px}.shell header{padding:14px 18px}.header-actions span{display:none}.content:before{display:none}.tuition>div{font-size:13px}.amount strong{font-size:19px}.login{padding:30px 26px}}
+@media(max-width:900px){.login-page{grid-template-columns:1fr}.login-page:before,.login:after,.login:before{display:none}.login{grid-column:1}.grid,.dashboard-grid{grid-template-columns:1fr}.grid .card{min-height:0}}
+@media(max-width:650px){.content{padding:28px 16px 65px}.title{display:block}.balance{margin-top:23px;min-width:0}.card{padding:22px}.fields{grid-template-columns:1fr 1fr;gap:18px}.shell header{padding:14px 18px}.header-actions span{display:none}.tuition>div{font-size:13px}.amount strong{font-size:19px}.login{padding:30px 26px}}
 @media(max-width:650px){.app-nav{gap:2px;margin:0 5px 0 auto;font-size:11px}.app-nav .current,.app-nav .nav-link{padding:7px 6px}.header-actions:before{display:none}.dashboard-balance{min-height:180px;padding:25px}.recent-payment{align-items:flex-start;flex-direction:column;gap:8px}}
 @media(max-width:390px){.fields{grid-template-columns:1fr}.header-actions{gap:5px}}
 @media(max-width:650px){.history table,.history tbody,.history tr,.history td{display:block;width:100%}.history thead{display:none}.history tr{padding:14px 0;border-bottom:1px solid #e8eff4}.history td{border:0;padding:3px 0;overflow-wrap:anywhere}.history td:first-child{font-size:11px}.history td:nth-child(3):before{content:'Số tiền: ';color:#6f8798}.history td:nth-child(4):before{content:'Trạng thái: ';color:#6f8798}}
