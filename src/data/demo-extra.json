@@ -1,0 +1,55 @@
+{
+  "users": [
+    {"userId":"u3","username":"demo3","passwordForSeeding":"Demo!2026","fullName":"Lê Hoàng Minh","phone":"0900000003","email":"demo3@example.com"},
+    {"userId":"u4","username":"demo4","passwordForSeeding":"Demo!2026","fullName":"Phạm Ngọc Lan","phone":"0900000004","email":"demo4@example.com"},
+    {"userId":"u5","username":"demo5","passwordForSeeding":"Demo!2026","fullName":"Trần Quốc Huy","phone":"0900000005","email":"demo5@example.com"}
+  ],
+  "wallets": [
+    {"userId":"u3","balance":20000000,"currency":"VND"},
+    {"userId":"u4","balance":3000000,"currency":"VND"},
+    {"userId":"u5","balance":15000000,"currency":"VND"}
+  ],
+  "students": [
+    {"studentId":"52600007","studentName":"Mai Thanh Tùng"},
+    {"studentId":"52600008","studentName":"Ngô Thảo Vy"},
+    {"studentId":"52600009","studentName":"Bùi Gia Bảo"},
+    {"studentId":"52600010","studentName":"Đỗ Minh Khang"},
+    {"studentId":"52600011","studentName":"Hồ Khánh Linh"},
+    {"studentId":"52600012","studentName":"Lý Anh Quân"},
+    {"studentId":"52600013","studentName":"Cao Ngọc Mai"},
+    {"studentId":"52600014","studentName":"Dương Đức Phúc"},
+    {"studentId":"52600015","studentName":"Vũ Hà My"},
+    {"studentId":"52600016","studentName":"Lâm Tuấn Kiệt"},
+    {"studentId":"52600017","studentName":"Nguyễn Bảo Trâm"},
+    {"studentId":"52600018","studentName":"Trịnh Nhật Nam"},
+    {"studentId":"52600019","studentName":"Lê Mỹ Duyên"},
+    {"studentId":"52600020","studentName":"Phan Gia Hân"},
+    {"studentId":"52600021","studentName":"Hoàng Minh Thư"},
+    {"studentId":"52600022","studentName":"Đặng Hải Đăng"},
+    {"studentId":"52600023","studentName":"Võ Thanh Hà"},
+    {"studentId":"52600024","studentName":"Trần Thiên Phú"}
+  ],
+  "tuitions": [
+    {"tuitionId":"HP007","studentId":"52600007","amount":3200000,"status":"UNPAID","paidAt":null},
+    {"tuitionId":"HP008","studentId":"52600008","amount":4500000,"status":"UNPAID","paidAt":null},
+    {"tuitionId":"HP009","studentId":"52600009","amount":6800000,"status":"UNPAID","paidAt":null},
+    {"tuitionId":"HP010","studentId":"52600010","amount":1250000,"status":"UNPAID","paidAt":null},
+    {"tuitionId":"HP011","studentId":"52600011","amount":8000000,"status":"PAID","paidAt":"2026-11-01T09:30:00Z"},
+    {"tuitionId":"HP012","studentId":"52600012","amount":12000000,"status":"UNPAID","paidAt":null},
+    {"tuitionId":"HP013","studentId":"52600013","amount":2400000,"status":"UNPAID","paidAt":null},
+    {"tuitionId":"HP014","studentId":"52600014","amount":9500000,"status":"UNPAID","paidAt":null},
+    {"tuitionId":"HP015","studentId":"52600015","amount":15000000,"status":"UNPAID","paidAt":null},
+    {"tuitionId":"HP016","studentId":"52600016","amount":5750000,"status":"UNPAID","paidAt":null},
+    {"tuitionId":"HP017","studentId":"52600017","amount":3000000,"status":"PAID","paidAt":"2026-11-02T10:15:00Z"},
+    {"tuitionId":"HP018","studentId":"52600018","amount":7250000,"status":"UNPAID","paidAt":null},
+    {"tuitionId":"HP019","studentId":"52600019","amount":18000000,"status":"UNPAID","paidAt":null},
+    {"tuitionId":"HP020","studentId":"52600020","amount":600000,"status":"UNPAID","paidAt":null},
+    {"tuitionId":"HP021","studentId":"52600021","amount":10000000,"status":"UNPAID","paidAt":null},
+    {"tuitionId":"HP022","studentId":"52600022","amount":11500000,"status":"UNPAID","paidAt":null},
+    {"tuitionId":"HP023","studentId":"52600023","amount":2750000,"status":"UNPAID","paidAt":null}
+  ],
+  "payments": [
+    {"paymentId":"pay_seed_011","userId":"u3","tuitionId":"HP011","amount":8000000,"status":"SUCCESS","createdAt":"2026-11-01T09:25:00Z","otpExpiresAt":null,"paidAt":"2026-11-01T09:30:00Z","failureCode":null,"requestId":"aaaaaaaa-0000-4000-8000-000000000011"},
+    {"paymentId":"pay_seed_017","userId":"u5","tuitionId":"HP017","amount":3000000,"status":"SUCCESS","createdAt":"2026-11-02T10:10:00Z","otpExpiresAt":null,"paidAt":"2026-11-02T10:15:00Z","failureCode":null,"requestId":"aaaaaaaa-0000-4000-8000-000000000017"}
+  ]
+}

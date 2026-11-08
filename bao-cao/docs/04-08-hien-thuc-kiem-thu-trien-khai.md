@@ -6,7 +6,7 @@ Hệ thống có ba database PostgreSQL độc lập. Account DB chứa bảng `
 
 Trong Payment DB, `wallets.balance >= 0`, `tuitions.amount > 0`, `(payments.user_id, payments.request_id)` duy nhất, mỗi payment có tối đa một bản ghi OTP và một email job xác nhận. Bảng `payments` giữ số tiền được chốt ở lúc tạo giao dịch, trạng thái và các mốc thời gian để phục vụ lịch sử. OTP chỉ lưu hash, thời điểm phát hành, hết hạn và thời điểm sử dụng. Học phí được đánh dấu `PAID` trong cùng transaction với trừ số dư và cập nhật payment `SUCCESS`.
 
-Account và Notification dùng migration SQL theo phiên bản. Payment hiện tạo schema từ SQLAlchemy model và seed dữ liệu mẫu theo hướng idempotent; cần bổ sung migration theo phiên bản trước khi áp dụng cho môi trường vận hành lâu dài. Dữ liệu mẫu được lấy từ hợp đồng chung `02-du-lieu-mau.json`, gồm hai tài khoản, ví và các khoản học phí cho ca thành công, đã thanh toán, thiếu số dư và số dư bằng đúng số tiền.
+Account và Notification dùng migration SQL theo phiên bản. Payment hiện tạo schema từ SQLAlchemy model và seed dữ liệu mẫu theo hướng idempotent; cần bổ sung migration theo phiên bản trước khi áp dụng cho môi trường vận hành lâu dài. Dữ liệu mẫu lấy từ hợp đồng chung `02-du-lieu-mau.json` và phần mở rộng `src/data/demo-extra.json`. Bộ seed hiện có năm tài khoản, 24 sinh viên, 22 khoản học phí và các giao dịch mẫu cho ca thành công, đã thanh toán, thiếu số dư và số dư bằng đúng số tiền. Seed bổ sung không ghi đè giao dịch hoặc số dư hiện có.
 
 ## 4.2. Tính nhất quán dữ liệu
 

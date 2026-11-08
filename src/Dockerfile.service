@@ -3,5 +3,6 @@ WORKDIR /app
 COPY src/requirements-A.txt ./
 RUN pip install --no-cache-dir -r requirements-A.txt
 COPY src/services ./services
+COPY src/data ./data
 COPY cau-hinh-chung/contract ./contract
 ENV PYTHONPATH=/app

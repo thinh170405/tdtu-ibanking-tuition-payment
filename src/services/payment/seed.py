@@ -15,6 +15,11 @@ def main():
     if source is None:
         raise FileNotFoundError("Không tìm thấy dữ liệu mẫu")
     data = json.loads(source.read_text(encoding="utf-8"))
+    extra_path = root / "data" / "demo-extra.json"
+    if extra_path.exists():
+        extra = json.loads(extra_path.read_text(encoding="utf-8"))
+        for key in ("wallets", "students", "tuitions", "payments"):
+            data[key].extend(extra[key])
     with SessionLocal.begin() as db:
         for row in data["wallets"]:
             if not db.get(Wallet, row["userId"]):

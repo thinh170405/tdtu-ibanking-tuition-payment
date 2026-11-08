@@ -17,6 +17,23 @@ File `compose.yaml` dùng mật khẩu và khóa **chỉ cho môi trường demo
 
 Sau đăng nhập, trang `/` hiển thị tổng quan tài khoản. Chọn **Đóng học phí** để mở trang thanh toán riêng `/tuition-payment`; có thể quay lại tổng quan bằng thanh điều hướng.
 
+### Dữ liệu mẫu bổ sung
+
+`src/data/demo-extra.json` thêm `demo3` (20 triệu), `demo4` (3 triệu), `demo5` (15 triệu); cả ba dùng mật khẩu `Demo!2026`. Nếu không đặt `DEMO_EMAIL_3/4/5`, OTP của các tài khoản này được gửi tới `DEMO_EMAIL_1` để nhóm có thể dùng một hộp thư thử. Các tài khoản và học phí cũ giữ nguyên khi chạy lại seed.
+
+| MSSV | Số tiền | Tình huống mẫu |
+|---|---:|---|
+| `52600007` | 3.200.000 VND | Chưa đóng; `demo3` đủ tiền, `demo4` thiếu tiền. |
+| `52600010` | 1.250.000 VND | Khoản nhỏ, có thể đóng bằng `demo4`. |
+| `52600011` | 8.000.000 VND | Đã đóng; có lịch sử mẫu của `demo3`. |
+| `52600012` | 12.000.000 VND | Chưa đóng; `demo3` đủ tiền. |
+| `52600017` | 3.000.000 VND | Đã đóng; có lịch sử mẫu của `demo5`. |
+| `52600019` | 18.000.000 VND | Khoản lớn, chỉ `demo3` đủ tiền lúc mới seed. |
+| `52600020` | 600.000 VND | Khoản nhỏ nhất trong bộ mẫu mới. |
+| `52600024` | — | Sinh viên tồn tại nhưng chưa có khoản học phí. |
+
+Còn nhiều khoản `52600008`–`52600023` với số tiền từ 600.000 đến 18 triệu. MSSV `52699999` không tồn tại. Dữ liệu này được thêm vào database hiện có theo cách idempotent; seed không đặt lại số dư hoặc giao dịch đã phát sinh.
+
 1. Đăng nhập và xem hồ sơ, số dư.
 2. Nhập MSSV 8 chữ số, kiểm tra sinh viên, số tiền và trạng thái học phí.
 3. Đồng ý điều khoản và chọn thanh toán toàn bộ.
