@@ -78,6 +78,7 @@ Sau khi xác thực OTP, hệ thống phải thực hiện đủ các bước:
 | Thư mục | Nội dung |
 |---|---|
 | [`src/`](src/) | Mã nguồn và [hướng dẫn chạy hệ thống đầy đủ](src/README.md). |
+| [Hướng dẫn đọc cấu trúc và mã nguồn](HUONG-DAN-DOC-CAU-TRUC-VA-SRC.md) | Tài liệu riêng giải thích từng phần của `src`, luồng thanh toán và cách kiểm thử. |
 | [`bao-cao/`](bao-cao/) | Báo cáo, tài liệu thiết kế và sơ đồ. |
 | [`de-bai/`](de-bai/) | Ba ảnh đề bài gốc. |
 | [`cau-hinh-chung/`](cau-hinh-chung/) | Hợp đồng API, dữ liệu mẫu, ma trận kiểm thử và cấu hình dùng chung. |
