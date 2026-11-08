@@ -15,6 +15,8 @@ File `compose.yaml` dùng mật khẩu và khóa **chỉ cho môi trường demo
 
 ## Luồng sử dụng
 
+Sau đăng nhập, trang `/` hiển thị tổng quan tài khoản. Chọn **Đóng học phí** để mở trang thanh toán riêng `/tuition-payment`; có thể quay lại tổng quan bằng thanh điều hướng.
+
 1. Đăng nhập và xem hồ sơ, số dư.
 2. Nhập MSSV 8 chữ số, kiểm tra sinh viên, số tiền và trạng thái học phí.
 3. Đồng ý điều khoản và chọn thanh toán toàn bộ.
