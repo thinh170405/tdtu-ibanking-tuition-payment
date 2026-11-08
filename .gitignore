@@ -9,5 +9,6 @@ src/frontend/node_modules/
 src/frontend/dist/
 .pytest_cache/
 bao-cao/tmp/
+bao-cao/tmp-en-render/
 bao-cao/docs/previews/contact*.png
 *.dtmp
