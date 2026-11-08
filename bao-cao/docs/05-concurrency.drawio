@@ -1,75 +1,78 @@
 <?xml version='1.0' encoding='utf-8'?>
 <mxfile host="drawio" version="26.0.0" type="device">
-  <diagram name="05 Concurrency" id="05-concurrency">
-    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1050" math="0" shadow="0">
+  <diagram id="06-concurrency" name="06 Concurrency and Consistency">
+    <mxGraphModel dx="1560" dy="1030" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1560" pageHeight="1030" background="#FFFFFF" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="co_title" value="HAI TÌNH HUỐNG CONCURRENCY BẮT BUỘC" style="text;html=1;align=left;verticalAlign=middle;fontStyle=1;fontSize=24;fontColor=#173045;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="40" y="20" width="1480" height="50" as="geometry" />
+        <mxCell id="06-concurrency-title" value="CONCURRENCY AND CONSISTENCY" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=26;fontStyle=1;fontColor=#173B55;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="42" y="24" width="1476" height="48" as="geometry" />
         </mxCell>
-        <mxCell id="co_note" value="Thiết kế kiểm soát thuộc Payment B. Người A chạy lại kịch bản và đối chiếu UI, API, database sau khi tích hợp." style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#526575;strokeColor=none;fillColor=none;whiteSpace=wrap;" vertex="1" parent="1">
-          <mxGeometry x="40" y="75" width="1550" height="40" as="geometry" />
+        <mxCell id="06-concurrency-subtitle" value="PostgreSQL SELECT FOR UPDATE serializes conflicting confirmations; both scenarios are tested on the live stack." style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=13;fontColor=#617B8D;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="44" y="76" width="1472" height="36" as="geometry" />
         </mxCell>
-        <mxCell id="case1" value="T21  |  CÙNG VÍ 10 TRIỆU" style="text;html=1;align=left;verticalAlign=middle;fontStyle=1;fontSize=24;fontColor=#173045;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="70" y="160" width="1500" height="45" as="geometry" />
+        <mxCell id="cc-t21-title" value="T21  |  SAME WALLET, TWO TUITION CHARGES" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="65" y="145" width="1430" height="38" as="geometry" />
         </mxCell>
-        <mxCell id="w1" value="Giao dịch A&#10;HP001: 7 triệu" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontSize=15;fillColor=#DDEEF7;strokeColor=#3C7997;strokeWidth=2;" vertex="1" parent="1">
-          <mxGeometry x="90" y="250" width="260" height="100" as="geometry" />
+        <mxCell id="cc-a" value="Payment A&#xa;7M VND" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="85" y="230" width="220" height="88" as="geometry" />
         </mxCell>
-        <mxCell id="w2" value="Giao dịch B&#10;HP002: 7 triệu" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontSize=15;fillColor=#DDEEF7;strokeColor=#3C7997;strokeWidth=2;" vertex="1" parent="1">
-          <mxGeometry x="90" y="440" width="260" height="100" as="geometry" />
+        <mxCell id="cc-b" value="Payment B&#xa;7M VND" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="85" y="365" width="220" height="88" as="geometry" />
         </mxCell>
-        <mxCell id="walletlock" value="Khóa hàng wallet&#10;và kiểm tra balance" style="rhombus;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontSize=14;fillColor=#FFF1C9;strokeColor=#B58E34;strokeWidth=2;" vertex="1" parent="1">
-          <mxGeometry x="530" y="330" width="330" height="120" as="geometry" />
+        <mxCell id="cc-wallet" value="Lock wallet row&#xa;starting balance 10M" style="rhombus;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#FFF1D6;strokeColor=#B77E27;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="520" y="285" width="300" height="110" as="geometry" />
         </mxCell>
-        <mxCell id="onewin" value="Một giao dịch SUCCESS&#10;ví còn 3 triệu" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontSize=15;fillColor=#E1F1DF;strokeColor=#699A65;strokeWidth=2;" vertex="1" parent="1">
-          <mxGeometry x="1080" y="250" width="360" height="100" as="geometry" />
+        <mxCell id="cc-a-win" value="One SUCCESS&#xa;final balance 3M" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="230" width="330" height="88" as="geometry" />
         </mxCell>
-        <mxCell id="onelose" value="Giao dịch còn lại FAILED&#10;không chi vượt số dư" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontSize=14;fillColor=#FAE0DE;strokeColor=#C4756F;strokeWidth=2;" vertex="1" parent="1">
-          <mxGeometry x="1080" y="440" width="360" height="100" as="geometry" />
+        <mxCell id="cc-b-lose" value="Other: 422&#xa;INSUFFICIENT_BALANCE" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#FCE7E4;strokeColor=#BC625A;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="365" width="330" height="88" as="geometry" />
         </mxCell>
-        <mxCell id="c1" value="confirm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#506B7A;strokeWidth=2;fontSize=13;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="w1" target="walletlock">
+        <mxCell id="cc-1" value="confirm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="cc-a" target="cc-wallet">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="c2" value="confirm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#506B7A;strokeWidth=2;fontSize=13;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="w2" target="walletlock">
+        <mxCell id="cc-2" value="confirm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="cc-b" target="cc-wallet">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="c3" value="đủ tiền" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#506B7A;strokeWidth=2;fontSize=13;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="walletlock" target="onewin">
+        <mxCell id="cc-3" value="first commit" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="cc-wallet" target="cc-a-win">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="c4" value="thiếu tiền" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#506B7A;strokeWidth=2;fontSize=13;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="walletlock" target="onelose">
+        <mxCell id="cc-4" value="recheck 3M &lt; 7M" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="cc-wallet" target="cc-b-lose">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="case2" value="T22  |  HAI TÀI KHOẢN, CÙNG KHOẢN HP001" style="text;html=1;align=left;verticalAlign=middle;fontStyle=1;fontSize=24;fontColor=#173045;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="70" y="625" width="1500" height="45" as="geometry" />
+        <mxCell id="cc-t22-title" value="T22  |  TWO WALLETS, SAME TUITION CHARGE" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="65" y="525" width="1430" height="38" as="geometry" />
         </mxCell>
-        <mxCell id="u1" value="u1 thanh toán HP001" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontSize=15;fillColor=#DDEEF7;strokeColor=#3C7997;strokeWidth=2;" vertex="1" parent="1">
-          <mxGeometry x="90" y="730" width="290" height="90" as="geometry" />
+        <mxCell id="cc-u1" value="Wallet 1 pays&#xa;same tuition" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="85" y="610" width="220" height="88" as="geometry" />
         </mxCell>
-        <mxCell id="u2" value="u2 thanh toán HP001" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontSize=15;fillColor=#DDEEF7;strokeColor=#3C7997;strokeWidth=2;" vertex="1" parent="1">
-          <mxGeometry x="90" y="870" width="290" height="90" as="geometry" />
+        <mxCell id="cc-u2" value="Wallet 2 pays&#xa;same tuition" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="85" y="745" width="220" height="88" as="geometry" />
         </mxCell>
-        <mxCell id="tuitionlock" value="Khóa hàng tuition HP001&#10;và kiểm tra UNPAID" style="rhombus;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontSize=14;fillColor=#FFF1C9;strokeColor=#B58E34;strokeWidth=2;" vertex="1" parent="1">
-          <mxGeometry x="570" y="770" width="330" height="120" as="geometry" />
+        <mxCell id="cc-tuition" value="Lock tuition row&#xa;check UNPAID" style="rhombus;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#FFF1D6;strokeColor=#B77E27;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="520" y="665" width="300" height="110" as="geometry" />
         </mxCell>
-        <mxCell id="paid" value="Một payment SUCCESS&#10;HP001 chuyển PAID" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontSize=15;fillColor=#E1F1DF;strokeColor=#699A65;strokeWidth=2;" vertex="1" parent="1">
-          <mxGeometry x="1110" y="710" width="350" height="90" as="geometry" />
+        <mxCell id="cc-paid" value="One SUCCESS&#xa;tuition becomes PAID" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="610" width="330" height="88" as="geometry" />
         </mxCell>
-        <mxCell id="duplicate" value="Payment còn lại FAILED&#10;ví không bị trừ" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontSize=14;fillColor=#FAE0DE;strokeColor=#C4756F;strokeWidth=2;" vertex="1" parent="1">
-          <mxGeometry x="1110" y="870" width="350" height="90" as="geometry" />
+        <mxCell id="cc-reject" value="Other: 409 TUITION_ALREADY_PAID&#xa;second wallet unchanged" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#FCE7E4;strokeColor=#BC625A;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="745" width="330" height="88" as="geometry" />
         </mxCell>
-        <mxCell id="c5" value="confirm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#506B7A;strokeWidth=2;fontSize=13;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="u1" target="tuitionlock">
+        <mxCell id="cc-5" value="confirm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="cc-u1" target="cc-tuition">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="c6" value="confirm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#506B7A;strokeWidth=2;fontSize=13;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="u2" target="tuitionlock">
+        <mxCell id="cc-6" value="confirm" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="cc-u2" target="cc-tuition">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="c7" value="thắng khóa" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#506B7A;strokeWidth=2;fontSize=13;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="tuitionlock" target="paid">
+        <mxCell id="cc-7" value="first commit" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="cc-tuition" target="cc-paid">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="c8" value="đã PAID" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#506B7A;strokeWidth=2;fontSize=13;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="tuitionlock" target="duplicate">
+        <mxCell id="cc-8" value="recheck PAID" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="cc-tuition" target="cc-reject">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cc-foot" value="Source: src/services/payment/app.py and src/tests/integration_postgres.py. SQLite tests use BEGIN IMMEDIATE instead of row locks." style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=13;fontColor=#617B8D;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="65" y="915" width="1420" height="45" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

@@ -27,25 +27,25 @@ Luồng xác nhận phải bảo vệ hai trường hợp đồng thời: hai kh
 ```mermaid
 flowchart LR
     U[User / Customer] --> FE[Frontend / React]
-    FE -->|HTTPS REST: login, profile; Bearer JWT after login| ACC[Account Service :8081]
-    FE -->|HTTPS REST + Bearer JWT: wallet, tuition, payments, OTP| PAY[Payment Service :8082]
+    FE -->|REST: login, profile; Bearer JWT after login| ACC[Account Service :8081]
+    FE -->|REST + Bearer JWT: wallet, tuition, payments, OTP| PAY[Payment Service :8082]
 
     subgraph Account_Boundary[Account data ownership]
         ACC --> ADB[(Account DB: users)]
     end
     subgraph Payment_Boundary[Payment data ownership]
-        PAY --> PDB[(Payment DB: wallets, students, tuitions, payments, OTPs)]
+        PAY --> PDB[(Payment DB: wallets, students, tuitions, payments, otps, email_jobs)]
     end
     subgraph Notification_Boundary[Notification data ownership]
         NOTIF[Notification Service :8083] --> NDB[(Notification DB: email_messages)]
     end
 
     PAY -->|Internal REST + X-Internal-Key: OTP and success email| NOTIF
-    NOTIF -->|SMTP| EMAIL[External Email Provider]
+    NOTIF -->|SMTP| EMAIL[Mailpit in local demo]
     EMAIL -->|OTP / receipt| U
 ```
 
-Các cổng là cấu hình phát triển của dự án; khi triển khai có thể đặt reverse proxy/TLS ở phía trước mà không đổi quyền sở hữu dữ liệu. Stack tích hợp hiện dùng Payment Service thật ở `:8082` và Mailpit làm SMTP thử. Payment mock ở `:8089` chỉ còn phục vụ kiểm thử gói A độc lập.
+Các cổng là cấu hình phát triển của dự án; khi triển khai có thể đặt reverse proxy/TLS ở phía trước mà không đổi quyền sở hữu dữ liệu. Stack tích hợp hiện dùng Payment Service ở `:8082` và Mailpit làm SMTP thử.
 
 # 3. Thiết kế REST API
 
@@ -119,4 +119,4 @@ Các cổng là cấu hình phát triển của dự án; khi triển khai có t
 
 Validation chạy tại ranh giới API và được kiểm tra lại ở Payment khi thay đổi tài chính. Với body sai schema hoặc trường thừa, trả `400` cùng mã `VALIDATION_ERROR`. Các lỗi nghiệp vụ trả mã cụ thể như trên; frontend dùng `code` để hiển thị thông điệp phù hợp, không suy luận thành công chỉ từ việc email đã được gửi. Mỗi service ghi log `requestId`/`paymentId` để truy vết, nhưng che password, JWT, OTP và khóa nội bộ. Request gọi Notification đặt timeout; giao dịch tài chính dùng rollback khi lỗi trước commit. Endpoint `/api/v1/health` trả `{"status":"UP","service":"account|payment|notification"}` với `200`, chỉ chứng minh tiến trình phản hồi, không thay thế kiểm thử database/SMTP.
 
-**Nguồn đối chiếu nội bộ:** `cau-hinh-chung/contract/bo-chot-phan-cong-2-nguoi-v1.0/bo-chot-phan-cong-v1/01-openapi.json`, mã Account, Payment, Notification và `src/README-FULL.md`. Payment Service thật đã được tích hợp và kiểm thử; Payment mock không được dùng làm bằng chứng cho tính nguyên tử hoặc xử lý đồng thời.
+**Nguồn đối chiếu nội bộ:** `cau-hinh-chung/contract/bo-chot-phan-cong-2-nguoi-v1.0/bo-chot-phan-cong-v1/01-openapi.json`, mã Account, Payment, Notification và `src/README.md`. Payment Service đã được tích hợp và kiểm thử các thao tác tài chính cũng như hai trường hợp xử lý đồng thời.

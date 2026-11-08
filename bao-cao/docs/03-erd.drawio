@@ -1,100 +1,178 @@
 <?xml version='1.0' encoding='utf-8'?>
 <mxfile host="drawio" version="26.0.0" type="device">
-  <diagram name="03 ERD" id="03-erd">
-    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1180" math="0" shadow="0">
+  <diagram id="04-physical-erd" name="04 Physical ERD">
+    <mxGraphModel dx="1810" dy="1160" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1810" pageHeight="1160" background="#FFFFFF" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="er_title" value="ERD  |  DỮ LIỆU PHỤC VỤ THANH TOÁN HỌC PHÍ" style="text;html=1;align=left;verticalAlign=middle;fontStyle=1;fontSize=24;fontColor=#173045;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="40" y="20" width="1550" height="50" as="geometry" />
+        <mxCell id="04-physical-erd-title" value="PHYSICAL ERD" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=26;fontStyle=1;fontColor=#173B55;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="42" y="24" width="1726" height="48" as="geometry" />
         </mxCell>
-        <mxCell id="er_note" value="Account/Notification: bảng đã hiện thực. Payment B: mô hình logic theo hợp đồng, cần đồng bộ tên cột và khóa với migration B khi nhận source." style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#526575;strokeColor=none;fillColor=none;whiteSpace=wrap;" vertex="1" parent="1">
-          <mxGeometry x="40" y="75" width="1650" height="50" as="geometry" />
+        <mxCell id="04-physical-erd-subtitle" value="Eight implemented tables across Account, Payment and Notification databases. Dashed links cross databases." style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=13;fontColor=#617B8D;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="44" y="76" width="1722" height="36" as="geometry" />
         </mxCell>
-        <mxCell id="users" value="users  [Account DB]" style="swimlane;startSize=30;horizontal=1;rounded=0;whiteSpace=wrap;html=1;align=center;verticalAlign=top;fontSize=15;fontStyle=1;fillColor=#DDEAF1;strokeColor=#50738A;strokeWidth=2;container=1;collapsible=0;" vertex="1" parent="1">
-          <mxGeometry x="50" y="170" width="280" height="210" as="geometry" />
+        <mxCell id="ph-account-label" value="ACCOUNT DB" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="58" y="142" width="300" height="36" as="geometry" />
         </mxCell>
-        <mxCell id="users_fields" value="PK id&#10;UQ username&#10;password_hash&#10;full_name&#10;phone&#10;email" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;fontSize=13;fontColor=#203B4A;strokeColor=none;fillColor=none;spacingLeft=12;spacingTop=6;" vertex="1" parent="users">
-          <mxGeometry x="10" y="35" width="260" height="165" as="geometry" />
+        <mxCell id="ph-payment-label" value="PAYMENT DB" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="495" y="142" width="850" height="36" as="geometry" />
         </mxCell>
-        <mxCell id="wallets" value="wallets  [Payment DB]" style="swimlane;startSize=30;horizontal=1;rounded=0;whiteSpace=wrap;html=1;align=center;verticalAlign=top;fontSize=15;fontStyle=1;fillColor=#DDEAF1;strokeColor=#50738A;strokeWidth=2;container=1;collapsible=0;" vertex="1" parent="1">
-          <mxGeometry x="420" y="170" width="280" height="180" as="geometry" />
+        <mxCell id="ph-notification-label" value="NOTIFICATION DB" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1475" y="142" width="300" height="36" as="geometry" />
         </mxCell>
-        <mxCell id="wallets_fields" value="PK user_id&#10;balance &gt;= 0&#10;currency" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;fontSize=13;fontColor=#203B4A;strokeColor=none;fillColor=none;spacingLeft=12;spacingTop=6;" vertex="1" parent="wallets">
-          <mxGeometry x="10" y="35" width="260" height="135" as="geometry" />
+        <mxCell id="ph-users" value="users" style="shape=table;startSize=34;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=1;html=1;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="1" data-source="src/services/account/migrations/001_users.sql">
+          <mxGeometry x="55" y="198" width="305" height="139" as="geometry" />
         </mxCell>
-        <mxCell id="students" value="students  [Payment DB]" style="swimlane;startSize=30;horizontal=1;rounded=0;whiteSpace=wrap;html=1;align=center;verticalAlign=top;fontSize=15;fontStyle=1;fillColor=#DDEAF1;strokeColor=#50738A;strokeWidth=2;container=1;collapsible=0;" vertex="1" parent="1">
-          <mxGeometry x="790" y="170" width="280" height="160" as="geometry" />
+        <mxCell id="ph-users-row-0" value="PK id" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;fontStyle=1;" vertex="1" parent="ph-users">
+          <mxGeometry x="0" y="34" width="305" height="25" as="geometry" />
         </mxCell>
-        <mxCell id="students_fields" value="PK student_id (MSSV)&#10;student_name" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;fontSize=13;fontColor=#203B4A;strokeColor=none;fillColor=none;spacingLeft=12;spacingTop=6;" vertex="1" parent="students">
-          <mxGeometry x="10" y="35" width="260" height="115" as="geometry" />
+        <mxCell id="ph-users-row-1" value="UQ username" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-users">
+          <mxGeometry x="0" y="59" width="305" height="25" as="geometry" />
         </mxCell>
-        <mxCell id="messages" value="email_messages  [Notification DB]" style="swimlane;startSize=30;horizontal=1;rounded=0;whiteSpace=wrap;html=1;align=center;verticalAlign=top;fontSize=15;fontStyle=1;fillColor=#DDEAF1;strokeColor=#50738A;strokeWidth=2;container=1;collapsible=0;" vertex="1" parent="1">
-          <mxGeometry x="1200" y="170" width="350" height="190" as="geometry" />
+        <mxCell id="ph-users-row-2" value="password_hash" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-users">
+          <mxGeometry x="0" y="84" width="305" height="25" as="geometry" />
         </mxCell>
-        <mxCell id="messages_fields" value="PK message_id&#10;payload_hash&#10;status&#10;updated_at" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;fontSize=13;fontColor=#203B4A;strokeColor=none;fillColor=none;spacingLeft=12;spacingTop=6;" vertex="1" parent="messages">
-          <mxGeometry x="10" y="35" width="330" height="145" as="geometry" />
+        <mxCell id="ph-users-row-3" value="full_name · phone · email" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-users">
+          <mxGeometry x="0" y="109" width="305" height="25" as="geometry" />
         </mxCell>
-        <mxCell id="otps" value="otp_challenges  [Payment DB]" style="swimlane;startSize=30;horizontal=1;rounded=0;whiteSpace=wrap;html=1;align=center;verticalAlign=top;fontSize=15;fontStyle=1;fillColor=#DDEAF1;strokeColor=#50738A;strokeWidth=2;container=1;collapsible=0;" vertex="1" parent="1">
-          <mxGeometry x="50" y="610" width="300" height="210" as="geometry" />
+        <mxCell id="ph-wallets" value="wallets" style="shape=table;startSize=34;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=1;html=1;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="1" data-source="src/services/payment/app.py:37">
+          <mxGeometry x="490" y="198" width="300" height="114" as="geometry" />
         </mxCell>
-        <mxCell id="otps_fields" value="PK otp_id&#10;FK payment_id&#10;code_hash&#10;expires_at&#10;used_at" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;fontSize=13;fontColor=#203B4A;strokeColor=none;fillColor=none;spacingLeft=12;spacingTop=6;" vertex="1" parent="otps">
-          <mxGeometry x="10" y="35" width="280" height="165" as="geometry" />
+        <mxCell id="ph-wallets-row-0" value="PK user_id" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;fontStyle=1;" vertex="1" parent="ph-wallets">
+          <mxGeometry x="0" y="34" width="300" height="25" as="geometry" />
         </mxCell>
-        <mxCell id="payments" value="payments  [Payment DB]" style="swimlane;startSize=30;horizontal=1;rounded=0;whiteSpace=wrap;html=1;align=center;verticalAlign=top;fontSize=15;fontStyle=1;fillColor=#DDEAF1;strokeColor=#50738A;strokeWidth=2;container=1;collapsible=0;" vertex="1" parent="1">
-          <mxGeometry x="420" y="560" width="320" height="260" as="geometry" />
+        <mxCell id="ph-wallets-row-1" value="balance &gt;= 0" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-wallets">
+          <mxGeometry x="0" y="59" width="300" height="25" as="geometry" />
         </mxCell>
-        <mxCell id="payments_fields" value="PK payment_id&#10;user_id (cross-service ref)&#10;FK tuition_id&#10;request_id (UQ with user_id)&#10;amount · status · timestamps" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;fontSize=13;fontColor=#203B4A;strokeColor=none;fillColor=none;spacingLeft=12;spacingTop=6;" vertex="1" parent="payments">
-          <mxGeometry x="10" y="35" width="300" height="215" as="geometry" />
+        <mxCell id="ph-wallets-row-2" value="currency" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-wallets">
+          <mxGeometry x="0" y="84" width="300" height="25" as="geometry" />
         </mxCell>
-        <mxCell id="tuitions" value="tuitions  [Payment DB]" style="swimlane;startSize=30;horizontal=1;rounded=0;whiteSpace=wrap;html=1;align=center;verticalAlign=top;fontSize=15;fontStyle=1;fillColor=#DDEAF1;strokeColor=#50738A;strokeWidth=2;container=1;collapsible=0;" vertex="1" parent="1">
-          <mxGeometry x="820" y="560" width="280" height="210" as="geometry" />
+        <mxCell id="ph-students" value="students" style="shape=table;startSize=34;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=1;html=1;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="1" data-source="src/services/payment/app.py:47">
+          <mxGeometry x="925" y="198" width="300" height="89" as="geometry" />
         </mxCell>
-        <mxCell id="tuitions_fields" value="PK tuition_id&#10;FK student_id&#10;amount &gt; 0&#10;status · paid_at" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;fontSize=13;fontColor=#203B4A;strokeColor=none;fillColor=none;spacingLeft=12;spacingTop=6;" vertex="1" parent="tuitions">
-          <mxGeometry x="10" y="35" width="260" height="165" as="geometry" />
+        <mxCell id="ph-students-row-0" value="PK student_id" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;fontStyle=1;" vertex="1" parent="ph-students">
+          <mxGeometry x="0" y="34" width="300" height="25" as="geometry" />
         </mxCell>
-        <mxCell id="jobs" value="email_jobs  [Payment DB]" style="swimlane;startSize=30;horizontal=1;rounded=0;whiteSpace=wrap;html=1;align=center;verticalAlign=top;fontSize=15;fontStyle=1;fillColor=#DDEAF1;strokeColor=#50738A;strokeWidth=2;container=1;collapsible=0;" vertex="1" parent="1">
-          <mxGeometry x="1240" y="590" width="300" height="210" as="geometry" />
+        <mxCell id="ph-students-row-1" value="full_name" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-students">
+          <mxGeometry x="0" y="59" width="300" height="25" as="geometry" />
         </mxCell>
-        <mxCell id="jobs_fields" value="PK job_id&#10;FK payment_id&#10;message_id&#10;type · status · retry_at" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;fontSize=13;fontColor=#203B4A;strokeColor=none;fillColor=none;spacingLeft=12;spacingTop=6;" vertex="1" parent="jobs">
-          <mxGeometry x="10" y="35" width="280" height="165" as="geometry" />
+        <mxCell id="ph-tuitions" value="tuitions" style="shape=table;startSize=34;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=1;html=1;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="1" data-source="src/services/payment/app.py:53">
+          <mxGeometry x="925" y="495" width="300" height="139" as="geometry" />
         </mxCell>
-        <mxCell id="er1" value="1 : 1  user_id" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#506B7A;strokeWidth=2;fontSize=13;labelBackgroundColor=#FFFFFF;dashed=1;" edge="1" parent="1" source="users" target="wallets">
+        <mxCell id="ph-tuitions-row-0" value="PK tuition_id" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;fontStyle=1;" vertex="1" parent="ph-tuitions">
+          <mxGeometry x="0" y="34" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-tuitions-row-1" value="FK student_id" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-tuitions">
+          <mxGeometry x="0" y="59" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-tuitions-row-2" value="amount &gt; 0" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-tuitions">
+          <mxGeometry x="0" y="84" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-tuitions-row-3" value="status · paid_at" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-tuitions">
+          <mxGeometry x="0" y="109" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-payments" value="payments" style="shape=table;startSize=34;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=1;html=1;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="1" data-source="src/services/payment/app.py:64">
+          <mxGeometry x="490" y="480" width="325" height="214" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-payments-row-0" value="PK payment_id" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;fontStyle=1;" vertex="1" parent="ph-payments">
+          <mxGeometry x="0" y="34" width="325" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-payments-row-1" value="user_id (logical ref)" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-payments">
+          <mxGeometry x="0" y="59" width="325" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-payments-row-2" value="FK tuition_id" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-payments">
+          <mxGeometry x="0" y="84" width="325" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-payments-row-3" value="UQ (user_id, request_id)" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-payments">
+          <mxGeometry x="0" y="109" width="325" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-payments-row-4" value="amount · status" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-payments">
+          <mxGeometry x="0" y="134" width="325" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-payments-row-5" value="created_at · otp_expires_at" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-payments">
+          <mxGeometry x="0" y="159" width="325" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-payments-row-6" value="paid_at · failure_code" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-payments">
+          <mxGeometry x="0" y="184" width="325" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-otps" value="otps" style="shape=table;startSize=34;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=1;html=1;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="1" data-source="src/services/payment/app.py:81">
+          <mxGeometry x="490" y="825" width="305" height="164" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-otps-row-0" value="PK otp_id" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;fontStyle=1;" vertex="1" parent="ph-otps">
+          <mxGeometry x="0" y="34" width="305" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-otps-row-1" value="FK payment_id (unique)" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-otps">
+          <mxGeometry x="0" y="59" width="305" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-otps-row-2" value="code_hash" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-otps">
+          <mxGeometry x="0" y="84" width="305" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-otps-row-3" value="issued_at · expires_at" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-otps">
+          <mxGeometry x="0" y="109" width="305" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-otps-row-4" value="used_at" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-otps">
+          <mxGeometry x="0" y="134" width="305" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-jobs" value="email_jobs" style="shape=table;startSize=34;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=1;html=1;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="1" data-source="src/services/payment/app.py:90">
+          <mxGeometry x="925" y="825" width="300" height="139" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-jobs-row-0" value="PK job_id" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;fontStyle=1;" vertex="1" parent="ph-jobs">
+          <mxGeometry x="0" y="34" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-jobs-row-1" value="FK payment_id (unique)" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-jobs">
+          <mxGeometry x="0" y="59" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-jobs-row-2" value="email_to · status" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-jobs">
+          <mxGeometry x="0" y="84" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-jobs-row-3" value="attempts" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-jobs">
+          <mxGeometry x="0" y="109" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-messages" value="email_messages" style="shape=table;startSize=34;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=1;html=1;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="1" data-source="src/services/notification/migrations/001_messages.sql">
+          <mxGeometry x="1470" y="198" width="305" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-messages-row-0" value="PK message_id" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;fontStyle=1;" vertex="1" parent="ph-messages">
+          <mxGeometry x="0" y="34" width="305" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-messages-row-1" value="payload_hash" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-messages">
+          <mxGeometry x="0" y="59" width="305" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-messages-row-2" value="status · updated_at" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="ph-messages">
+          <mxGeometry x="0" y="84" width="305" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="ph-rel-users-wallets" value="1 : 1 logical" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;startArrow=ERmandOne;endArrow=ERmany;startFill=0;endFill=0;dashed=1;" edge="1" parent="1" source="ph-users" target="ph-wallets">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="er2" value="1 : N  user_id" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#506B7A;strokeWidth=2;fontSize=13;labelBackgroundColor=#FFFFFF;dashed=1;exitX=1;exitY=1;entryX=0;entryY=0;" edge="1" parent="1" source="users" target="payments">
+        <mxCell id="ph-rel-users-payments" value="1 : many logical" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;startArrow=ERmandOne;endArrow=ERmany;startFill=0;endFill=0;dashed=1;" edge="1" parent="1" source="ph-users" target="ph-payments">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="360" y="420" />
-              <mxPoint x="370" y="520" />
+              <mxPoint x="398" y="420" />
+              <mxPoint x="430" y="600" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="er3" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#506B7A;strokeWidth=2;fontSize=13;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="wallets" target="payments">
+        <mxCell id="ph-rel-students-tuitions" value="1 : many" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;startArrow=ERmandOne;endArrow=ERmany;startFill=0;endFill=0;" edge="1" parent="1" source="ph-students" target="ph-tuitions">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="er4" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#506B7A;strokeWidth=2;fontSize=13;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="students" target="tuitions">
+        <mxCell id="ph-rel-tuitions-payments" value="1 : many" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;startArrow=ERmandOne;endArrow=ERmany;startFill=0;endFill=0;" edge="1" parent="1" source="ph-tuitions" target="ph-payments">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="er5" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#506B7A;strokeWidth=2;fontSize=13;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="tuitions" target="payments">
+        <mxCell id="ph-rel-payments-otps" value="1 : 0..1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;startArrow=ERmandOne;endArrow=ERone;startFill=0;endFill=0;" edge="1" parent="1" source="ph-payments" target="ph-otps">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="er6" value="1 : 1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#506B7A;strokeWidth=2;fontSize=13;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="payments" target="otps">
+        <mxCell id="ph-rel-payments-jobs" value="1 : 0..1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;startArrow=ERmandOne;endArrow=ERone;startFill=0;endFill=0;" edge="1" parent="1" source="ph-payments" target="ph-jobs">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="er7" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#506B7A;strokeWidth=2;fontSize=13;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=1;" edge="1" parent="1" source="payments" target="jobs">
+        <mxCell id="ph-rel-jobs-messages" value="messageId via API" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="ph-jobs" target="ph-messages">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="580" y="920" />
-              <mxPoint x="1390" y="920" />
+              <mxPoint x="1400" y="975" />
+              <mxPoint x="1400" y="400" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="er8" value="messageId (API, no FK)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=8;strokeColor=#506B7A;strokeWidth=2;fontSize=13;labelBackgroundColor=#FFFFFF;dashed=1;" edge="1" parent="1" source="jobs" target="messages">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="er_legend" value="Nét đứt: tham chiếu qua service/API, không tạo foreign key giữa database. Ràng buộc một SUCCESS cho mỗi tuition_id cần có ở Payment DB." style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#526575;strokeColor=none;fillColor=none;whiteSpace=wrap;" vertex="1" parent="1">
-          <mxGeometry x="50" y="1030" width="1590" height="60" as="geometry" />
+        <mxCell id="ph-note" value="Physical constraints: wallet_nonnegative, tuition_positive, unique payment request, one OTP and one receipt job per payment. No foreign keys across databases." style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=13;fontColor=#617B8D;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="55" y="1070" width="1690" height="48" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

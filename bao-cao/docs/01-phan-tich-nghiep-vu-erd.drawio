@@ -1,57 +1,99 @@
 <?xml version='1.0' encoding='utf-8'?>
 <mxfile host="drawio" version="26.0.0" type="device">
-  <diagram name="Initial Tuition Payment ERD" id="initial-tuition-payment-erd">
-    <mxGraphModel dx="1510" dy="900" grid="1" page="1" pageScale="1" pageWidth="1510" pageHeight="900">
+  <diagram id="03-conceptual-erd" name="03 Conceptual ERD">
+    <mxGraphModel dx="1460" dy="915" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1460" pageHeight="915" background="#FFFFFF" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="title" value="INITIAL ERD | IBANKING TUITION PAYMENT" style="text;html=1;strokeColor=none;fillColor=none;fontFamily=Arial;fontSize=24;fontStyle=1;fontColor=#16364B;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="40" y="20" width="1300" height="45" />
+        <mxCell id="03-conceptual-erd-title" value="CONCEPTUAL ERD" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=26;fontStyle=1;fontColor=#173B55;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="42" y="24" width="1376" height="48" as="geometry" />
         </mxCell>
-        <mxCell id="users" value="Users" style="swimlane;startSize=32;html=1;container=1;collapsible=0;fontFamily=Arial;fontSize=16;fontStyle=1;fillColor=#E3F0F7;strokeColor=#4C7890;strokeWidth=2;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="45" y="140" width="310" height="245" />
+        <mxCell id="03-conceptual-erd-subtitle" value="Five core business entities from the assignment; Wallet and email tables appear in the physical ERD." style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=13;fontColor=#617B8D;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="44" y="76" width="1372" height="36" as="geometry" />
         </mxCell>
-        <mxCell id="users_fields" value="PK user_id&lt;br&gt;UQ username&lt;br&gt;password_hash&lt;br&gt;full_name, email, phone&lt;br&gt;balance &gt;= 0" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingTop=7;fontFamily=Arial;fontSize=14;strokeColor=none;fillColor=none;" vertex="1" parent="users">
-          <mxGeometry as="geometry" x="8" y="35" width="294" height="202" />
+        <mxCell id="co-users" value="Users" style="shape=table;startSize=34;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=1;html=1;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="75" y="195" width="290" height="139" as="geometry" />
         </mxCell>
-        <mxCell id="students" value="Students" style="swimlane;startSize=32;html=1;container=1;collapsible=0;fontFamily=Arial;fontSize=16;fontStyle=1;fillColor=#E3F0F7;strokeColor=#4C7890;strokeWidth=2;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="45" y="510" width="310" height="205" />
+        <mxCell id="co-users-row-0" value="PK user_id" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;fontStyle=1;" vertex="1" parent="co-users">
+          <mxGeometry x="0" y="34" width="290" height="25" as="geometry" />
         </mxCell>
-        <mxCell id="students_fields" value="PK student_id (MSSV)&lt;br&gt;full_name&lt;br&gt;program" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingTop=7;fontFamily=Arial;fontSize=14;strokeColor=none;fillColor=none;" vertex="1" parent="students">
-          <mxGeometry as="geometry" x="8" y="35" width="294" height="162" />
+        <mxCell id="co-users-row-1" value="UQ username" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="co-users">
+          <mxGeometry x="0" y="59" width="290" height="25" as="geometry" />
         </mxCell>
-        <mxCell id="tuitions" value="Tuitions" style="swimlane;startSize=32;html=1;container=1;collapsible=0;fontFamily=Arial;fontSize=16;fontStyle=1;fillColor=#E3F0F7;strokeColor=#4C7890;strokeWidth=2;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="565" y="510" width="310" height="245" />
+        <mxCell id="co-users-row-2" value="full_name · phone · email" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="co-users">
+          <mxGeometry x="0" y="84" width="290" height="25" as="geometry" />
         </mxCell>
-        <mxCell id="tuitions_fields" value="PK tuition_id&lt;br&gt;FK student_id&lt;br&gt;term&lt;br&gt;amount &gt; 0&lt;br&gt;status, paid_at" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingTop=7;fontFamily=Arial;fontSize=14;strokeColor=none;fillColor=none;" vertex="1" parent="tuitions">
-          <mxGeometry as="geometry" x="8" y="35" width="294" height="202" />
+        <mxCell id="co-users-row-3" value="available_balance (conceptual)" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="co-users">
+          <mxGeometry x="0" y="109" width="290" height="25" as="geometry" />
         </mxCell>
-        <mxCell id="transactions" value="Transactions" style="swimlane;startSize=32;html=1;container=1;collapsible=0;fontFamily=Arial;fontSize=16;fontStyle=1;fillColor=#E3F0F7;strokeColor=#4C7890;strokeWidth=2;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="565" y="140" width="310" height="275" />
+        <mxCell id="co-students" value="Students" style="shape=table;startSize=34;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=1;html=1;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="590" y="195" width="290" height="89" as="geometry" />
         </mxCell>
-        <mxCell id="transactions_fields" value="PK transaction_id&lt;br&gt;FK user_id&lt;br&gt;FK tuition_id&lt;br&gt;UQ (user_id, request_id)&lt;br&gt;amount, status&lt;br&gt;created_at, completed_at" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingTop=7;fontFamily=Arial;fontSize=14;strokeColor=none;fillColor=none;" vertex="1" parent="transactions">
-          <mxGeometry as="geometry" x="8" y="35" width="294" height="232" />
+        <mxCell id="co-students-row-0" value="PK student_id (MSSV)" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;fontStyle=1;" vertex="1" parent="co-students">
+          <mxGeometry x="0" y="34" width="290" height="25" as="geometry" />
         </mxCell>
-        <mxCell id="otps" value="OTPs" style="swimlane;startSize=32;html=1;container=1;collapsible=0;fontFamily=Arial;fontSize=16;fontStyle=1;fillColor=#E3F0F7;strokeColor=#4C7890;strokeWidth=2;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1120" y="140" width="310" height="245" />
+        <mxCell id="co-students-row-1" value="student_name" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="co-students">
+          <mxGeometry x="0" y="59" width="290" height="25" as="geometry" />
         </mxCell>
-        <mxCell id="otps_fields" value="PK otp_id&lt;br&gt;FK/UQ transaction_id&lt;br&gt;code_hash&lt;br&gt;issued_at, expires_at&lt;br&gt;used_at" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingTop=7;fontFamily=Arial;fontSize=14;strokeColor=none;fillColor=none;" vertex="1" parent="otps">
-          <mxGeometry as="geometry" x="8" y="35" width="294" height="202" />
+        <mxCell id="co-tuitions" value="Tuitions" style="shape=table;startSize=34;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=1;html=1;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="195" width="290" height="139" as="geometry" />
         </mxCell>
-        <mxCell id="u_tx" value="1 to many" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#526B79;strokeWidth=2;endArrow=none;" edge="1" parent="1" source="users" target="transactions">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="co-tuitions-row-0" value="PK tuition_id" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;fontStyle=1;" vertex="1" parent="co-tuitions">
+          <mxGeometry x="0" y="34" width="290" height="25" as="geometry" />
         </mxCell>
-        <mxCell id="s_tu" value="1 to many" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#526B79;strokeWidth=2;endArrow=none;" edge="1" parent="1" source="students" target="tuitions">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="co-tuitions-row-1" value="FK student_id" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="co-tuitions">
+          <mxGeometry x="0" y="59" width="290" height="25" as="geometry" />
         </mxCell>
-        <mxCell id="tu_tx" value="1 to many attempts" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#526B79;strokeWidth=2;endArrow=none;" edge="1" parent="1" source="tuitions" target="transactions">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="co-tuitions-row-2" value="amount · status" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="co-tuitions">
+          <mxGeometry x="0" y="84" width="290" height="25" as="geometry" />
         </mxCell>
-        <mxCell id="tx_otp" value="1 to 0..1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#526B79;strokeWidth=2;endArrow=none;" edge="1" parent="1" source="transactions" target="otps">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="co-tuitions-row-3" value="paid_at" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="co-tuitions">
+          <mxGeometry x="0" y="109" width="290" height="25" as="geometry" />
         </mxCell>
-        <mxCell id="note" value="Only one SUCCESS transaction per tuition. OTP expires after 5 minutes and is used once. Cross-service references are logical links." style="text;html=1;strokeColor=none;fillColor=none;fontFamily=Arial;fontSize=14;fontColor=#16364B;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="55" y="810" width="1390" height="45" />
+        <mxCell id="co-transactions" value="Transactions" style="shape=table;startSize=34;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=1;html=1;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="420" y="545" width="320" height="139" as="geometry" />
+        </mxCell>
+        <mxCell id="co-transactions-row-0" value="PK transaction_id" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;fontStyle=1;" vertex="1" parent="co-transactions">
+          <mxGeometry x="0" y="34" width="320" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="co-transactions-row-1" value="FK user_id · FK tuition_id" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="co-transactions">
+          <mxGeometry x="0" y="59" width="320" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="co-transactions-row-2" value="amount · status" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="co-transactions">
+          <mxGeometry x="0" y="84" width="320" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="co-transactions-row-3" value="created_at · paid_at" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="co-transactions">
+          <mxGeometry x="0" y="109" width="320" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="co-otps" value="OTPs" style="shape=table;startSize=34;container=1;collapsible=0;childLayout=tableLayout;fixedRows=1;rowLines=1;html=1;fontFamily=Arial;fontSize=15;fontStyle=1;fontColor=#173B55;fillColor=#E5F3E8;strokeColor=#4A9061;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="975" y="545" width="300" height="139" as="geometry" />
+        </mxCell>
+        <mxCell id="co-otps-row-0" value="PK otp_id" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;fontStyle=1;" vertex="1" parent="co-otps">
+          <mxGeometry x="0" y="34" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="co-otps-row-1" value="FK transaction_id (unique)" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="co-otps">
+          <mxGeometry x="0" y="59" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="co-otps-row-2" value="code_hash · expires_at" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="co-otps">
+          <mxGeometry x="0" y="84" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="co-otps-row-3" value="used_at" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;strokeColor=none;collapsible=0;dropTarget=0;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=12;fontColor=#24485F;spacingLeft=10;portConstraint=eastwest;" vertex="1" parent="co-otps">
+          <mxGeometry x="0" y="109" width="300" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="co-rel-1" value="1 to many" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;startArrow=ERmandOne;endArrow=ERmany;startFill=0;endFill=0;" edge="1" parent="1" source="co-users" target="co-transactions">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="co-rel-2" value="1 to many" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;startArrow=ERmandOne;endArrow=ERmany;startFill=0;endFill=0;" edge="1" parent="1" source="co-students" target="co-tuitions">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="co-rel-3" value="1 to many" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;startArrow=ERmandOne;endArrow=ERmany;startFill=0;endFill=0;" edge="1" parent="1" source="co-tuitions" target="co-transactions">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="co-rel-4" value="1 to 0..1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;startArrow=ERmandOne;endArrow=ERone;startFill=0;endFill=0;" edge="1" parent="1" source="co-transactions" target="co-otps">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="co-note" value="Conceptual Transaction maps to physical payments; available_balance maps to wallets.balance." style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=13;fontColor=#617B8D;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="80" y="805" width="1260" height="35" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

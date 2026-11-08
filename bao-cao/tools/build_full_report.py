@@ -14,9 +14,12 @@ DOCS = ROOT / "docs"
 OUT = ROOT / "bao-cao-giua-ky-ibanking-day-du.docx"
 SOURCES = [DOCS / "01-phan-tich-nghiep-vu-uml.md", DOCS / "02-kien-truc-microservices-va-rest-api.md", DOCS / "04-08-hien-thuc-kiem-thu-trien-khai.md"]
 FIGURES = {
-    "1.4.": (DOCS / "previews" / "01-tuition-payment-use-case.png", "Hình 1. Use Case Diagram của phân hệ đóng học phí"),
-    "1.5.": (DOCS / "previews" / "01-initial-tuition-payment-erd.png", "Hình 2. ERD ban đầu với năm thực thể cốt lõi"),
-    "2.3.": (DOCS / "previews" / "01-tuition-payment-microservices-architecture.png", "Hình 3. Microservices Architecture Diagram của hệ thống tích hợp"),
+    "1.4.": (DOCS / "previews" / "01-01-use-case-diagram.png", "Hình 1. Use Case Diagram của phân hệ đóng học phí"),
+    "1.5.": (DOCS / "previews" / "03-03-conceptual-erd.png", "Hình 2. ERD khái niệm với năm thực thể cốt lõi"),
+    "2.3.": (DOCS / "previews" / "02-02-microservices-architecture.png", "Hình 3. Microservices Architecture Diagram của hệ thống tích hợp"),
+    "4.1.": (DOCS / "previews" / "04-04-physical-erd.png", "Hình 4. ERD vật lý của tám bảng trong ba database"),
+    "5.2.": (DOCS / "previews" / "05-05-payment-and-otp-flow.png", "Hình 5. Luồng thanh toán, OTP và transaction"),
+    "6.": (DOCS / "previews" / "06-06-concurrency-and-consistency.png", "Hình 6. Xử lý hai tình huống giao dịch đồng thời"),
 }
 
 
@@ -135,7 +138,7 @@ para("Ngày cập nhật: 08/11/2026")
 doc.add_heading("Tóm tắt", level=1)
 para("Hệ thống mô phỏng việc khách hàng iBanking thanh toán toàn bộ học phí cho sinh viên TDTU. Báo cáo trình bày nghiệp vụ, UML, kiến trúc ba service với database riêng, REST API, cơ sở dữ liệu, mã nguồn, transaction, giao diện và kết quả kiểm thử. Stack tích hợp đã chạy bằng Docker với PostgreSQL và hộp thư thử Mailpit. Luồng thanh toán từ đăng nhập đến email xác nhận đã được kiểm tra; các giới hạn của môi trường mô phỏng được nêu riêng ở cuối báo cáo.")
 doc.add_heading("Thông tin đánh giá", level=1)
-table(["Nội dung | Trạng thái | Bằng chứng", "--- | --- | ---", "Phân tích nghiệp vụ và sơ đồ | Hoàn thành | Use Case, ERD, kiến trúc draw.io", "Service và REST API | Đã tích hợp | Account, Payment, Notification, Frontend", "Giao dịch và OTP | Đã kiểm thử | 7 test đạt; luồng Docker với email thử", "Xử lý đồng thời | Đã kiểm thử | T21 và T22 đạt trên SQLite và PostgreSQL"])
+table(["Nội dung | Trạng thái | Bằng chứng", "--- | --- | ---", "Phân tích nghiệp vụ và sơ đồ | Hoàn thành | Sáu sơ đồ draw.io có thể chỉnh sửa", "Service và REST API | Đã tích hợp | Account, Payment, Notification, Frontend", "Giao dịch và OTP | Đã kiểm thử | 6 test đạt; luồng Docker với email thử", "Xử lý đồng thời | Đã kiểm thử | T21 và T22 đạt trên SQLite và PostgreSQL"])
 
 for source in SOURCES:
     lines = source.read_text(encoding="utf-8").splitlines()

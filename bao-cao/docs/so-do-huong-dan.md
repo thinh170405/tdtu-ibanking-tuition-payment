@@ -1,13 +1,12 @@
 # Bộ sơ đồ draw.io iBanking
 
-Mở `ibanking-so-do-day-du.drawio` bằng diagrams.net/draw.io để xem 5 trang. Các file `01` đến `05` là bản riêng từng trang, tiện chèn vào báo cáo hoặc slide.
+Mở [bộ sơ đồ đầy đủ](./ibanking-so-do-day-du.drawio) bằng diagrams.net hoặc draw.io. File này có sáu trang, toàn bộ nhãn trên sơ đồ bằng tiếng Anh và có thể chỉnh sửa trực tiếp. Mỗi trang cũng có file riêng:
 
-1. `01-use-case.drawio`: người nộp tiền, email provider và sáu use case chính.
-2. `02-microservices-architecture.drawio`: React UI, Account, Payment, Notification, database theo quyền sở hữu và SMTP.
-3. `03-erd.drawio`: entity, thuộc tính, khóa và quan hệ. `users` và `email_messages` lấy từ migration A; các bảng Payment là thiết kế logic theo hợp đồng 1.0.0, cần đối chiếu migration B khi nhận source.
-4. `04-payment-otp-flow.drawio`: tra cứu, tạo payment, OTP 5 phút, xác nhận và cập nhật tài chính nguyên tử.
-5. `05-concurrency.drawio`: hai tình huống bắt buộc T21 và T22.
+1. [Use Case Diagram](./01-use-case.drawio): khách hàng, nhà cung cấp email, sáu use case và ranh giới phân hệ.
+2. [Microservices Architecture](./02-microservices-architecture.drawio): Frontend, Account, Payment, Notification, ba database logic trong PostgreSQL và SMTP Mailpit.
+3. [Conceptual ERD](./03-conceptual-erd.drawio): năm thực thể nghiệp vụ theo đề bài.
+4. [Physical ERD](./04-physical-erd.drawio): tám bảng đang được hiện thực; nét đứt là liên kết logic xuyên database.
+5. [Payment and OTP Flow](./05-payment-otp-flow.drawio): từ tra cứu tới OTP, transaction và gửi biên nhận.
+6. [Concurrency and Consistency](./06-concurrency.drawio): hai trường hợp T21 và T22 đã được kiểm thử.
 
-Nguồn đối chiếu: đề dự án, rubric, `cauhinhchung.zip`, migration Account/Notification và source frontend phần A. File `.drawio` là nguồn chỉnh sửa; ảnh trong `previews/` chỉ là ảnh xem trước từ tọa độ XML vì môi trường hiện không có draw.io desktop exporter.
-
-Trước khi nộp báo cáo cuối, B cần xác nhận ERD Payment khớp bảng và constraint đã hiện thực. Cập nhật sơ đồ kiến trúc và luồng nếu API hoặc cách gửi email thay đổi khi ghép hệ thống.
+Nguồn đối chiếu: `src/compose.yaml`, mã nguồn ba service, migration và `src/tests/integration_postgres.py`. Chạy `python bao-cao/tools/build_project_diagrams.py` từ gốc dự án để dựng lại các file `.drawio`. Chạy `python bao-cao/tools/preview_drawio.py bao-cao/docs/ibanking-so-do-day-du.drawio` để tạo ảnh xem nhanh trong `previews/`. Ảnh này dùng bộ vẽ hình học gần đúng; khi xuất ảnh để nộp, mở file `.drawio` trong diagrams.net và dùng chức năng Export của ứng dụng.

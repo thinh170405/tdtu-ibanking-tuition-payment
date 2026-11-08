@@ -44,22 +44,22 @@ Idempotency có hai lớp: cặp `(user_id, request_id)` chống tạo trùng pa
 
 | Hoạt động | Kết quả quan sát | Phạm vi kết luận |
 |---|---|---|
-| `python -m pytest tests -q` | 7 bài kiểm thử đạt | Account, Notification, Payment; gồm OTP sai/hết hạn, hai ca đồng thời trên SQLite. |
+| `python -m pytest tests -q` | 6 bài kiểm thử đạt | Account, Notification, Payment; gồm OTP sai/hết hạn, hai ca đồng thời trên SQLite. |
 | `npm run build` | Build thành công | Mã Frontend biên dịch được. |
 | `docker compose -f compose.yaml config --quiet` | Không báo lỗi | Cú pháp cấu hình Compose hợp lệ. |
 | `docker compose -f compose.yaml up --build -d` | Sáu container chạy | PostgreSQL, Mailpit, Account, Payment, Notification, Frontend. |
 | Luồng tích hợp trên Docker | Login 200; tạo payment 201; confirm OTP 200 `SUCCESS`; ví từ 10 triệu về 0; khoản HP005 thành `PAID`; Mailpit có OTP và thư xác nhận | Chứng minh luồng thực với Payment Service, PostgreSQL và SMTP thử nội bộ. Không chứng minh gửi ra hộp thư Internet. |
 | T21/T22 trên PostgreSQL | Cả hai ca đạt bằng `tests/integration_postgres.py` | Test dùng bản ghi thử riêng và tự dọn sau chạy; chưa đo tải lớn. |
 
-`src/tests/test_a.py` kiểm tra Account, Notification và UI mock; `src/tests/test_payment.py` kiểm tra Payment và tranh chấp trên SQLite; `src/tests/integration_postgres.py` kiểm tra T21/T22 trên PostgreSQL và Mailpit. Kết quả được ghi ngày 08/11/2026. Sau kiểm thử, HP005 được khôi phục về trạng thái ban đầu.
+`src/tests/test_account_notification.py` kiểm tra Account và Notification; `src/tests/test_payment.py` kiểm tra Payment và tranh chấp trên SQLite; `src/tests/integration_postgres.py` kiểm tra T21/T22 trên PostgreSQL và Mailpit. Kết quả được ghi ngày 08/11/2026. Sau kiểm thử, HP005 được khôi phục về trạng thái ban đầu.
 
 ## 7.2. Hướng dẫn chạy và demo
 
-Tại thư mục `src`, chạy `docker compose -f compose.yaml up --build -d`. Mở `http://localhost:5173` để dùng ứng dụng và `http://localhost:8025` để xem email thử. Dùng tài khoản mẫu `demo1` và mật khẩu `Demo!2026`, tra cứu MSSV chưa đóng, đồng ý điều khoản, tạo giao dịch, đọc OTP trong Mailpit rồi xác nhận. Kiểm tra lại số dư, trạng thái học phí, lịch sử và thư xác nhận. API docs của từng service ở `/docs` trên các cổng 8081, 8082 và 8083. Hướng dẫn chi tiết và giới hạn demo nằm trong `src/README-FULL.md`.
+Tại thư mục `src`, chạy `docker compose -f compose.yaml up --build -d`. Mở `http://localhost:5173` để dùng ứng dụng và `http://localhost:8025` để xem email thử. Dùng tài khoản mẫu `demo1` và mật khẩu `Demo!2026`, tra cứu MSSV chưa đóng, đồng ý điều khoản, tạo giao dịch, đọc OTP trong Mailpit rồi xác nhận. Kiểm tra lại số dư, trạng thái học phí, lịch sử và thư xác nhận. API docs của từng service ở `/docs` trên các cổng 8081, 8082 và 8083. Hướng dẫn chi tiết và giới hạn demo nằm trong `src/README.md`.
 
 ## 7.3. Giới hạn nghiệm thu
 
-Đây là mô phỏng học phần, không kết nối tài khoản ngân hàng hoặc hệ thống công nợ thật TDTU. Mailpit chỉ là hộp thư thử. Hai ca đồng thời đã có kiểm thử tự động trên SQLite và PostgreSQL; cần thêm kiểm thử tải lớn để đo độ trễ dưới tải. Payment DB hiện chưa có migration phiên bản. Báo cáo không coi Payment mock là bằng chứng tài chính.
+Đây là mô phỏng học phần, không kết nối tài khoản ngân hàng hoặc hệ thống công nợ thật TDTU. Mailpit chỉ là hộp thư thử. Hai ca đồng thời đã có kiểm thử tự động trên SQLite và PostgreSQL; cần thêm kiểm thử tải lớn để đo độ trễ dưới tải. Payment DB hiện chưa có migration phiên bản.
 
 # 8. Kết luận
 

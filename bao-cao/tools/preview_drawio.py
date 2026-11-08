@@ -28,6 +28,26 @@ for index,diagram in enumerate(tree.getroot().findall('diagram'),1):
         boxes[cell_id]=(x,y,bw,bh);return boxes[cell_id]
     for c in cells.values():
         if c.get('vertex')=='1':box(c.get('id'))
+    for c in cells.values():
+        if c.get('vertex')=='1' and 'swimlane;' in c.get('style',''):
+            x,y,bw,bh=boxes[c.get('id')]
+            dr.rectangle((x,y,x+bw,y+bh),fill='#F8FBFD',outline='#95B2C4',width=2)
+    edge_labels=[]
+    # The local preview uses straight connectors. Draw them below shapes so
+    # table cells and service boxes remain legible when a connector crosses.
+    for c in cells.values():
+        if c.get('edge')!='1':continue
+        a,b=c.get('source'),c.get('target')
+        if a not in boxes or b not in boxes:continue
+        ax,ay,aw,ah=boxes[a];bx,by,bw,bh=boxes[b]
+        ac=(ax+aw/2,ay+ah/2);bc=(bx+bw/2,by+bh/2)
+        dx,dy=bc[0]-ac[0],bc[1]-ac[1]
+        if abs(dx)>abs(dy):
+            p1=(ax+aw if dx>0 else ax,ac[1]);p2=(bx if dx>0 else bx+bw,bc[1])
+        else:
+            p1=(ac[0],ay+ah if dy>0 else ay);p2=(bc[0],by if dy>0 else by+bh)
+        dr.line((p1,p2),fill='#718999',width=2)
+        if c.get('value'):edge_labels.append((c.get('value'),p1,p2))
     def split(text,font,max_width):
         lines=[]
         for para in text.split('\n'):
@@ -70,7 +90,14 @@ for index,diagram in enumerate(tree.getroot().findall('diagram'),1):
         elif 'ellipse;' in style:
             dr.ellipse((x,y,x+bw,y+bh),fill=color,outline=outline,width=2)
         elif 'swimlane;' in style:
-            dr.rectangle((x,y,x+bw,y+bh),fill=color,outline=outline,width=2)
+            pass
+        elif 'shape=tableRow;' in style:
+            dr.rectangle((x,y,x+bw,y+bh),fill='#FFFFFF')
+            dr.line((x,y+bh,x+bw,y+bh),fill='#D3E1D7',width=1)
+        elif 'shape=table;' in style:
+            dr.rounded_rectangle((x,y,x+bw,y+bh),radius=8,fill='#FFFFFF',outline=outline,width=2)
+            dr.rectangle((x+2,y+2,x+bw-2,y+34),fill=color)
+            dr.line((x,y+34,x+bw,y+34),fill=outline,width=2)
         elif 'text;' not in style:
             dr.rounded_rectangle((x,y,x+bw,y+bh),radius=12,fill=color,outline=outline,width=2)
         size_match=re.search(r'fontSize=(\d+)',style)
@@ -78,7 +105,7 @@ for index,diagram in enumerate(tree.getroot().findall('diagram'),1):
         font=ImageFont.truetype(bold if 'fontStyle=1' in style else FONT,fs)
         lines=split(value,font,max(30,bw-20))
         line_h=fs+5
-        ty=y+8 if ('align=left' in style or 'verticalAlign=top' in style or 'swimlane;' in style) else y+(bh-len(lines)*line_h)/2
+        ty=y+8 if ('shape=table;' in style or 'shape=tableRow;' in style or 'align=left' in style or 'verticalAlign=top' in style or 'swimlane;' in style) else y+(bh-len(lines)*line_h)/2
         for line in lines:
             if not line:ty+=line_h;continue
             tw=dr.textbbox((0,0),line,font=font)[2]
@@ -86,22 +113,8 @@ for index,diagram in enumerate(tree.getroot().findall('diagram'),1):
             font_match=re.search(r'fontColor=(#[0-9A-Fa-f]{6})',style)
             dr.text((tx,ty),line,font=font,fill=font_match.group(1) if font_match else '#173045')
             ty+=line_h
-    # Approximate edge preview; draw.io itself owns the editable routing.
-    for c in cells.values():
-        if c.get('edge')!='1':continue
-        a,b=c.get('source'),c.get('target')
-        if a not in boxes or b not in boxes:continue
-        ax,ay,aw,ah=boxes[a];bx,by,bw,bh=boxes[b]
-        ac=(ax+aw/2,ay+ah/2);bc=(bx+bw/2,by+bh/2)
-        dx,dy=bc[0]-ac[0],bc[1]-ac[1]
-        if abs(dx)>abs(dy):
-            p1=(ax+aw if dx>0 else ax,ac[1]);p2=(bx if dx>0 else bx+bw,bc[1])
-        else:
-            p1=(ac[0],ay+ah if dy>0 else ay);p2=(bc[0],by if dy>0 else by+bh)
-        color='#718999'
-        dr.line((p1,p2),fill=color,width=2)
-        label=c.get('value','')
-        if label:
+    # Connector labels stay above shapes; draw.io owns final orthogonal routing.
+    for label,p1,p2 in edge_labels:
             font=ImageFont.truetype(FONT,12)
             mx,my=(p1[0]+p2[0])/2,(p1[1]+p2[1])/2-16
             tw=dr.textbbox((0,0),label,font=font)[2]

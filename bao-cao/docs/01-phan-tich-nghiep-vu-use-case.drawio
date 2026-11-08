@@ -1,69 +1,72 @@
 <?xml version='1.0' encoding='utf-8'?>
 <mxfile host="drawio" version="26.0.0" type="device">
-  <diagram name="Tuition Payment Use Case" id="tuition-payment-use-case">
-    <mxGraphModel dx="1450" dy="920" grid="1" page="1" pageScale="1" pageWidth="1450" pageHeight="920">
+  <diagram id="01-use-case" name="01 Use Case Diagram">
+    <mxGraphModel dx="1450" dy="835" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1450" pageHeight="835" background="#FFFFFF" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="title" value="USE CASE DIAGRAM | IBANKING TUITION PAYMENT" style="text;html=1;strokeColor=none;fillColor=none;fontFamily=Arial;fontSize=24;fontStyle=1;fontColor=#16364B;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="40" y="20" width="1300" height="45" />
+        <mxCell id="01-use-case-title" value="USE CASE DIAGRAM" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=26;fontStyle=1;fontColor=#173B55;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="42" y="24" width="1366" height="48" as="geometry" />
         </mxCell>
-        <mxCell id="system" value="iBanking Tuition Payment Subsystem" style="swimlane;startSize=38;html=1;container=1;collapsible=0;fontFamily=Arial;fontSize=17;fontStyle=1;fillColor=#F8FBFD;strokeColor=#8EAAB9;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="260" y="100" width="920" height="750" />
+        <mxCell id="01-use-case-subtitle" value="Customer goals and the external email provider; payment is always for the full tuition amount." style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=13;fontColor=#617B8D;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="44" y="76" width="1362" height="36" as="geometry" />
         </mxCell>
-        <mxCell id="user" value="User / Customer" style="shape=umlActor;html=1;verticalLabelPosition=bottom;verticalAlign=top;fontFamily=Arial;fontSize=15;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="65" y="370" width="110" height="120" />
+        <mxCell id="uc-user" value="Customer" style="shape=umlActor;html=1;verticalLabelPosition=bottom;verticalAlign=top;fontFamily=Arial;fontSize=14;fontColor=#173B55;" vertex="1" parent="1">
+          <mxGeometry x="82" y="323" width="86" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="email" value="Email Service" style="shape=umlActor;html=1;verticalLabelPosition=bottom;verticalAlign=top;fontFamily=Arial;fontSize=15;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="1250" y="370" width="105" height="120" />
+        <mxCell id="uc-email" value="Email provider" style="shape=umlActor;html=1;verticalLabelPosition=bottom;verticalAlign=top;fontFamily=Arial;fontSize=14;fontColor=#173B55;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="323" width="90" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="uc01" value="UC01  Sign in" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=15;fillColor=#E7F2F8;strokeColor=#48758B;strokeWidth=2;" vertex="1" parent="system">
-          <mxGeometry as="geometry" x="80" y="95" width="330" height="70" />
+        <mxCell id="uc-system" value="iBanking Tuition Payment Subsystem" style="swimlane;startSize=38;horizontal=1;container=1;collapsible=0;pointerEvents=0;html=1;fontFamily=Arial;fontSize=16;fontStyle=1;fillColor=#F8FBFD;strokeColor=#95B2C4;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="255" y="142" width="925" height="595" as="geometry" />
         </mxCell>
-        <mxCell id="uc02" value="UC02  View account and balance" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=15;fillColor=#E7F2F8;strokeColor=#48758B;strokeWidth=2;" vertex="1" parent="system">
-          <mxGeometry as="geometry" x="80" y="205" width="330" height="70" />
+        <mxCell id="uc01" value="UC01  Log in" style="ellipse;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="uc-system">
+          <mxGeometry x="62" y="73" width="310" height="82" as="geometry" />
         </mxCell>
-        <mxCell id="uc03" value="UC03  Look up student tuition" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=15;fillColor=#E7F2F8;strokeColor=#48758B;strokeWidth=2;" vertex="1" parent="system">
-          <mxGeometry as="geometry" x="80" y="315" width="330" height="70" />
+        <mxCell id="uc02" value="UC02  View profile&#xa;and balance" style="ellipse;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="uc-system">
+          <mxGeometry x="536" y="73" width="310" height="82" as="geometry" />
         </mxCell>
-        <mxCell id="uc04" value="UC04  Initiate full payment" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=15;fillColor=#E7F2F8;strokeColor=#48758B;strokeWidth=2;" vertex="1" parent="system">
-          <mxGeometry as="geometry" x="80" y="425" width="330" height="70" />
+        <mxCell id="uc03" value="UC03  Look up tuition&#xa;by student ID" style="ellipse;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="uc-system">
+          <mxGeometry x="62" y="232" width="310" height="82" as="geometry" />
         </mxCell>
-        <mxCell id="uc05" value="UC05  Verify email OTP" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=15;fillColor=#E7F2F8;strokeColor=#48758B;strokeWidth=2;" vertex="1" parent="system">
-          <mxGeometry as="geometry" x="80" y="535" width="330" height="70" />
+        <mxCell id="uc04" value="UC04  Create full&#xa;payment" style="ellipse;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="uc-system">
+          <mxGeometry x="536" y="232" width="310" height="82" as="geometry" />
         </mxCell>
-        <mxCell id="uc06" value="UC06  Complete payment" style="ellipse;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=15;fillColor=#E7F2F8;strokeColor=#48758B;strokeWidth=2;" vertex="1" parent="system">
-          <mxGeometry as="geometry" x="510" y="535" width="330" height="70" />
+        <mxCell id="uc05" value="UC05  Confirm payment&#xa;with email OTP" style="ellipse;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="uc-system">
+          <mxGeometry x="62" y="391" width="310" height="82" as="geometry" />
         </mxCell>
-        <mxCell id="user_uc01" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#526B79;strokeWidth=2;endArrow=none;" edge="1" parent="1" source="user" target="uc01">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="uc06" value="UC06  Commit payment&#xa;and send receipt" style="ellipse;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=14;fontStyle=1;fontColor=#173B55;fillColor=#E2F1F9;strokeColor=#27749B;strokeWidth=2;" vertex="1" parent="uc-system">
+          <mxGeometry x="536" y="391" width="310" height="82" as="geometry" />
         </mxCell>
-        <mxCell id="user_uc02" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#526B79;strokeWidth=2;endArrow=none;" edge="1" parent="1" source="user" target="uc02">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="uc-user-1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;endArrow=none;" edge="1" parent="1" source="uc-user" target="uc01">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="user_uc03" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#526B79;strokeWidth=2;endArrow=none;" edge="1" parent="1" source="user" target="uc03">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="uc-user-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;endArrow=none;" edge="1" parent="1" source="uc-user" target="uc02">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="user_uc04" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#526B79;strokeWidth=2;endArrow=none;" edge="1" parent="1" source="user" target="uc04">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="uc-user-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;endArrow=none;" edge="1" parent="1" source="uc-user" target="uc03">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="user_uc05" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#526B79;strokeWidth=2;endArrow=none;" edge="1" parent="1" source="user" target="uc05">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="uc-user-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;endArrow=none;" edge="1" parent="1" source="uc-user" target="uc04">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="mail_otp" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#526B79;strokeWidth=2;endArrow=none;" edge="1" parent="1" source="email" target="uc04">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="uc-user-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;endArrow=none;" edge="1" parent="1" source="uc-user" target="uc05">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="mail_confirmation" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#526B79;strokeWidth=2;endArrow=none;" edge="1" parent="1" source="email" target="uc06">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="uc-email-otp" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;endArrow=none;" edge="1" parent="1" source="uc-email" target="uc04">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="include_lookup" value="«include»" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#526B79;strokeWidth=2;endArrow=none;" edge="1" parent="1" source="uc04" target="uc03">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="uc-email-receipt" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;endArrow=none;" edge="1" parent="1" source="uc-email" target="uc06">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="extend_complete" value="«extend» [valid OTP]" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#526B79;strokeWidth=2;endArrow=none;dashed=1;endArrow=open;fontSize=13;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="uc06" target="uc05">
-          <mxGeometry as="geometry" relative="1" />
+        <mxCell id="uc-include" value="&lt;&lt;include&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="uc04" target="uc03">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="note" value="UC06 starts after valid OTP. Database is an internal data store, not a UML actor." style="text;html=1;strokeColor=none;fillColor=none;fontFamily=Arial;fontSize=13;fontColor=#16364B;" vertex="1" parent="1">
-          <mxGeometry as="geometry" x="270" y="865" width="900" height="30" />
+        <mxCell id="uc-extend" value="&lt;&lt;extend&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#55778B;strokeWidth=2;endArrow=block;endFill=1;fontFamily=Arial;fontSize=12;fontColor=#47657A;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="uc06" target="uc05">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc-note" value="UC06 runs after a valid OTP. Database is an internal data store, not a UML actor." style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;whiteSpace=wrap;fontFamily=Arial;fontSize=13;fontColor=#617B8D;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="260" y="760" width="1030" height="32" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
