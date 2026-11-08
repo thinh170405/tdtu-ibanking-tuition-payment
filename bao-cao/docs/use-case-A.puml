@@ -1,0 +1,25 @@
+@startuml
+left to right direction
+actor "Người nộp tiền" as Payer
+actor "Email provider" as Mail
+rectangle "Phân hệ đóng học phí iBanking" {
+  usecase "Đăng nhập" as Login
+  usecase "Xem hồ sơ và số dư" as Profile
+  usecase "Tra cứu học phí" as Lookup
+  usecase "Tạo giao dịch" as Create
+  usecase "Xác thực OTP" as OTP
+  usecase "Xem kết quả/lịch sử" as History
+  usecase "Gửi OTP/email xác nhận" as Email
+}
+Payer --> Login
+Payer --> Profile
+Payer --> Lookup
+Payer --> Create
+Payer --> OTP
+Payer --> History
+Create .> Lookup : <<include>>
+OTP .> Create : <<extend>>
+Create .> Email : <<include>>
+OTP .> Email : <<include>>
+Mail --> Email
+@enduml

@@ -1,0 +1,11 @@
+**
+!src/
+!src/Dockerfile.service
+!src/requirements-A.txt
+!src/services/
+!src/services/**
+!cau-hinh-chung/
+!cau-hinh-chung/contract/
+!cau-hinh-chung/contract/**
+**/__pycache__/
+**/*.pyc

@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.db
+.env
+src/.env
+src/.local/
+src/frontend/.env
+src/frontend/node_modules/
+src/frontend/dist/
+.pytest_cache/
+bao-cao/tmp/
+bao-cao/docs/previews/contact*.png

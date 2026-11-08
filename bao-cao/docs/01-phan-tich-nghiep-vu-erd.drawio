@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="drawio" version="26.0.0" type="device">
+  <diagram name="Initial Tuition Payment ERD" id="initial-tuition-payment-erd">
+    <mxGraphModel dx="1510" dy="900" grid="1" page="1" pageScale="1" pageWidth="1510" pageHeight="900">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="INITIAL ERD | IBANKING TUITION PAYMENT" style="text;html=1;strokeColor=none;fillColor=none;fontFamily=Arial;fontSize=24;fontStyle=1;fontColor=#16364B;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="40" y="20" width="1300" height="45" />
+        </mxCell>
+        <mxCell id="users" value="Users" style="swimlane;startSize=32;html=1;container=1;collapsible=0;fontFamily=Arial;fontSize=16;fontStyle=1;fillColor=#E3F0F7;strokeColor=#4C7890;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="45" y="140" width="310" height="245" />
+        </mxCell>
+        <mxCell id="users_fields" value="PK user_id&lt;br&gt;UQ username&lt;br&gt;password_hash&lt;br&gt;full_name, email, phone&lt;br&gt;balance &gt;= 0" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingTop=7;fontFamily=Arial;fontSize=14;strokeColor=none;fillColor=none;" vertex="1" parent="users">
+          <mxGeometry as="geometry" x="8" y="35" width="294" height="202" />
+        </mxCell>
+        <mxCell id="students" value="Students" style="swimlane;startSize=32;html=1;container=1;collapsible=0;fontFamily=Arial;fontSize=16;fontStyle=1;fillColor=#E3F0F7;strokeColor=#4C7890;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="45" y="510" width="310" height="205" />
+        </mxCell>
+        <mxCell id="students_fields" value="PK student_id (MSSV)&lt;br&gt;full_name&lt;br&gt;program" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingTop=7;fontFamily=Arial;fontSize=14;strokeColor=none;fillColor=none;" vertex="1" parent="students">
+          <mxGeometry as="geometry" x="8" y="35" width="294" height="162" />
+        </mxCell>
+        <mxCell id="tuitions" value="Tuitions" style="swimlane;startSize=32;html=1;container=1;collapsible=0;fontFamily=Arial;fontSize=16;fontStyle=1;fillColor=#E3F0F7;strokeColor=#4C7890;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="565" y="510" width="310" height="245" />
+        </mxCell>
+        <mxCell id="tuitions_fields" value="PK tuition_id&lt;br&gt;FK student_id&lt;br&gt;term&lt;br&gt;amount &gt; 0&lt;br&gt;status, paid_at" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingTop=7;fontFamily=Arial;fontSize=14;strokeColor=none;fillColor=none;" vertex="1" parent="tuitions">
+          <mxGeometry as="geometry" x="8" y="35" width="294" height="202" />
+        </mxCell>
+        <mxCell id="transactions" value="Transactions" style="swimlane;startSize=32;html=1;container=1;collapsible=0;fontFamily=Arial;fontSize=16;fontStyle=1;fillColor=#E3F0F7;strokeColor=#4C7890;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="565" y="140" width="310" height="275" />
+        </mxCell>
+        <mxCell id="transactions_fields" value="PK transaction_id&lt;br&gt;FK user_id&lt;br&gt;FK tuition_id&lt;br&gt;UQ (user_id, request_id)&lt;br&gt;amount, status&lt;br&gt;created_at, completed_at" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingTop=7;fontFamily=Arial;fontSize=14;strokeColor=none;fillColor=none;" vertex="1" parent="transactions">
+          <mxGeometry as="geometry" x="8" y="35" width="294" height="232" />
+        </mxCell>
+        <mxCell id="otps" value="OTPs" style="swimlane;startSize=32;html=1;container=1;collapsible=0;fontFamily=Arial;fontSize=16;fontStyle=1;fillColor=#E3F0F7;strokeColor=#4C7890;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="1120" y="140" width="310" height="245" />
+        </mxCell>
+        <mxCell id="otps_fields" value="PK otp_id&lt;br&gt;FK/UQ transaction_id&lt;br&gt;code_hash&lt;br&gt;issued_at, expires_at&lt;br&gt;used_at" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingTop=7;fontFamily=Arial;fontSize=14;strokeColor=none;fillColor=none;" vertex="1" parent="otps">
+          <mxGeometry as="geometry" x="8" y="35" width="294" height="202" />
+        </mxCell>
+        <mxCell id="u_tx" value="1 to many" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#526B79;strokeWidth=2;endArrow=none;" edge="1" parent="1" source="users" target="transactions">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="s_tu" value="1 to many" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#526B79;strokeWidth=2;endArrow=none;" edge="1" parent="1" source="students" target="tuitions">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="tu_tx" value="1 to many attempts" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#526B79;strokeWidth=2;endArrow=none;" edge="1" parent="1" source="tuitions" target="transactions">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="tx_otp" value="1 to 0..1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeColor=#526B79;strokeWidth=2;endArrow=none;" edge="1" parent="1" source="transactions" target="otps">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="note" value="Only one SUCCESS transaction per tuition. OTP expires after 5 minutes and is used once. Cross-service references are logical links." style="text;html=1;strokeColor=none;fillColor=none;fontFamily=Arial;fontSize=14;fontColor=#16364B;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="55" y="810" width="1390" height="45" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

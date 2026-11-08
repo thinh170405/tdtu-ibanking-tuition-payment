@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0" type="device">
+  <diagram name="Microservices · Presentation Style" id="microservices-presentation">
+    <mxGraphModel dx="1800" dy="1180" grid="1" gridSize="10" guides="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1180" background="#D7DEFA">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Microservice architecture" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Arial;fontColor=#312267;fontSize=42;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="55" width="1250" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="iBanking tuition payment  |  target integration with Payment Service B" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Arial;fontColor=#312267;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="63" y="135" width="1400" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="ui_frame" value="" style="rounded=1;arcSize=12;html=1;fillColor=#D7DEFA;strokeColor=#5B43AF;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="670" y="220" width="460" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="ui_bar" value="●  ●  ●       USER INTERFACE  ·  React :5173" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Arial;fontColor=#312267;fontSize=19;fontStyle=1;" vertex="1" parent="ui_frame">
+          <mxGeometry x="12" y="7" width="435" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="ui_line_1" value="Login  ·  Profile  ·  Tuition lookup" style="rounded=1;html=1;convertToSvg=1;align=center;fontFamily=Arial;fontSize=18;fontColor=#312267;fillColor=#EDF0FF;strokeColor=#9C8BFA;strokeWidth=2;" vertex="1" parent="ui_frame">
+          <mxGeometry x="40" y="62" width="380" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="ui_line_2" value="Payment  ·  OTP  ·  History" style="rounded=1;html=1;convertToSvg=1;align=center;fontFamily=Arial;fontSize=18;fontColor=#312267;fillColor=#EDF0FF;strokeColor=#9C8BFA;strokeWidth=2;" vertex="1" parent="ui_frame">
+          <mxGeometry x="40" y="122" width="380" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="account" value="" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#312267;fontSize=22;fillColor=#F8F7FF;strokeColor=#8E79F5;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="150" y="535" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="account_badge" value="A" style="ellipse;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=25;fontStyle=1;fontColor=#FFFFFF;fillColor=#6742E8;strokeColor=#6742E8;strokeWidth=2;" vertex="1" parent="account">
+          <mxGeometry x="112" y="7" width="76" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="account_name" value="Account Service" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Arial;fontColor=#312267;align=center;fontSize=21;fontStyle=1;" vertex="1" parent="account">
+          <mxGeometry x="10" y="88" width="280" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="account_detail" value="FastAPI :8081  |  Login · profile · JWT" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Arial;fontColor=#312267;align=center;whiteSpace=wrap;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="130" y="667" width="340" height="58" as="geometry" />
+        </mxCell>
+        <mxCell id="payment" value="" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#312267;fontSize=22;fillColor=#F8F7FF;strokeColor=#8E79F5;strokeWidth=3;dashed=1;dashPattern=6 4;" vertex="1" parent="1">
+          <mxGeometry x="765" y="535" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="payment_badge" value="P" style="ellipse;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=25;fontStyle=1;fontColor=#FFFFFF;fillColor=#6742E8;strokeColor=#6742E8;strokeWidth=2;" vertex="1" parent="payment">
+          <mxGeometry x="112" y="7" width="76" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="payment_name" value="Payment Service B" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Arial;fontColor=#312267;align=center;fontSize=21;fontStyle=1;" vertex="1" parent="payment">
+          <mxGeometry x="10" y="88" width="280" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="payment_detail" value="FastAPI :8082  |  Wallet · tuition · OTP · transactions" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Arial;fontColor=#312267;align=center;whiteSpace=wrap;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="745" y="667" width="340" height="58" as="geometry" />
+        </mxCell>
+        <mxCell id="notification" value="" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#312267;fontSize=22;fillColor=#F8F7FF;strokeColor=#8E79F5;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="535" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="notification_badge" value="N" style="ellipse;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=25;fontStyle=1;fontColor=#FFFFFF;fillColor=#6742E8;strokeColor=#6742E8;strokeWidth=2;" vertex="1" parent="notification">
+          <mxGeometry x="112" y="7" width="76" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="notification_name" value="Notification Service" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Arial;fontColor=#312267;align=center;fontSize=21;fontStyle=1;" vertex="1" parent="notification">
+          <mxGeometry x="10" y="88" width="280" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="notification_detail" value="FastAPI :8083  |  OTP and receipt emails" style="text;html=1;convertToSvg=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontFamily=Arial;fontColor=#312267;align=center;whiteSpace=wrap;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="1360" y="667" width="340" height="58" as="geometry" />
+        </mxCell>
+        <mxCell id="account_db" value="Account DB&#10;users" style="shape=cylinder3;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#312267;fontSize=17;fillColor=#E8E5FF;strokeColor=#8E79F5;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="200" y="790" width="200" height="135" as="geometry" />
+        </mxCell>
+        <mxCell id="payment_db" value="Payment DB&#10;wallets · students · tuition&#10;payments · OTP · email jobs" style="shape=cylinder3;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#312267;fontSize=17;fillColor=#E8E5FF;strokeColor=#8E79F5;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="815" y="790" width="200" height="135" as="geometry" />
+        </mxCell>
+        <mxCell id="notification_db" value="Notification DB&#10;email_messages" style="shape=cylinder3;whiteSpace=wrap;html=1;convertToSvg=1;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#312267;fontSize=17;fillColor=#E8E5FF;strokeColor=#8E79F5;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="1330" y="790" width="200" height="135" as="geometry" />
+        </mxCell>
+        <mxCell id="smtp" value="SMTP provider" style="rounded=1;whiteSpace=wrap;html=1;convertToSvg=1;align=center;fontFamily=Arial;fontSize=18;fontColor=#312267;fillColor=#F3F0FF;strokeColor=#5B43AF;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1595" y="825" width="170" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="ui_account" value="REST · login/profile" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=10;strokeColor=#5B43AF;strokeWidth=2;fontColor=#312267;fontSize=14;fontFamily=Arial;labelBackgroundColor=#D7DEFA;dashed=1;dashPattern=7 5;exitX=0.15;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="ui_frame" target="account">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ui_payment" value="REST · Bearer JWT" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=10;strokeColor=#5B43AF;strokeWidth=2;fontColor=#312267;fontSize=14;fontFamily=Arial;labelBackgroundColor=#D7DEFA;dashed=1;dashPattern=7 5;exitX=0.85;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="ui_frame" target="payment">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="payment_notification" value="internal REST · X-Internal-Key" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=10;strokeColor=#5B43AF;strokeWidth=2;fontColor=#312267;fontSize=14;fontFamily=Arial;labelBackgroundColor=#D7DEFA;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="payment" target="notification">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="account_store" value="SQL" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=10;strokeColor=#5B43AF;strokeWidth=2;fontColor=#312267;fontSize=14;fontFamily=Arial;labelBackgroundColor=#D7DEFA;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="account" target="account_db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="payment_store" value="atomic SQL transaction" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=10;strokeColor=#5B43AF;strokeWidth=2;fontColor=#312267;fontSize=14;fontFamily=Arial;labelBackgroundColor=#D7DEFA;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="payment" target="payment_db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="notification_store" value="SQL" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=10;strokeColor=#5B43AF;strokeWidth=2;fontColor=#312267;fontSize=14;fontFamily=Arial;labelBackgroundColor=#D7DEFA;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="notification" target="notification_db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="notification_smtp" value="SMTP · STARTTLS" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;endSize=10;strokeColor=#5B43AF;strokeWidth=2;fontColor=#312267;fontSize=14;fontFamily=Arial;labelBackgroundColor=#D7DEFA;dashed=1;dashPattern=7 5;exitX=1;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="notification" target="smtp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="note" value="Payment B is planned. Current A runs with an in-memory Payment mock on :8089; that mock does not send OTP email. Each real service owns its database." style="rounded=1;whiteSpace=wrap;html=1;convertToSvg=1;align=left;spacingLeft=14;fontFamily=Arial;fontSize=16;fontColor=#312267;fillColor=#E9E6FF;strokeColor=#A392F0;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1040" width="1190" height="65" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

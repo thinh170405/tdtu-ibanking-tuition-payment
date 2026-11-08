@@ -1,0 +1,95 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ibanking
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local-demo-password}
+      POSTGRES_DB: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - full_db:/var/lib/postgresql/data
+      - ./docker/postgres-init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ibanking"]
+      interval: 2s
+      retries: 20
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "8025:8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: "1"
+      MP_SMTP_AUTH_ALLOW_INSECURE: "1"
+  account:
+    build:
+      context: ..
+      dockerfile: src/Dockerfile.service
+    command: sh -c "python -m services.account.seed && uvicorn services.account.app:app --host 0.0.0.0 --port 8081"
+    environment:
+      ACCOUNT_DATABASE_URL: postgresql+psycopg://ibanking:${POSTGRES_PASSWORD:-local-demo-password}@postgres:5432/ibanking_account
+      JWT_SECRET: ${JWT_SECRET:-local-demo-secret-at-least-32-bytes-long}
+      JWT_ISSUER: ibanking-demo
+      JWT_AUDIENCE: ibanking-api
+      FRONTEND_ORIGIN: http://localhost:5173
+      DEMO_EMAIL_1: ${DEMO_EMAIL_1:-demo1@example.com}
+      DEMO_EMAIL_2: ${DEMO_EMAIL_2:-demo2@example.com}
+    ports:
+      - "8081:8081"
+    depends_on:
+      postgres:
+        condition: service_healthy
+  notification:
+    build:
+      context: ..
+      dockerfile: src/Dockerfile.service
+    command: sh -c "python -m services.notification.init_db && uvicorn services.notification.app:app --host 0.0.0.0 --port 8083"
+    environment:
+      NOTIFICATION_DATABASE_URL: postgresql+psycopg://ibanking:${POSTGRES_PASSWORD:-local-demo-password}@postgres:5432/ibanking_notification
+      INTERNAL_API_KEY: ${INTERNAL_API_KEY:-local-demo-internal-key}
+      SMTP_HOST: ${SMTP_HOST:-mailpit}
+      SMTP_PORT: ${SMTP_PORT:-1025}
+      SMTP_SECURITY: ${SMTP_SECURITY:-NONE}
+      SMTP_USERNAME: ${SMTP_USERNAME:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM: ${SMTP_FROM:-ibanking@example.com}
+    ports:
+      - "8083:8083"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+  payment:
+    build:
+      context: ..
+      dockerfile: src/Dockerfile.service
+    command: sh -c "python -m services.payment.seed && uvicorn services.payment.app:app --host 0.0.0.0 --port 8082"
+    environment:
+      PAYMENT_DATABASE_URL: postgresql+psycopg://ibanking:${POSTGRES_PASSWORD:-local-demo-password}@postgres:5432/ibanking_payment
+      JWT_SECRET: ${JWT_SECRET:-local-demo-secret-at-least-32-bytes-long}
+      JWT_ISSUER: ibanking-demo
+      JWT_AUDIENCE: ibanking-api
+      INTERNAL_API_KEY: ${INTERNAL_API_KEY:-local-demo-internal-key}
+      NOTIFICATION_URL: http://notification:8083
+      FRONTEND_ORIGIN: http://localhost:5173
+    ports:
+      - "8082:8082"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      notification:
+        condition: service_started
+  frontend:
+    build:
+      context: ./frontend
+    environment:
+      VITE_ACCOUNT_API_BASE_URL: http://localhost:8081/api/v1
+      VITE_PAYMENT_API_BASE_URL: http://localhost:8082/api/v1
+    ports:
+      - "5173:5173"
+    depends_on:
+      - account
+      - payment
+volumes:
+  full_db:

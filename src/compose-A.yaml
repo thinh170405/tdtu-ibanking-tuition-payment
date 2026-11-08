@@ -1,0 +1,75 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ibanking
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-devpassword}
+      POSTGRES_DB: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - account_db:/var/lib/postgresql/data
+      - ./docker/postgres-init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ibanking"]
+      interval: 2s
+      retries: 20
+  account:
+    build:
+      context: ..
+      dockerfile: src/Dockerfile.service
+    command: sh -c "python -m services.account.seed && uvicorn services.account.app:app --host 0.0.0.0 --port 8081"
+    environment:
+      ACCOUNT_DATABASE_URL: postgresql+psycopg://ibanking:${POSTGRES_PASSWORD:-devpassword}@postgres:5432/ibanking_account
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env}
+      JWT_ISSUER: ibanking-demo
+      JWT_AUDIENCE: ibanking-api
+      FRONTEND_ORIGIN: http://localhost:5173
+      DEMO_EMAIL_1: ${DEMO_EMAIL_1:-demo1@example.test}
+      DEMO_EMAIL_2: ${DEMO_EMAIL_2:-demo2@example.test}
+    ports:
+      - "8081:8081"
+    depends_on:
+      postgres:
+        condition: service_healthy
+  notification:
+    build:
+      context: ..
+      dockerfile: src/Dockerfile.service
+    command: sh -c "python -m services.notification.init_db && uvicorn services.notification.app:app --host 0.0.0.0 --port 8083"
+    environment:
+      NOTIFICATION_DATABASE_URL: postgresql+psycopg://ibanking:${POSTGRES_PASSWORD:-devpassword}@postgres:5432/ibanking_notification
+      INTERNAL_API_KEY: ${INTERNAL_API_KEY:?Set INTERNAL_API_KEY in .env}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURITY: ${SMTP_SECURITY:-STARTTLS}
+      SMTP_USERNAME: ${SMTP_USERNAME:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM: ${SMTP_FROM:-ibanking@example.test}
+    ports:
+      - "8083:8083"
+    depends_on:
+      postgres:
+        condition: service_healthy
+  payment-mock:
+    build:
+      context: ..
+      dockerfile: src/Dockerfile.service
+    command: uvicorn services.payment_mock.app:app --host 0.0.0.0 --port 8089
+    environment:
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env}
+    ports:
+      - "8089:8089"
+  frontend:
+    build:
+      context: ./frontend
+    environment:
+      VITE_ACCOUNT_API_BASE_URL: http://localhost:8081/api/v1
+      VITE_PAYMENT_API_BASE_URL: http://localhost:8089/api/v1
+    ports:
+      - "5173:5173"
+    depends_on:
+      - account
+      - payment-mock
+volumes:
+  account_db:

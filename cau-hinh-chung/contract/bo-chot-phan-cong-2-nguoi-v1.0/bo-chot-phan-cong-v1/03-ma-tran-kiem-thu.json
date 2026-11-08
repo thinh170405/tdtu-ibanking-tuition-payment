@@ -1,0 +1,837 @@
+{
+  "contractVersion": "1.0.0",
+  "executionStatus": "NOT_RUN",
+  "instructions": [
+    "Đây là đặc tả kịch bản, chưa phải kết quả chạy sản phẩm.",
+    "Mỗi case reset seed trừ các bước trong cùng case cần nối tiếp.",
+    "Test clock/RNG/fault injection chỉ là hook của test harness, không thêm API công khai để sửa giờ/OTP/số dư.",
+    "Concurrency dùng barrier thực sự gửi đồng thời và lưu DB trước/sau; không thay bằng hai request tuần tự.",
+    "Test expiry tự động dùng clock giả; nghiệm thu tích hợp có thể chờ đủ TTL thật, không rút TTL bản thật quá 300 giây hoặc thêm query ép hết hạn.",
+    "Kiểm tra collision bằng stub RNG và ràng buộc database; lấy nhiều OTP ngẫu nhiên không trùng chưa đủ chứng minh xử lý collision."
+  ],
+  "errorStatusMap": {
+    "VALIDATION_ERROR": 400,
+    "INVALID_CREDENTIALS": 401,
+    "UNAUTHORIZED": 401,
+    "FORBIDDEN": 403,
+    "STUDENT_NOT_FOUND": 404,
+    "TUITION_NOT_FOUND": 404,
+    "PAYMENT_NOT_FOUND": 404,
+    "WALLET_NOT_FOUND": 404,
+    "TUITION_ALREADY_PAID": 409,
+    "REQUEST_ID_CONFLICT": 409,
+    "REQUEST_IN_PROGRESS": 409,
+    "OTP_DELIVERY_PENDING": 409,
+    "MESSAGE_ID_CONFLICT": 409,
+    "INSUFFICIENT_BALANCE": 422,
+    "INVALID_OTP": 422,
+    "OTP_EXPIRED": 422,
+    "NOTIFICATION_UNAVAILABLE": 503,
+    "INTERNAL_ERROR": 500
+  },
+  "cases": [
+    {
+      "id": "T01",
+      "requirement": "Đăng nhập và thông tin người dùng",
+      "owner": "A",
+      "mode": "API",
+      "resetSeedBefore": true,
+      "setup": "Base seed",
+      "steps": [
+        "Login demo1/Demo!2026",
+        "Dùng token gọi users/me"
+      ],
+      "expected": {
+        "httpStatus": [
+          200,
+          200
+        ],
+        "userId": "u1",
+        "profileReadOnly": true,
+        "passwordNotInResponse": true
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T02",
+      "requirement": "Sai thông tin đăng nhập",
+      "owner": "A",
+      "mode": "API",
+      "resetSeedBefore": true,
+      "setup": "Base seed",
+      "steps": [
+        "Login demo1/Wrong!2026"
+      ],
+      "expected": {
+        "httpStatus": 401,
+        "code": "INVALID_CREDENTIALS"
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T03",
+      "requirement": "Validation chặt tại biên API",
+      "owner": "A+B",
+      "mode": "API",
+      "resetSeedBefore": true,
+      "setup": "Base seed; test từng request độc lập",
+      "steps": [
+        "Login thiếu password",
+        "Tra cứu MSSV abc",
+        "Tạo payment thiếu requestId hoặc UUID sai",
+        "Confirm OTP là number hoặc chuỗi 5 chữ số",
+        "Gửi null/sai kiểu cho trường bắt buộc",
+        "Gửi trường ngoài schema vào request body"
+      ],
+      "expected": {
+        "httpStatus": 400,
+        "code": "VALIDATION_ERROR",
+        "noFinancialChange": true
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T04",
+      "requirement": "Xác thực server",
+      "owner": "A+B",
+      "mode": "API",
+      "resetSeedBefore": true,
+      "setup": "Base seed; token test có thể sinh bằng helper test riêng",
+      "steps": [
+        "Gọi wallet/me khi thiếu token, chữ ký sai, exp hết hạn, iss/aud sai hoặc thuật toán ngoài HS256"
+      ],
+      "expected": {
+        "httpStatus": 401,
+        "code": "UNAUTHORIZED",
+        "noFinancialChange": true
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T05",
+      "requirement": "Thông tin người nộp và điều khoản",
+      "owner": "A+B",
+      "mode": "UI+API",
+      "resetSeedBefore": true,
+      "setup": "Base seed; login u1",
+      "steps": [
+        "Kiểm tra hồ sơ hiển thị chỉ đọc",
+        "Chưa đồng ý điều khoản thì UI không cho xác nhận",
+        "Gọi tạo payment với termsAccepted false hoặc thiếu"
+      ],
+      "expected": {
+        "httpStatus": 400,
+        "code": "VALIDATION_ERROR",
+        "noPaymentCreatedForRejectedRequest": true
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T06",
+      "requirement": "Đóng học phí cho chính mình",
+      "owner": "A+B",
+      "mode": "E2E",
+      "resetSeedBefore": true,
+      "setup": "Base seed; login u1",
+      "steps": [
+        "Tra cứu 52600001",
+        "Tạo HP001",
+        "Lấy OTP từ email/mock tương ứng môi trường",
+        "Confirm",
+        "Đọc wallet/tuition/history"
+      ],
+      "expected": {
+        "createStatus": 201,
+        "confirmStatus": 200,
+        "u1Balance": 3000000,
+        "HP001": "PAID",
+        "newSuccessCount": 1,
+        "paidAtNotNull": true
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T07",
+      "requirement": "Đóng học phí cho người khác",
+      "owner": "A+B",
+      "mode": "E2E",
+      "resetSeedBefore": true,
+      "setup": "Base seed; login u1",
+      "steps": [
+        "Tra cứu 52600002 và thanh toán HP002"
+      ],
+      "expected": {
+        "u1Balance": 3000000,
+        "u2Balance": 10000000,
+        "HP002": "PAID",
+        "payerUserId": "u1",
+        "mailRecipientUserId": "u1"
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T08",
+      "requirement": "Sinh viên không tồn tại",
+      "owner": "B",
+      "mode": "API",
+      "resetSeedBefore": true,
+      "setup": "Base seed",
+      "steps": [
+        "Tra cứu 52699999"
+      ],
+      "expected": {
+        "httpStatus": 404,
+        "code": "STUDENT_NOT_FOUND"
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T09",
+      "requirement": "Khoản học phí không tồn tại",
+      "owner": "B",
+      "mode": "API",
+      "resetSeedBefore": true,
+      "setup": "Base seed",
+      "steps": [
+        "Tra cứu sinh viên 52600006",
+        "Tạo payment tuitionId HP999"
+      ],
+      "expected": {
+        "httpStatus": 404,
+        "code": "TUITION_NOT_FOUND",
+        "noFinancialChange": true
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T10",
+      "requirement": "Học phí đã đóng",
+      "owner": "A+B",
+      "mode": "UI+API",
+      "resetSeedBefore": true,
+      "setup": "Base seed",
+      "steps": [
+        "Tra cứu 52600003",
+        "UI chặn thanh toán",
+        "Gọi thẳng API tạo HP003"
+      ],
+      "expected": {
+        "lookupStatus": 200,
+        "tuitionStatus": "PAID",
+        "createStatus": 409,
+        "code": "TUITION_ALREADY_PAID",
+        "noFinancialChange": true
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T11",
+      "requirement": "Số dư thiếu",
+      "owner": "A+B",
+      "mode": "UI+API",
+      "resetSeedBefore": true,
+      "setup": "Base seed; u1 có 10 triệu",
+      "steps": [
+        "Tra cứu 52600004 có HP004 11 triệu",
+        "UI chặn",
+        "Gọi thẳng API tạo HP004"
+      ],
+      "expected": {
+        "httpStatus": 422,
+        "code": "INSUFFICIENT_BALANCE",
+        "u1Balance": 10000000,
+        "HP004": "UNPAID"
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T12",
+      "requirement": "Số dư bằng đúng học phí",
+      "owner": "B",
+      "mode": "API",
+      "resetSeedBefore": true,
+      "setup": "Base seed; u1 có 10 triệu",
+      "steps": [
+        "Tạo và xác nhận HP005 10 triệu"
+      ],
+      "expected": {
+        "confirmStatus": 200,
+        "u1Balance": 0,
+        "HP005": "PAID"
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T13",
+      "requirement": "Không thanh toán một phần, không giả mạo người nộp",
+      "owner": "B",
+      "mode": "API",
+      "resetSeedBefore": true,
+      "setup": "Base seed; login u1",
+      "steps": [
+        "Gửi request tạo HP001 kèm amount=1000000",
+        "Gửi request kèm payerUserId=u2 hoặc balance tùy ý"
+      ],
+      "expected": {
+        "httpStatus": 400,
+        "code": "VALIDATION_ERROR",
+        "noFinancialChange": true,
+        "note": "additionalProperties=false; sửa tuitionId thành một khoản hợp lệ khác là chọn khoản khác, không phải đổi giá."
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T14",
+      "requirement": "OTP sai",
+      "owner": "B",
+      "mode": "API",
+      "resetSeedBefore": true,
+      "setup": "Base seed; tạo HP001, mail mock capture OTP thật",
+      "steps": [
+        "Chọn chuỗi 6 số khác mã vừa capture và confirm"
+      ],
+      "expected": {
+        "httpStatus": 422,
+        "code": "INVALID_OTP",
+        "paymentStatus": "PENDING_OTP",
+        "noFinancialChange": true
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T15",
+      "requirement": "OTP gắn đúng giao dịch",
+      "owner": "B",
+      "mode": "API",
+      "resetSeedBefore": true,
+      "setup": "Base seed; u1 tạo HP001 và HP002",
+      "steps": [
+        "Capture hai OTP khác nhau",
+        "Dùng OTP HP001 xác nhận payment của HP002"
+      ],
+      "expected": {
+        "httpStatus": 422,
+        "code": "INVALID_OTP",
+        "noFinancialChange": true
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T16",
+      "requirement": "OTP còn hạn ở giây 299",
+      "owner": "B",
+      "mode": "UNIT+INTEGRATION",
+      "resetSeedBefore": true,
+      "setup": "Base seed; tạo HP001 tại clock t0",
+      "steps": [
+        "Đặt test clock = t0+299s",
+        "Confirm OTP đúng"
+      ],
+      "expected": {
+        "httpStatus": 200,
+        "paymentStatus": "SUCCESS",
+        "ttlSeconds": 300
+      },
+      "testOnlyControls": {
+        "clockAdvanceSeconds": 299
+      },
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T17",
+      "requirement": "OTP hết hạn đúng giây 300",
+      "owner": "B",
+      "mode": "UNIT+INTEGRATION",
+      "resetSeedBefore": true,
+      "setup": "Base seed; tạo HP001 tại clock t0",
+      "steps": [
+        "Đặt test clock = t0+300s",
+        "Confirm OTP đúng",
+        "Đọc lại payment"
+      ],
+      "expected": {
+        "httpStatus": 422,
+        "code": "OTP_EXPIRED",
+        "paymentStatus": "EXPIRED",
+        "noFinancialChange": true
+      },
+      "testOnlyControls": {
+        "clockAdvanceSeconds": 300
+      },
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T18",
+      "requirement": "Đọc trạng thái sau hết hạn",
+      "owner": "B",
+      "mode": "API+TEST_CLOCK",
+      "resetSeedBefore": true,
+      "setup": "Base seed; tạo HP001 tại clock t0",
+      "steps": [
+        "Đặt test clock = t0+301s",
+        "GET payment và GET lịch sử"
+      ],
+      "expected": {
+        "httpStatus": 200,
+        "paymentStatus": "EXPIRED",
+        "failureCode": "OTP_EXPIRED",
+        "noFinancialChange": true
+      },
+      "testOnlyControls": {
+        "clockAdvanceSeconds": 301
+      },
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T19",
+      "requirement": "OTP không trùng giữa các giao dịch còn hiệu lực",
+      "owner": "B",
+      "mode": "UNIT+INTEGRATION",
+      "resetSeedBefore": true,
+      "setup": "Base seed; u1 tạo HP001, u2 tạo HP002",
+      "steps": [
+        "Stub RNG lần lượt cho 123456, 123456, 654321",
+        "Xác minh mã trùng bị sinh lại bằng bảo vệ tại data store"
+      ],
+      "expected": {
+        "activeOtps": [
+          "123456",
+          "654321"
+        ],
+        "distinctActiveOtps": true
+      },
+      "testOnlyControls": {
+        "otpGeneratorSequence": [
+          "123456",
+          "123456",
+          "654321"
+        ]
+      },
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T20",
+      "requirement": "OTP chỉ sử dụng thành công một lần",
+      "owner": "B",
+      "mode": "API",
+      "resetSeedBefore": true,
+      "setup": "Base seed; tạo và confirm HP001 thành công",
+      "steps": [
+        "Gửi lại confirm cùng payment và OTP",
+        "Đọc ví, học phí, số lần cập nhật và email job"
+      ],
+      "expected": {
+        "httpStatus": 200,
+        "samePaymentId": true,
+        "u1Balance": 3000000,
+        "financialExecutions": 1,
+        "successEmailJobs": 1,
+        "note": "200 lần hai là đọc kết quả cũ, không phải dùng OTP thanh toán thành công lần hai."
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T21",
+      "requirement": "Concurrency cùng ví",
+      "owner": "B chủ trì; A chạy lại",
+      "mode": "CONCURRENCY",
+      "resetSeedBefore": true,
+      "setup": "Base seed; u1 tạo HP001 và HP002 trước khi confirm",
+      "steps": [
+        "Dùng barrier gửi hai confirm đúng OTP đồng thời",
+        "Đọc ví/công nợ/lịch sử"
+      ],
+      "expected": {
+        "confirmStatusMultiset": [
+          200,
+          422
+        ],
+        "loserCode": "INSUFFICIENT_BALANCE",
+        "u1Balance": 3000000,
+        "newSuccessCount": 1,
+        "newPaidTuitionCount": 1,
+        "loserPaymentStatus": "FAILED"
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T22",
+      "requirement": "Concurrency hai ví cùng một học phí",
+      "owner": "B chủ trì; A chạy lại",
+      "mode": "CONCURRENCY",
+      "resetSeedBefore": true,
+      "setup": "Base seed; u1/u2 mỗi người tạo payment HP001",
+      "steps": [
+        "Gửi hai confirm đúng OTP đồng thời",
+        "Đọc cả hai ví, công nợ và lịch sử"
+      ],
+      "expected": {
+        "confirmStatusMultiset": [
+          200,
+          409
+        ],
+        "loserCode": "TUITION_ALREADY_PAID",
+        "balancesMultiset": [
+          3000000,
+          10000000
+        ],
+        "HP001": "PAID",
+        "newSuccessCount": 1,
+        "loserPaymentStatus": "FAILED"
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T23",
+      "requirement": "Concurrency xác nhận cùng payment",
+      "owner": "B",
+      "mode": "CONCURRENCY",
+      "resetSeedBefore": true,
+      "setup": "Base seed; tạo HP001",
+      "steps": [
+        "Gửi hai confirm cùng payment/OTP đồng thời"
+      ],
+      "expected": {
+        "confirmStatusMultiset": [
+          200,
+          200
+        ],
+        "financialExecutions": 1,
+        "u1Balance": 3000000,
+        "successEmailJobs": 1
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T24",
+      "requirement": "Request tạo lặp tuần tự",
+      "owner": "B",
+      "mode": "API",
+      "resetSeedBefore": true,
+      "setup": "Base seed; login u1",
+      "steps": [
+        "Gửi hai create cùng requestId/body"
+      ],
+      "expected": {
+        "httpStatus": [
+          201,
+          200
+        ],
+        "samePaymentId": true,
+        "otpIssuances": 1,
+        "otpEmailJobs": 1
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T25",
+      "requirement": "Request tạo lặp đồng thời",
+      "owner": "B",
+      "mode": "CONCURRENCY",
+      "resetSeedBefore": true,
+      "setup": "Base seed; cùng u1/requestId/body",
+      "steps": [
+        "Gửi hai create cùng lúc; cho Notification mock phản hồi chậm có kiểm soát",
+        "Nếu 409 REQUEST_IN_PROGRESS thì chờ Retry-After và gửi lại cùng ID"
+      ],
+      "expected": {
+        "paymentCountForRequest": 1,
+        "otpIssuances": 1,
+        "eventualReplayStatus": 200,
+        "samePaymentId": true
+      },
+      "testOnlyControls": {
+        "notificationDelayMilliseconds": 500
+      },
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T26",
+      "requirement": "RequestId dùng với nội dung khác",
+      "owner": "B",
+      "mode": "API",
+      "resetSeedBefore": true,
+      "setup": "Base seed; đã tạo HP001 bằng requestId K",
+      "steps": [
+        "Dùng K tạo HP002"
+      ],
+      "expected": {
+        "httpStatus": 409,
+        "code": "REQUEST_ID_CONFLICT",
+        "noAdditionalPayment": true
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T27",
+      "requirement": "Lỗi gửi OTP",
+      "owner": "A+B",
+      "mode": "API+MOCK",
+      "resetSeedBefore": true,
+      "setup": "Base seed; Notification mock fail trước khi gửi",
+      "steps": [
+        "Tạo HP001",
+        "Gửi lại cùng requestId",
+        "Bật mail mock trở lại và thử mới bằng requestId mới"
+      ],
+      "expected": {
+        "firstStatus": 503,
+        "firstCode": "NOTIFICATION_UNAVAILABLE",
+        "firstPaymentStatus": "FAILED",
+        "replayStatus": 503,
+        "newRequestStatus": 201,
+        "noFinancialChange": true
+      },
+      "testOnlyControls": {
+        "notificationMode": "FAIL_BEFORE_SEND"
+      },
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T28",
+      "requirement": "Mail thành công gửi lỗi sau commit",
+      "owner": "A+B",
+      "mode": "API+MOCK",
+      "resetSeedBefore": true,
+      "setup": "Base seed; gửi OTP được, mail PAYMENT_SUCCESS lỗi",
+      "steps": [
+        "Confirm HP001",
+        "Kiểm tra transaction và email job còn PENDING",
+        "Bật mail hoạt động; chạy worker gửi lại",
+        "Kiểm tra không thanh toán lại"
+      ],
+      "expected": {
+        "confirmStatus": 200,
+        "u1Balance": 3000000,
+        "HP001": "PAID",
+        "financialExecutions": 1,
+        "eventualSuccessEmail": true
+      },
+      "testOnlyControls": {
+        "notificationMode": "FAIL_PAYMENT_SUCCESS"
+      },
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T29",
+      "requirement": "Rollback khi cập nhật dở dang",
+      "owner": "B",
+      "mode": "INTEGRATION",
+      "resetSeedBefore": true,
+      "setup": "Base seed; tạo HP001; cài lỗi sau bước debit nhưng trước cập nhật học phí",
+      "steps": [
+        "Confirm đúng OTP với fault injection",
+        "Đọc DB",
+        "Tắt fault rồi confirm lại trong TTL"
+      ],
+      "expected": {
+        "firstStatus": 500,
+        "firstBalance": 10000000,
+        "firstTuitionStatus": "UNPAID",
+        "firstPaymentStatus": "PENDING_OTP",
+        "firstOtpConsumed": false,
+        "firstSuccessEmailJobs": 0,
+        "retryStatus": 200
+      },
+      "testOnlyControls": {
+        "faultInjection": "AFTER_DEBIT_BEFORE_TUITION_UPDATE"
+      },
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T30",
+      "requirement": "Kiểm tra lại điều kiện tại xác nhận",
+      "owner": "B",
+      "mode": "API",
+      "resetSeedBefore": true,
+      "setup": "Base seed; tạo P1 HP001 và P2 HP002 bằng u1 khi còn 10 triệu",
+      "steps": [
+        "Confirm P2 trước",
+        "Sau đó confirm P1 đúng OTP"
+      ],
+      "expected": {
+        "secondConfirmStatus": 422,
+        "code": "INSUFFICIENT_BALANCE",
+        "u1Balance": 3000000,
+        "HP001": "UNPAID",
+        "HP002": "PAID"
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T31",
+      "requirement": "Không đọc/xác nhận giao dịch người khác",
+      "owner": "B",
+      "mode": "API",
+      "resetSeedBefore": true,
+      "setup": "Base seed; u1 tạo HP001; login u2",
+      "steps": [
+        "u2 GET payment của u1",
+        "u2 confirm payment của u1 kể cả biết OTP"
+      ],
+      "expected": {
+        "httpStatus": 403,
+        "code": "FORBIDDEN",
+        "noFinancialChange": true
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T32",
+      "requirement": "Lịch sử và thứ tự",
+      "owner": "A+B",
+      "mode": "API+UI",
+      "resetSeedBefore": true,
+      "setup": "Base seed",
+      "steps": [
+        "u1 đọc history ban đầu",
+        "u2 đọc history ban đầu",
+        "u1 tạo giao dịch mới, đọc list và detail"
+      ],
+      "expected": {
+        "u1InitialItems": [],
+        "u2InitialPaymentId": "pay_seed_001",
+        "ownDataOnly": true,
+        "sort": "createdAt DESC, paymentId ASC",
+        "listAndDetailSameShape": true
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T33",
+      "requirement": "Persistence và idempotency sau restart",
+      "owner": "A+B",
+      "mode": "INTEGRATION",
+      "resetSeedBefore": true,
+      "setup": "Base seed; hoàn tất HP001 và lưu requestId/paymentId",
+      "steps": [
+        "Restart service, giữ volume DB",
+        "Login lại",
+        "Đọc balance/history/detail",
+        "Gửi lại create cùng ID và confirm cùng payment"
+      ],
+      "expected": {
+        "u1Balance": 3000000,
+        "HP001": "PAID",
+        "samePaymentId": true,
+        "financialExecutions": 1
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T34",
+      "requirement": "Email nội bộ, quyền và gửi lặp",
+      "owner": "A",
+      "mode": "API+MOCK_PROVIDER",
+      "resetSeedBefore": true,
+      "setup": "Notification thật; mail provider test adapter",
+      "steps": [
+        "Gọi mail thiếu/sai X-Internal-Key",
+        "Gửi OTP hợp lệ",
+        "Gửi lại cùng messageId/nội dung",
+        "Gửi lại cùng messageId nhưng đổi nội dung"
+      ],
+      "expected": {
+        "badKeyStatus": 403,
+        "firstStatus": 200,
+        "replayStatus": 200,
+        "providerCallsForRecordedSent": 1,
+        "changedContentStatus": 409,
+        "changedContentCode": "MESSAGE_ID_CONFLICT"
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T35",
+      "requirement": "Toàn luồng UI và email thật",
+      "owner": "A chủ trì; B hỗ trợ API",
+      "mode": "E2E_REAL_EMAIL",
+      "resetSeedBefore": true,
+      "setup": "Base seed, email thật nhóm kiểm soát, tắt mock",
+      "steps": [
+        "Login -> hồ sơ/số dư -> tra cứu -> đồng ý điều khoản -> tạo -> nhận OTP email -> confirm -> kết quả/lịch sử",
+        "Kiểm tra email thành công đến người nộp",
+        "Làm lại các nhánh lỗi UI với dữ liệu phù hợp"
+      ],
+      "expected": {
+        "realApi": true,
+        "realOtpEmailReceived": true,
+        "realSuccessEmailReceived": true,
+        "u1Balance": 3000000,
+        "HP001": "PAID",
+        "readOnlyPayer": true,
+        "confirmButtonRules": true
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T36",
+      "requirement": "Cài đặt, khởi chạy và tài liệu",
+      "owner": "A+B",
+      "mode": "MANUAL",
+      "resetSeedBefore": true,
+      "setup": "Môi trường sạch, dữ liệu thử nghiệm",
+      "steps": [
+        "B chạy theo README tổng A ghép",
+        "A chạy lại test nghiệp vụ B bàn giao",
+        "Kiểm tra sơ đồ/ảnh/API docs khớp code cuối"
+      ],
+      "expected": {
+        "allServicesStart": true,
+        "databaseSeedWorks": true,
+        "noHiddenSteps": true,
+        "docsMatchImplementation": true
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    },
+    {
+      "id": "T37",
+      "requirement": "Tự động tra cứu khi nhập MSSV và tránh hiển thị nhầm",
+      "owner": "A",
+      "mode": "UI+MOCK",
+      "resetSeedBefore": true,
+      "setup": "Base seed; Payment mock có thể trì hoãn response",
+      "steps": [
+        "Nhập đủ 8 chữ số, xác minh frontend tự gọi API tra cứu",
+        "Gửi tra cứu 52600001 chậm rồi đổi sang 52600002 trả nhanh",
+        "Đảm bảo response cũ không ghi đè thông tin mới; đổi MSSV phải xóa công nợ/OTP của lựa chọn trước"
+      ],
+      "expected": {
+        "automaticLookup": true,
+        "displayedStudentId": "52600002",
+        "staleResponseIgnored": true,
+        "oldPaymentContextCleared": true
+      },
+      "testOnlyControls": {},
+      "executionStatus": "NOT_RUN"
+    }
+  ]
+}
