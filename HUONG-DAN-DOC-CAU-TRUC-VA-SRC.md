@@ -23,11 +23,11 @@ Các cổng và lời gọi HTTP trên là cấu hình **local demo** trong [com
 
 | Đường dẫn | Nội dung cần đọc |
 |---|---|
-| [README.md](README.md) | Đề bài và các tiêu chí bàn giao. |
+| [README.md](README.md) | Tổng quan dự án và liên kết đến mã nguồn, báo cáo. |
 | [src/README.md](src/README.md) | Cách chạy Docker, tài khoản và tình huống dữ liệu mẫu, cách kiểm thử. |
-| [src/compose.yaml](src/compose.yaml) | Sáu container: PostgreSQL, Mailpit, Account, Payment, Notification, Frontend; cổng, biến môi trường và thứ tự khởi động. |
+| [src/compose.yaml](src/compose.yaml) | Bảy container: PostgreSQL, Mailpit, pgAdmin, Account, Payment, Notification, Frontend; cổng, biến môi trường và thứ tự khởi động. |
 | [src/docker/postgres-init.sql](src/docker/postgres-init.sql) | Tạo ba database logic khi volume PostgreSQL được khởi tạo lần đầu. |
-| [src/Dockerfile.service](src/Dockerfile.service) | Image Python dùng chung cho ba backend; cài dependency và chép mã nguồn, dữ liệu, hợp đồng API. |
+| [src/Dockerfile.service](src/Dockerfile.service) | Image Python dùng chung cho ba backend; cài dependency và chép mã nguồn, dữ liệu mẫu. |
 | [src/services/common.py](src/services/common.py) | Kiểu request không nhận trường thừa; chuẩn lỗi `{code, message}`; lỗi validation HTTP 400 và lỗi hệ thống HTTP 500. |
 | [src/services/account/app.py](src/services/account/app.py) | Bảng `users`, xác thực username/password, phát và kiểm tra JWT, trả hồ sơ người dùng. |
 | [src/services/payment/app.py](src/services/payment/app.py) | Sáu bảng của Payment, API ví/học phí/giao dịch, OTP, khóa dữ liệu khi xác nhận, gửi và thử lại email biên nhận. |
@@ -38,8 +38,7 @@ Các cổng và lời gọi HTTP trên là cấu hình **local demo** trong [com
 | [src/frontend/src/main.jsx](src/frontend/src/main.jsx) | Toàn bộ logic giao diện React: đăng nhập, tổng quan, trang thanh toán, gọi API và hiển thị lịch sử. |
 | [src/frontend/src/style.css](src/frontend/src/style.css) | Bố cục và kiểu hiển thị giao diện. |
 | [src/frontend/package.json](src/frontend/package.json), [src/frontend/Dockerfile](src/frontend/Dockerfile) | Lệnh Vite, dependency frontend và cách dựng container. |
-| [src/data/demo-extra.json](src/data/demo-extra.json) | Tài khoản, ví, học phí và giao dịch mẫu bổ sung. |
-| [cau-hinh-chung/contract](cau-hinh-chung/contract/) | Hợp đồng OpenAPI, dữ liệu mẫu gốc và ma trận kiểm thử. |
+| [src/data/demo-base.json](src/data/demo-base.json), [src/data/demo-extra.json](src/data/demo-extra.json) | Dữ liệu mẫu gốc và bổ sung. |
 | [src/tests](src/tests/) | Unit test và kiểm thử tích hợp trên PostgreSQL. |
 
 ## 3. Trách nhiệm và quyền sở hữu dữ liệu

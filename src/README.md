@@ -37,7 +37,7 @@ Sau đăng nhập, trang `/` hiển thị tổng quan tài khoản. Chọn **Đ�
 
 ### Dữ liệu mẫu
 
-`data/demo-extra.json` thêm `demo3` (20 triệu), `demo4` (3 triệu), `demo5` (15 triệu) với mật khẩu `Demo!2026`. Đây là số dư ban đầu; giao dịch đã thực hiện sẽ làm thay đổi số dư. Nếu không đặt `DEMO_EMAIL_3/4/5`, OTP của các tài khoản này được gửi tới `DEMO_EMAIL_1`.
+`data/demo-base.json` chứa dữ liệu mẫu gốc; `data/demo-extra.json` thêm `demo3` (20 triệu), `demo4` (3 triệu), `demo5` (15 triệu) với mật khẩu `Demo!2026`. Đây là số dư ban đầu; giao dịch đã thực hiện sẽ làm thay đổi số dư. Nếu không đặt `DEMO_EMAIL_3/4/5`, OTP của các tài khoản này được gửi tới `DEMO_EMAIL_1`.
 
 | MSSV | Số tiền | Tình huống mẫu |
 |---|---:|---|
@@ -58,7 +58,7 @@ Còn nhiều khoản `52600008`–`52600023` với số tiền từ 600.000 đ�
 - `services/payment`: `wallets`, `students`, `tuitions`, `payments`, `otps`, `email_jobs`; kiểm tra OTP, thanh toán và xử lý đồng thời trong database transaction.
 - `services/notification`: `email_messages`, gửi và chống gửi trùng qua SMTP.
 - `frontend`: React; gọi Account và Payment bằng Bearer JWT.
-- Hợp đồng API và danh sách mã lỗi nằm trong `../cau-hinh-chung/contract/`; bản mô tả nằm trong `../bao-cao/docs/02-kien-truc-microservices-va-rest-api.md`.
+- API đang chạy được mô tả tại `/docs` của từng backend; bản thiết kế nằm trong `../bao-cao/docs/02-kien-truc-microservices-va-rest-api.md`.
 
 Payment gọi Notification bằng `X-Internal-Key`; frontend không thấy khóa này. Dữ liệu mỗi service nằm trong database riêng. Payment kiểm tra lại số dư và trạng thái học phí khi xác nhận OTP; trừ tiền, gạch nợ, đánh dấu giao dịch và OTP trong một commit. Email xác nhận được gửi sau commit; job `PENDING` được thử lại định kỳ khi SMTP lỗi.
 

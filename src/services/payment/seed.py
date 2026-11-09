@@ -1,4 +1,4 @@
-"""Create payment schema and idempotently load the shared demo data."""
+"""Create payment schema and idempotently load the demo data."""
 import json
 from pathlib import Path
 
@@ -10,10 +10,7 @@ from services.payment.app import Base, Payment, SessionLocal, Student, Tuition, 
 def main():
     Base.metadata.create_all(engine)
     root = Path(__file__).resolve().parents[2]
-    candidates = [root / "contract", root.parent / "cau-hinh-chung" / "contract"]
-    source = next((p for folder in candidates if folder.exists() for p in folder.rglob("02-du-lieu-mau.json")), None)
-    if source is None:
-        raise FileNotFoundError("Không tìm thấy dữ liệu mẫu")
+    source = root / "data" / "demo-base.json"
     data = json.loads(source.read_text(encoding="utf-8"))
     extra_path = root / "data" / "demo-extra.json"
     if extra_path.exists():

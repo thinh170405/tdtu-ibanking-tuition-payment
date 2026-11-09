@@ -6,7 +6,7 @@ Sơ đồ [Physical ERD](./04-physical-erd-final.drawio) mô tả tám bảng tr
 
 Trong Payment DB, `wallets.balance >= 0`, `tuitions.amount > 0`, `(payments.user_id, payments.request_id)` duy nhất, mỗi payment có tối đa một bản ghi OTP và một email job xác nhận. Bảng `payments` giữ số tiền được chốt ở lúc tạo giao dịch, trạng thái và các mốc thời gian để phục vụ lịch sử. OTP chỉ lưu hash, thời điểm phát hành, hết hạn và thời điểm sử dụng. Học phí được đánh dấu `PAID` trong cùng transaction với trừ số dư và cập nhật payment `SUCCESS`.
 
-Account và Notification dùng migration SQL theo phiên bản. Payment hiện tạo schema từ SQLAlchemy model và seed dữ liệu mẫu theo hướng idempotent; cần bổ sung migration theo phiên bản trước khi áp dụng cho môi trường vận hành lâu dài. Dữ liệu mẫu lấy từ hợp đồng chung `02-du-lieu-mau.json` và phần mở rộng `src/data/demo-extra.json`. Bộ seed hiện có năm tài khoản, 24 sinh viên, 22 khoản học phí và các giao dịch mẫu cho ca thành công, đã thanh toán, thiếu số dư và số dư bằng đúng số tiền. Seed bổ sung không ghi đè giao dịch hoặc số dư hiện có.
+Account và Notification dùng migration SQL theo phiên bản. Payment hiện tạo schema từ SQLAlchemy model và seed dữ liệu mẫu theo hướng idempotent; cần bổ sung migration theo phiên bản trước khi áp dụng cho môi trường vận hành lâu dài. Dữ liệu mẫu lấy từ `src/data/demo-base.json` và phần mở rộng `src/data/demo-extra.json`. Bộ seed hiện có năm tài khoản, 24 sinh viên, 22 khoản học phí và các giao dịch mẫu cho ca thành công, đã thanh toán, thiếu số dư và số dư bằng đúng số tiền. Seed bổ sung không ghi đè giao dịch hoặc số dư hiện có.
 
 ## 4.2. Tính nhất quán dữ liệu
 
@@ -67,4 +67,4 @@ Tại thư mục `src`, chạy `docker compose -f compose.yaml up --build -d`. M
 
 Dự án hiện có ba service với database riêng, Frontend tích hợp API, OTP email qua Mailpit, giao dịch tài chính lưu bền và báo cáo thiết kế. Luồng thanh toán thật đã chạy qua Docker, từ đăng nhập đến thư xác nhận; hai ca đồng thời đã đạt trên PostgreSQL. Bước nâng cấp tiếp theo trước môi trường vận hành là migration Payment DB, kiểm thử tải lớn, cấu hình SMTP/TLS thật, quản lý bí mật và ghi log/tracing phù hợp.
 
-**Tài liệu đối chiếu:** Đề bài phân hệ đóng học phí iBanking TDTU; rubric giữa kỳ; hợp đồng OpenAPI và dữ liệu mẫu trong `cau-hinh-chung/contract`; mã nguồn và README trong `src/`.
+**Tài liệu đối chiếu:** Yêu cầu phân hệ đóng học phí iBanking TDTU; OpenAPI do các service cung cấp, dữ liệu mẫu trong `src/data`; mã nguồn và README trong `src/`.

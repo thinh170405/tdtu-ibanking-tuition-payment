@@ -119,7 +119,7 @@ Figure 4. Physical ERD. Editable source: `bao-cao/docs/04-physical-erd-final.dra
 
 ### 4.2 Initialization and consistency boundary
 
-`src/docker/postgres-init.sql` creates the three logical databases on first volume initialization. Account and Notification apply versioned SQL migrations before serving requests. Payment currently uses SQLAlchemy `Base.metadata.create_all()` and an idempotent seed loader. Base demo data come from the shared contract; `src/data/demo-extra.json` extends them. Re-running seeds does not reset an existing wallet balance or payment history. Payment's database is the atomic consistency boundary for the financial update and receipt job.
+`src/docker/postgres-init.sql` creates the three logical databases on first volume initialization. Account and Notification apply versioned SQL migrations before serving requests. Payment currently uses SQLAlchemy `Base.metadata.create_all()` and an idempotent seed loader. Base demo data come from `src/data/demo-base.json`; `src/data/demo-extra.json` extends them. Re-running seeds does not reset an existing wallet balance or payment history. Payment's database is the atomic consistency boundary for the financial update and receipt job.
 
 ## 5 Service and API Implementation
 
@@ -190,4 +190,4 @@ The project is an educational simulation without a real bank ledger or TDTU debt
 
 The implemented subsystem supports the full demo path from login and tuition lookup to email OTP, atomic payment, history, and receipt delivery. Its three backend services own separate logical databases, while Payment keeps all financial updates inside one database transaction. The PostgreSQL concurrency tests address both overspending from one wallet and duplicate payment of one tuition item. The editable UML, architecture, ERD, payment-flow, and concurrency diagrams accompany this report.
 
-**Project sources:** `README.md`, `src/README.md`, `src/compose.yaml`, `src/services`, `src/frontend`, `src/tests`, the shared contract under `cau-hinh-chung/contract`, and the six final diagrams under `bao-cao/docs`.
+**Project sources:** `README.md`, `src/README.md`, `src/compose.yaml`, `src/services`, `src/data`, `src/frontend`, `src/tests`, and the six final diagrams under `bao-cao/docs`.

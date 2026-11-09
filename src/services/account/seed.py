@@ -11,10 +11,7 @@ from services.migrate import migrate
 def main():
     migrate("account")
     source_root = Path(__file__).resolve().parents[2]
-    candidates = [source_root / "contract", source_root.parent / "cau-hinh-chung" / "contract"]
-    seed_path = next((path for folder in candidates if folder.exists() for path in folder.rglob("02-du-lieu-mau.json")), None)
-    if seed_path is None:
-        raise FileNotFoundError("Không tìm thấy 02-du-lieu-mau.json trong cau-hinh-chung/contract")
+    seed_path = source_root / "data" / "demo-base.json"
     source = json.loads(seed_path.read_text(encoding="utf-8"))
     extra_path = source_root / "data" / "demo-extra.json"
     if extra_path.exists():
