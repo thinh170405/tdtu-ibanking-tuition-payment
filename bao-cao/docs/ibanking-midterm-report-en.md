@@ -1,6 +1,6 @@
 # iBanking Tuition Payment Midterm Project Report
 
-This report documents the implemented tuition payment subsystem for the Ton Duc Thang University coursework project. It follows the eight assessment areas in order: business analysis, microservice architecture, REST APIs, database design, implementation, transactions and concurrency, testing and deployment, and conclusions. The application is an educational simulation. Its demonstration stack uses local HTTP, PostgreSQL, and Mailpit; it does not connect to a bank or the university finance system.
+This report documents the implemented tuition payment subsystem for the Ton Duc Thang University coursework project. It follows the eight assessment requirements in order: business and data analysis, microservice architecture, REST API design, database implementation, service implementation, transactions and concurrency, user interface implementation, and product documentation and demonstration. The application is an educational simulation. Its demonstration stack uses local HTTP, PostgreSQL, and Mailpit; it does not connect to a bank or the university finance system.
 
 ## 1 Business Analysis and UML
 
@@ -121,7 +121,7 @@ Figure 4. Physical ERD. Editable source: `bao-cao/docs/04-physical-erd-final.dra
 
 `src/docker/postgres-init.sql` creates the three logical databases on first volume initialization. Account and Notification apply versioned SQL migrations before serving requests. Payment currently uses SQLAlchemy `Base.metadata.create_all()` and an idempotent seed loader. Base demo data come from the shared contract; `src/data/demo-extra.json` extends them. Re-running seeds does not reset an existing wallet balance or payment history. Payment's database is the atomic consistency boundary for the financial update and receipt job.
 
-## 5 Service and Frontend Implementation
+## 5 Service and API Implementation
 
 ### 5.1 Account and Notification
 
@@ -133,10 +133,6 @@ Payment creates the `PENDING_OTP` payment and a six-digit OTP hash before asking
 
 Figure 5. Payment and OTP Flow. Editable source: `bao-cao/docs/05-payment-otp-flow-final.drawio`.
 
-### 5.3 React frontend
-
-The React/Vite application has a login view, an account overview at `/`, and a separate tuition payment view at `/tuition-payment`. It displays payer identity and wallet balance read-only, automatically looks up tuition after a valid eight-digit MSSV, collects terms acceptance, starts a full payment, accepts the emailed OTP, and refreshes the wallet and history after confirmation. Lookup requests are debounced for 300 ms, aborted on input change, and guarded by a request sequence number. Payment history uses `paidAt` for successful items and `createdAt` otherwise, formatted in the Vietnam time zone. The frontend does not calculate the new balance itself.
-
 ## 6 Transactions and Concurrency
 
 PostgreSQL `SELECT FOR UPDATE` row locks are applied when Payment confirms an OTP. The code locks payment and OTP rows, then wallet and tuition rows, and rechecks business conditions after obtaining the locks. For SQLite unit tests, it uses `BEGIN IMMEDIATE`. The wallet debit, tuition settlement, payment success, OTP use, and receipt job are committed in the same Payment DB transaction. A failure before commit leaves no partial financial update.
@@ -147,29 +143,50 @@ Idempotency is handled at three levels: a unique `(user_id, request_id)` pair pr
 
 Figure 6. Concurrency and Consistency. Editable source: `bao-cao/docs/06-concurrency-final.drawio`.
 
-## 7 Testing Deployment and Demonstration
+## 7 User Interface Implementation and API Integration
 
-### 7.1 Verification evidence
+### 7.1 Screens and user interaction
+
+The React/Vite application implements a login view, an account overview at `/`, and a separate tuition payment page at `/tuition-payment`. The overview shows the logged-in customer's profile, current wallet balance, and recent payment activity. On the payment page, the payer's name, phone, email, and balance are displayed read-only from authenticated API responses. The customer enters an eight-digit student ID; the page shows the returned student, tuition item, full amount, and status. A paid item cannot be submitted again. The customer must accept the displayed terms before starting payment, then enters the six-digit code received by email to confirm it.
+
+### 7.2 Frontend integration with backend APIs
+
+The frontend's shared `api()` function sends JSON and attaches the Bearer JWT to protected Account and Payment calls. After login, `refresh()` requests `GET /users/me`, `GET /wallet`, and `GET /payments` together. Tuition lookup uses `GET /tuition/{mssv}`. Payment creation sends only `tuitionId`, `termsAccepted`, and a generated UUID `requestId`; it does not send or calculate the amount. OTP confirmation calls `POST /payments/{paymentId}/confirm`. On success, the page reloads wallet and history from the backend and updates the displayed tuition status. Error responses are shown using their returned messages; the server remains the authority on balance and payment state.
+
+Lookup requests are delayed by 300 ms and aborted when the input changes. A request sequence number also prevents a slower response for an old student ID from replacing the current result. The UI disables payment when the displayed balance is below the tuition amount, while Payment Service checks that condition again when creating and confirming the transaction. The history view uses `paidAt` for a successful transaction and `createdAt` otherwise, formatted in the Vietnam time zone. These behaviors are implemented in `src/frontend/src/main.jsx`, with presentation rules in `src/frontend/src/style.css`.
+
+### 7.3 User journey represented in the interface
+
+The demonstrated path is login, account overview, open tuition payment, look up an unpaid student ID, accept terms, create a pending payment, read the OTP in Mailpit, confirm within five minutes, and review the updated balance, tuition status, transaction history, and receipt email. The payment page does not ask the customer to type payer details or a payment amount.
+
+## 8 Product Documentation and Demonstration
+
+### 8.1 Installation startup and usage guide
+
+`src/README.md` documents Docker startup, local URLs, demo credentials, sample student IDs, the payment path, and test commands. The separate source guide `HUONG-DAN-DOC-CAU-TRUC-VA-SRC.md` explains each directory and service for a reader reviewing the implementation. The editable six-page draw.io master file and six individual diagrams are in `bao-cao/docs/`; this report embeds their rendered images.
+
+The Compose configuration was checked with `docker compose -f compose.yaml config --quiet`. From `src`, run `docker compose -f compose.yaml up --build -d`, then inspect `docker compose -f compose.yaml ps`. Open the React UI at `http://localhost:5173` and Mailpit at `http://localhost:8025`. The default demo login is `demo3` with password `Demo!2026`. API documentation is under `/docs` on ports 8081, 8082, and 8083. The HTTP endpoints and demo credentials are intended for local coursework use.
+
+### 8.2 Verification evidence
 
 | Activity | Evidence and scope |
 |---|---|
 | `python -m pytest tests -q` | Account, Notification, and Payment unit tests, including invalid/expired OTP and concurrency behavior under SQLite. Six tests passed on 9 November 2026. |
 | `npm run build` | Frontend compiles with Vite. |
-| `docker compose -f compose.yaml config --quiet` | Compose configuration parses. |
-| Docker demonstration | The six containers run together: PostgreSQL, Mailpit, Account, Payment, Notification, and Frontend. The previously verified end-to-end flow covered login, payment creation, OTP confirmation, updated balance and tuition, history, and two Mailpit messages. |
+| Docker demonstration | Six containers ran together. A verified payment flow covered login, OTP confirmation, updated balance and tuition, history, and two Mailpit messages. |
 | `python tests/integration_postgres.py` | T21 and T22 use separate test records on live PostgreSQL and clean them afterward. The script checks response codes and final balances. |
 
 These results establish the behavior of the demonstration stack and test cases, not production load tolerance or delivery to an Internet mailbox. The tests are in `src/tests/test_account_notification.py`, `src/tests/test_payment.py`, and `src/tests/integration_postgres.py`.
 
-### 7.2 Running the demonstration
+### 8.3 Suggested presentation sequence
 
-From `src`, run `docker compose -f compose.yaml up --build -d` and inspect `docker compose -f compose.yaml ps`. Open the React UI at `http://localhost:5173`; Mailpit is at `http://localhost:8025`. The default frontend demo login is `demo3` with password `Demo!2026`. Enter an unpaid sample MSSV, accept the terms, create the payment, read the OTP in Mailpit, and confirm within five minutes. Then inspect the wallet balance, tuition status, history time, and receipt message. The API documentation pages are available under `/docs` on ports 8081, 8082, and 8083. Sample cases and configuration details are in `src/README.md`.
+Start with the six diagrams to explain the use cases, service boundaries, logical and physical data models, payment flow, and concurrency controls. Next, show the six Docker services running. Log in with a demo account, look up an unpaid tuition item, accept the terms, and create a payment. Open Mailpit to show the OTP, confirm it, then compare the updated wallet, paid tuition item, transaction time, and receipt email. Finally, describe the T21 and T22 PostgreSQL test results, emphasizing that only one conflicting payment succeeds in each case. `src/README.md` lists sample IDs for unpaid, already-paid, low-balance, and missing-data demonstrations.
 
-### 7.3 Limitations and next steps
+### 8.4 Scope and limitations
 
 The project is an educational simulation without a real bank ledger or TDTU debt system. Mailpit is a local test mailbox. The Compose defaults use local HTTP and demo secrets. Payment DB lacks versioned migrations, unlike Account and Notification. Before operating beyond a local demonstration, the project would need real secret management, transport protection, payment schema migrations, and additional load and failure testing. No claim is made here that those controls are already deployed.
 
-## 8 Conclusion
+## Conclusion
 
 The implemented subsystem supports the full demo path from login and tuition lookup to email OTP, atomic payment, history, and receipt delivery. Its three backend services own separate logical databases, while Payment keeps all financial updates inside one database transaction. The PostgreSQL concurrency tests address both overspending from one wallet and duplicate payment of one tuition item. The editable UML, architecture, ERD, payment-flow, and concurrency diagrams accompany this report.
 
