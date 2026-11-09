@@ -11,6 +11,19 @@ docker compose -f compose.yaml ps
 
 Mở giao diện tại http://localhost:5173. Đăng nhập `demo3` / `Demo!2026` để thử dữ liệu mới. Account, Payment, Notification lần lượt ở cổng 8081, 8082, 8083; PostgreSQL host 5433. Khi dùng cấu hình mặc định, OTP và email xác nhận nằm trong Mailpit tại http://localhost:8025.
 
+### Xem dữ liệu bằng pgAdmin
+
+Mở http://localhost:5050 và đăng nhập bằng `PGADMIN_EMAIL` / `PGADMIN_PASSWORD` trong `src/.env` (nếu chưa đặt: `admin@ibanking-demo.org` / `local-demo-pgadmin`). Trong pgAdmin, chọn **Add New Server**:
+
+- **General → Name:** `iBanking local`
+- **Connection → Host name/address:** `postgres` (tên service Docker, không phải `localhost`)
+- **Connection → Port:** `5432`
+- **Connection → Maintenance database:** `postgres`
+- **Connection → Username:** `ibanking`
+- **Connection → Password:** giá trị `POSTGRES_PASSWORD` trong `src/.env` (nếu chưa đặt: `local-demo-password`)
+
+Sau khi lưu, mở **Databases → ibanking_account / ibanking_payment / ibanking_notification → Schemas → public → Tables**. Dữ liệu PostgreSQL nằm trong volume `full_db`; cấu hình pgAdmin nằm trong volume `pgadmin_data`.
+
 File `compose.yaml` dùng mật khẩu và khóa **chỉ cho môi trường demo local**. Khi triển khai ngoài máy cá nhân, đặt `POSTGRES_PASSWORD`, `JWT_SECRET`, `INTERNAL_API_KEY` riêng trong `.env` và dùng HTTPS. Mặc định SMTP dùng Mailpit; nếu cấu hình `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURITY`, `SMTP_USERNAME`, `SMTP_PASSWORD`, `SMTP_FROM` trong `.env`, Notification sẽ gửi qua máy chủ SMTP đó.
 
 ## Luồng sử dụng

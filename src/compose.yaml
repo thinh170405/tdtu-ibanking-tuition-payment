@@ -21,6 +21,18 @@ services:
     environment:
       MP_SMTP_AUTH_ACCEPT_ANY: "1"
       MP_SMTP_AUTH_ALLOW_INSECURE: "1"
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@ibanking-demo.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-local-demo-pgadmin}
+    ports:
+      - "127.0.0.1:5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      postgres:
+        condition: service_healthy
   account:
     build:
       context: ..
@@ -93,3 +105,4 @@ services:
       - payment
 volumes:
   full_db:
+  pgadmin_data:
