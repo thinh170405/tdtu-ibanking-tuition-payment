@@ -6,6 +6,12 @@ const accountBase = import.meta.env.VITE_ACCOUNT_API_BASE_URL || 'http://localho
 const paymentBase = import.meta.env.VITE_PAYMENT_API_BASE_URL || 'http://localhost:8082/api/v1';
 const money = (n) =>
   new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(n || 0);
+const paymentCode = (id = '') => {
+  const sample = /^pay_seed_(\d+)$/.exec(id);
+  if (sample) return `GD-${sample[1].padStart(6, '0')}`;
+  const generated = /^pay_([0-9a-f]{32})$/.exec(id);
+  return `GD-${(generated ? generated[1] : id).slice(-10).toUpperCase()}`;
+};
 const statusLabel = (status) =>
   ({ SUCCESS: 'Thành công', PENDING_OTP: 'Chờ OTP', FAILED: 'Thất bại', EXPIRED: 'Hết hạn' })[
     status
@@ -525,7 +531,7 @@ function App() {
         {payment && (
           <section className="card otp-card">
             <h2>3. Xác thực giao dịch</h2>
-            <p>Giao dịch <b>{payment.paymentId}</b> · {money(payment.amount)}</p>
+            <p>Giao dịch <b title={payment.paymentId}>{paymentCode(payment.paymentId)}</b> · {money(payment.amount)}</p>
             {['PENDING_OTP', 'EXPIRED'].includes(payment.status) ? (
               <button onClick={() => setOtpOpen(true)}>Mở bảng nhập OTP</button>
             ) : (
@@ -544,7 +550,7 @@ function App() {
               <table>
                 <thead>
                   <tr>
-                    <th>Giao dịch</th>
+                    <th>Mã giao dịch</th>
                     <th>Sinh viên</th>
                     <th>Số tiền</th>
                     <th>Trạng thái</th>
@@ -554,7 +560,7 @@ function App() {
                 <tbody>
                   {paidHistory.map((p) => (
                     <tr key={p.paymentId}>
-                      <td>{p.paymentId}</td>
+                      <td title={p.paymentId}>{paymentCode(p.paymentId)}</td>
                       <td>
                         {p.studentName}
                         <br />
