@@ -49,7 +49,6 @@ async function api(base, path, token, options = {}) {
 }
 
 function Dashboard({ profile, wallet, history, onPayment, onLogout }) {
-  const successful = history.filter((item) => item.status === 'SUCCESS');
   return (
     <div className="shell dashboard-page">
       <header>
@@ -125,7 +124,7 @@ function Dashboard({ profile, wallet, history, onPayment, onLogout }) {
                   </div>
                   <b>{money(history[0].amount)}</b>
                 </div>
-                <p className="hint">{successful.length} giao dịch đã thanh toán thành công.</p>
+                <p className="hint">{history.length} giao dịch đã thanh toán thành công.</p>
               </>
             ) : (
               <p className="hint">Chưa có giao dịch học phí.</p>
@@ -145,6 +144,7 @@ function App() {
   const [profile, setProfile] = useState(null);
   const [wallet, setWallet] = useState(null);
   const [history, setHistory] = useState([]);
+  const paidHistory = history.filter((item) => item.status === 'SUCCESS');
   const [mssv, setMssv] = useState('');
   const [tuition, setTuition] = useState(null);
   const [payment, setPayment] = useState(null);
@@ -395,7 +395,7 @@ function App() {
       <Dashboard
         profile={profile}
         wallet={wallet}
-        history={history}
+        history={paidHistory}
         onPayment={() => navigate('/tuition-payment')}
         onLogout={logout}
       />
@@ -539,7 +539,7 @@ function App() {
         )}
         <section className="card history">
           <h2>Lịch sử giao dịch</h2>
-          {history.length ? (
+          {paidHistory.length ? (
             <div className="table-wrap">
               <table>
                 <thead>
@@ -552,7 +552,7 @@ function App() {
                   </tr>
                 </thead>
                 <tbody>
-                  {history.map((p) => (
+                  {paidHistory.map((p) => (
                     <tr key={p.paymentId}>
                       <td>{p.paymentId}</td>
                       <td>
