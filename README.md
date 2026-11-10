@@ -13,5 +13,6 @@ Xem [hướng dẫn cài đặt và chạy](src/README.md). Sau khi chạy Docke
 - [Báo cáo giữa kỳ tiếng Anh](bao-cao/ibanking-midterm-report-en.docx)
 - [Bộ sơ đồ draw.io](bao-cao/docs/ibanking-diagrams-final.drawio)
 - [Slide thuyết trình theo mẫu Seminar](bao-cao/slides/ibanking-thuyet-trinh-style-seminar.pptx)
+- [Lời thuyết trình và giải thích chi tiết](bao-cao/loi-thuyet-trinh-ibanking-giua-ky.docx)
 
 Đây là hệ thống mô phỏng cho đồ án; không kết nối ngân hàng hoặc hệ thống công nợ thật.
