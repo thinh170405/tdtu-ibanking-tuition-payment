@@ -32,7 +32,7 @@ Sau đăng nhập, trang `/` hiển thị tổng quan tài khoản. Chọn **Đ�
 
 1. Tra cứu MSSV 8 chữ số và xem khoản học phí.
 2. Đồng ý điều khoản, chọn thanh toán toàn bộ.
-3. Đọc OTP trong hộp thư được cấu hình và nhập mã trong vòng 5 phút.
+3. Bảng nhập OTP mở sau khi tạo giao dịch; nhập mã trong vòng 5 phút theo đồng hồ đếm ngược. Nếu không nhận được email, có thể gửi lại sau 30 giây; mã cũ sẽ hết hiệu lực.
 4. Kiểm tra kết quả, số dư, học phí, lịch sử và email xác nhận.
 
 ### Dữ liệu mẫu

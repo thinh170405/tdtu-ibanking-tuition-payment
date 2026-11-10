@@ -6,7 +6,7 @@
 |---|---|---|---|
 | Frontend (React) | Hiển thị đăng nhập, hồ sơ, số dư, tra cứu MSSV, điều khoản, nhập OTP, kết quả và lịch sử; xử lý trạng thái tải/lỗi. | Không sở hữu dữ liệu nghiệp vụ; chỉ giữ JWT trong phiên giao diện và trạng thái hiển thị. | Gọi Account và Payment qua HTTPS/REST. |
 | Account Service (`:8081`) | Xác thực username/password, cấp JWT, trả hồ sơ người dùng đang đăng nhập. | Account DB: `users`, gồm username duy nhất, password hash, họ tên, điện thoại, email. | API người dùng `/api/v1/auth/login`, `/api/v1/users/me`. |
-| Payment Service (`:8082`) | Quản lý số dư ví, sinh viên, học phí, giao dịch và OTP; kiểm tra thanh toán toàn bộ; bảo đảm cập nhật tài chính nguyên tử và xử lý đồng thời. | Payment DB: `wallets`, `students`, `tuitions`, `payments`, `otp_challenges`; có thể có `email_jobs` để gửi lại thư sau commit. `user_id` là tham chiếu logic tới Account, không phải khóa ngoại xuyên database. | API người dùng `/api/v1/wallet`, `/api/v1/tuition/{mssv}`, `/api/v1/payments...`; gọi Notification nội bộ. |
+| Payment Service (`:8082`) | Quản lý số dư ví, sinh viên, học phí, giao dịch và OTP; kiểm tra thanh toán toàn bộ; bảo đảm cập nhật tài chính nguyên tử và xử lý đồng thời. | Payment DB: `wallets`, `students`, `tuitions`, `payments`, `otps`, `email_jobs`. `user_id` là tham chiếu logic tới Account, không phải khóa ngoại xuyên database. | API người dùng `/api/v1/wallet`, `/api/v1/tuition/{mssv}`, `/api/v1/payments...`; gọi Notification nội bộ. |
 | Notification Service (`:8083`) | Tạo nội dung thư OTP/xác nhận, gửi qua SMTP, chống gửi trùng theo `messageId`, ghi trạng thái gửi. Không quyết định giao dịch thành công. | Notification DB: `email_messages(message_id, payload_hash, status, updated_at)`. | API nội bộ `/internal/v1/notifications/email`, chỉ Payment được gọi. |
 
 Mỗi service chỉ đọc/ghi database mình sở hữu. Account phát JWT; Payment xác thực chữ ký, issuer, audience và hạn token trước khi lấy `userId` từ token. Frontend không gửi `userId` hoặc số tiền để quyết định thanh toán. Payment đọc số tiền học phí từ Payment DB và kiểm tra lại số dư, trạng thái học phí khi xác nhận OTP. Password lưu dạng hash; OTP lưu dạng hash và gắn với giao dịch, có hạn 5 phút, dùng thành công một lần.
@@ -67,6 +67,7 @@ Sơ đồ [Microservices Architecture](./02-microservices-architecture-final.dra
 | Payment | POST | `/api/v1/payments` | Tạo giao dịch, gửi OTP | 201; 200 nếu request lặp hợp lệ |
 | Payment | GET | `/api/v1/payments` | Lịch sử giao dịch của chủ JWT | 200 |
 | Payment | GET | `/api/v1/payments/{paymentId}` | Chi tiết giao dịch | 200 |
+| Payment | POST | `/api/v1/payments/{paymentId}/resend-otp` | Gửi lại OTP, thay mã cũ | 200 |
 | Payment | POST | `/api/v1/payments/{paymentId}/confirm` | Xác nhận OTP và thanh toán | 200 |
 | Notification | POST | `/internal/v1/notifications/email` | Gửi email OTP hoặc biên nhận | 200 |
 | Cả ba service | GET | `/api/v1/health` | Kiểm tra tiến trình | 200 |
@@ -102,6 +103,10 @@ Sơ đồ [Microservices Architecture](./02-microservices-architecture-final.dra
 ### GET `/api/v1/payments/{paymentId}`
 
 **Path parameter:** `paymentId` chuỗi 1–100 ký tự; không có body/query. **200:** một đối tượng `Payment`. **401** `UNAUTHORIZED`; **403** `FORBIDDEN` nếu giao dịch thuộc người khác; **404** `PAYMENT_NOT_FOUND`; **500** `INTERNAL_ERROR`.
+
+### POST `/api/v1/payments/{paymentId}/resend-otp`
+
+**Header:** Bearer JWT. **Path parameter:** `paymentId`; không có body/query. Chỉ chủ giao dịch đang chờ OTP hoặc có OTP đã hết hạn được gửi lại. Server giữ khóa giao dịch, kiểm tra lại ví và học phí, thay OTP hash cũ bằng hash mới và đặt hạn 5 phút. Mỗi lần gửi cách nhau ít nhất 30 giây. **200:** model `Payment` với `status:"PENDING_OTP"` và `otpExpiresAt` mới. **401** `UNAUTHORIZED`; **403** `FORBIDDEN`; **404** `PAYMENT_NOT_FOUND`; **409** `OTP_RESEND_TOO_SOON`, `PAYMENT_NOT_PENDING`, `TUITION_ALREADY_PAID` hoặc `REQUEST_IN_PROGRESS`; **422** `INSUFFICIENT_BALANCE`; **503** `NOTIFICATION_UNAVAILABLE`; **500** `INTERNAL_ERROR`. Mã cũ không thể xác nhận sau khi gửi lại. Chưa trừ ví ở bước này.
 
 ### POST `/api/v1/payments/{paymentId}/confirm`
 

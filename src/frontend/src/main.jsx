@@ -149,12 +149,34 @@ function App() {
   const [tuition, setTuition] = useState(null);
   const [payment, setPayment] = useState(null);
   const [otp, setOtp] = useState('');
+  const [otpOpen, setOtpOpen] = useState(false);
+  const [otpError, setOtpError] = useState('');
+  const [otpInfo, setOtpInfo] = useState('');
+  const [nowMs, setNowMs] = useState(Date.now());
   const [terms, setTerms] = useState(false);
   const [busy, setBusy] = useState(false);
   const [lookingUp, setLookingUp] = useState(false);
   const [notice, setNotice] = useState(null);
   const lookupSeq = useRef(0);
   const requestId = useRef(null);
+  useEffect(() => {
+    if (!payment || !['PENDING_OTP', 'EXPIRED'].includes(payment.status)) return;
+    setNowMs(Date.now());
+    const timer = setInterval(() => setNowMs(Date.now()), 1000);
+    return () => clearInterval(timer);
+  }, [payment?.paymentId, payment?.status]);
+  useEffect(() => {
+    if (!otpOpen) return;
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') setOtpOpen(false);
+    };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [otpOpen]);
+  const expiresAtMs = payment?.otpExpiresAt ? Date.parse(payment.otpExpiresAt) : 0;
+  const remainingSeconds = Math.max(0, Math.ceil((expiresAtMs - nowMs) / 1000));
+  const resendWaitSeconds = Math.max(0, Math.ceil((expiresAtMs - 270000 - nowMs) / 1000));
+  const countdown = `${String(Math.floor(remainingSeconds / 60)).padStart(2, '0')}:${String(remainingSeconds % 60).padStart(2, '0')}`;
   useEffect(() => {
     const onPop = () => setPage(window.location.pathname);
     window.addEventListener('popstate', onPop);
@@ -193,6 +215,7 @@ function App() {
     setHistory([]);
     setTuition(null);
     setPayment(null);
+    setOtpOpen(false);
   };
   const login = async (e) => {
     e.preventDefault();
@@ -217,6 +240,8 @@ function App() {
     setPayment(null);
     setTerms(false);
     setOtp('');
+    setOtpError('');
+    setOtpInfo('');
     requestId.current = null;
     if (!token || !/^\d{8}$/.test(mssv)) {
       setLookingUp(false);
@@ -259,7 +284,10 @@ function App() {
         }),
       });
       setPayment(p);
-      message('OTP đã được gửi đến email của người nộp.', 'success');
+      setOtp('');
+      setOtpError('');
+      setOtpInfo(`Mã xác thực đã gửi đến ${profile?.email || 'email của bạn'}.`);
+      setOtpOpen(true);
     } catch (e) {
       message(e.message);
       if (e.code !== 'REQUEST_IN_PROGRESS') requestId.current = null;
@@ -269,24 +297,47 @@ function App() {
   };
   const confirm = async (e) => {
     e.preventDefault();
-    if (!payment || busy) return;
+    if (!payment || busy || remainingSeconds === 0) return;
     setBusy(true);
-    setNotice(null);
+    setOtpError('');
     try {
       const p = await api(paymentBase, `/payments/${payment.paymentId}/confirm`, token, {
         method: 'POST',
         body: JSON.stringify({ otp }),
       });
       setPayment(p);
+      setOtpOpen(false);
       await refresh(token);
       setTuition((t) => (t ? { ...t, status: 'PAID', paidAt: p.paidAt } : t));
       message('Thanh toán học phí thành công.', 'success');
     } catch (e) {
-      message(e.message);
+      setOtpError(e.code === 'INVALID_OTP' ? 'Mã OTP không đúng. Vui lòng kiểm tra email và nhập lại.' : e.message);
+      setOtp('');
       if (['OTP_EXPIRED', 'TUITION_ALREADY_PAID', 'INSUFFICIENT_BALANCE'].includes(e.code)) {
         const p = await api(paymentBase, `/payments/${payment.paymentId}`, token).catch(() => null);
         if (p) setPayment(p);
       }
+    } finally {
+      setBusy(false);
+    }
+  };
+  const resendOtp = async () => {
+    if (!payment || busy || resendWaitSeconds > 0) return;
+    setBusy(true);
+    setOtpError('');
+    setOtpInfo('');
+    try {
+      const p = await api(paymentBase, `/payments/${payment.paymentId}/resend-otp`, token, {
+        method: 'POST',
+      });
+      setPayment(p);
+      setOtp('');
+      setNowMs(Date.now());
+      setOtpInfo(`Mã OTP mới đã gửi đến ${profile?.email || 'email của bạn'}. Mã cũ không còn hiệu lực.`);
+    } catch (e) {
+      setOtpError(e.message);
+      const p = await api(paymentBase, `/payments/${payment.paymentId}`, token).catch(() => null);
+      if (p) setPayment(p);
     } finally {
       setBusy(false);
     }
@@ -474,29 +525,9 @@ function App() {
         {payment && (
           <section className="card otp-card">
             <h2>3. Xác thực giao dịch</h2>
-            <p>
-              Giao dịch <b>{payment.paymentId}</b> · {money(payment.amount)}
-            </p>
-            {payment.status === 'PENDING_OTP' ? (
-              <form onSubmit={confirm}>
-                <label>
-                  Mã OTP gồm 6 chữ số
-                  <input
-                    inputMode="numeric"
-                    maxLength={6}
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
-                    placeholder="Nhập OTP từ email"
-                    required
-                  />
-                </label>
-                <p className="hint">
-                  Hạn OTP: {new Date(payment.otpExpiresAt).toLocaleString('vi-VN')}
-                </p>
-                <button disabled={busy || !/^\d{6}$/.test(otp)}>
-                  {busy ? 'Đang xác nhận…' : 'Hoàn tất thanh toán'}
-                </button>
-              </form>
+            <p>Giao dịch <b>{payment.paymentId}</b> · {money(payment.amount)}</p>
+            {['PENDING_OTP', 'EXPIRED'].includes(payment.status) ? (
+              <button onClick={() => setOtpOpen(true)}>Mở bảng nhập OTP</button>
             ) : (
               <p className="result">
                 {payment.status === 'SUCCESS'
@@ -545,6 +576,40 @@ function App() {
           )}
         </section>
       </main>
+      {payment && otpOpen && ['PENDING_OTP', 'EXPIRED'].includes(payment.status) && (
+        <div className="otp-overlay" onMouseDown={(e) => { if (e.target === e.currentTarget) setOtpOpen(false); }}>
+          <section className="otp-dialog" role="dialog" aria-modal="true" aria-labelledby="otp-title">
+            <button className="otp-close" type="button" aria-label="Đóng bảng nhập OTP" onClick={() => setOtpOpen(false)}>×</button>
+            <span className="eyebrow">XÁC THỰC THANH TOÁN</span>
+            <h2 id="otp-title">Nhập mã OTP từ email</h2>
+            <p className="otp-description">Mã gồm 6 chữ số đã gửi tới <strong>{profile?.email || 'email của bạn'}</strong>.</p>
+            <div className="otp-summary">
+              <span>Số tiền thanh toán</span><strong>{money(payment.amount)}</strong>
+            </div>
+            <div className={`otp-timer ${remainingSeconds === 0 ? 'expired' : remainingSeconds <= 60 ? 'ending' : ''}`} aria-live="off">
+              <span>{remainingSeconds === 0 ? 'Mã đã hết hạn' : 'Mã còn hiệu lực'}</span>
+              <strong>{countdown}</strong>
+            </div>
+            <form onSubmit={confirm}>
+              <label htmlFor="otp-input">Mã OTP</label>
+              <input id="otp-input" autoFocus inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6}
+                value={otp} onChange={(e) => { setOtp(e.target.value.replace(/\D/g, '')); setOtpError(''); }}
+                placeholder="000000" disabled={remainingSeconds === 0 || busy} required />
+              {otpError && <p className="otp-feedback error" role="alert">{otpError}</p>}
+              {otpInfo && !otpError && <p className="otp-feedback success" role="status">{otpInfo}</p>}
+              <button className="otp-submit" disabled={busy || remainingSeconds === 0 || !/^\d{6}$/.test(otp)}>
+                {busy ? 'Đang xử lý…' : 'Xác nhận thanh toán'}
+              </button>
+            </form>
+            <div className="otp-resend">
+              <span>Không nhận được email?</span>
+              <button type="button" onClick={resendOtp} disabled={busy || resendWaitSeconds > 0}>
+                {resendWaitSeconds > 0 ? `Gửi lại sau ${resendWaitSeconds}s` : 'Gửi lại OTP'}
+              </button>
+            </div>
+          </section>
+        </div>
+      )}
     </div>
   );
 }

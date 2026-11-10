@@ -469,15 +469,103 @@ label input::placeholder {
 .otp-card {
   border-color: #cbdfea;
 }
-.otp-card form {
-  max-width: 390px;
+.otp-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: #09253bbb;
+  backdrop-filter: blur(4px);
 }
-.otp-card input {
-  font-size: 24px !important;
+.otp-dialog {
+  position: relative;
+  width: min(100%, 480px);
+  max-height: min(92vh, 760px);
+  overflow-y: auto;
+  padding: clamp(25px, 4vw, 36px);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 25px 80px #071d2e55;
+}
+.otp-dialog h2 {
+  margin: 8px 35px 7px 0;
+  font-size: 26px;
+}
+.otp-description {
+  margin: 0 0 21px;
+  color: #61798b;
+  font-size: 14px;
+}
+.otp-description strong { color: #193c56; overflow-wrap: anywhere; }
+.otp-close {
+  position: absolute;
+  top: 17px;
+  right: 17px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  background: #edf4f8;
+  color: #355b73;
+  font-size: 24px;
+  line-height: 1;
+}
+.otp-summary, .otp-timer, .otp-resend {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+.otp-summary {
+  padding: 15px 17px;
+  border-radius: 12px;
+  background: #f3f8fb;
+  color: #557084;
+  font-size: 13px;
+}
+.otp-summary strong { color: #0b527b; font-size: 18px; }
+.otp-timer {
+  margin: 17px 0 22px;
+  color: #38708f;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.32em;
+}
+.otp-timer strong { font: 800 27px Manrope, sans-serif; font-variant-numeric: tabular-nums; }
+.otp-timer.ending, .otp-timer.expired { color: #b14b2b; }
+.otp-dialog form label { margin: 0 0 8px; }
+.otp-dialog form input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #bed3df;
+  border-radius: 12px;
+  font-size: 27px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
   text-align: center;
 }
+.otp-dialog form input:focus { outline: 3px solid #8acbf0; outline-offset: 2px; }
+.otp-dialog form input:disabled { background: #f2f5f7; }
+.otp-submit { width: 100%; margin-top: 14px; }
+.otp-feedback { margin: 10px 0 0; font-size: 13px; font-weight: 700; }
+.otp-feedback.error { color: #a33a27; }
+.otp-feedback.success { color: #176648; }
+.otp-resend {
+  margin-top: 17px;
+  padding-top: 16px;
+  border-top: 1px solid #e3edf2;
+  color: #61798b;
+  font-size: 13px;
+}
+.otp-resend button {
+  width: auto;
+  margin: 0;
+  padding: 8px 10px;
+  background: transparent;
+  color: #075f91;
+  white-space: nowrap;
+}
+.otp-resend button:hover:not(:disabled) { background: #e8f4fa; box-shadow: none; }
 .result {
   font:
     800 21px Manrope,

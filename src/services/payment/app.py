@@ -177,6 +177,19 @@ def otp_hash(payment_id, code):
     return hmac.new(JWT_SECRET.encode(), code.encode(), hashlib.sha256).hexdigest()
 
 
+def new_otp_code(db, now, old_hash=None):
+    for _ in range(20):
+        candidate = f"{secrets.randbelow(1000000):06d}"
+        digest = otp_hash("", candidate)
+        if digest == old_hash:
+            continue
+        active = db.scalar(select(Otp).join(Payment, Otp.payment_id == Payment.payment_id).where(
+            Payment.status == "PENDING_OTP", Otp.expires_at > now, Otp.code_hash == digest))
+        if not active:
+            return candidate
+    return None
+
+
 def notify(payload):
     try:
         response = httpx.post(NOTIFICATION_URL.rstrip("/") + "/internal/v1/notifications/email", json=payload,
@@ -253,12 +266,7 @@ def create(body: CreateBody, authorization: str | None = Header(default=None)):
         if wallet_row.balance < tuition_row.amount: return error(422, "INSUFFICIENT_BALANCE", "Số dư không đủ.")
         now = now_utc()
         payment_id = "pay_" + uuid4().hex
-        for _ in range(20):
-            candidate = f"{secrets.randbelow(1000000):06d}"
-            active = db.scalar(select(Otp).join(Payment, Otp.payment_id == Payment.payment_id).where(Payment.status == "PENDING_OTP", Otp.expires_at > now, Otp.code_hash == otp_hash(payment_id, candidate)))
-            if not active:
-                code = candidate
-                break
+        code = new_otp_code(db, now)
         if code is None: return error(500, "INTERNAL_ERROR", "Không tạo được OTP.")
         expires = now + timedelta(minutes=5)
         payment = Payment(payment_id=payment_id, user_id=uid, tuition_id=body.tuitionId, request_id=request_id,
@@ -281,6 +289,55 @@ def create(body: CreateBody, authorization: str | None = Header(default=None)):
             payment.failure_code = "NOTIFICATION_UNAVAILABLE"
         return error(503, "NOTIFICATION_UNAVAILABLE", "Chưa gửi được OTP.")
     return JSONResponse(status_code=201, content=result)
+
+
+@app.post("/api/v1/payments/{payment_id}/resend-otp")
+def resend_otp(payment_id: str, authorization: str | None = Header(default=None)):
+    claims = actor(authorization)
+    if not claims: return auth_error()
+    try:
+        with SessionLocal() as db:
+            if DATABASE_URL.startswith("sqlite"):
+                db.connection().exec_driver_sql("BEGIN IMMEDIATE")
+            row = db.scalar(select(Payment).where(Payment.payment_id == payment_id).with_for_update())
+            if not row: return error(404, "PAYMENT_NOT_FOUND", "Không tìm thấy giao dịch.")
+            if row.user_id != claims["sub"]: return error(403, "FORBIDDEN", "Không có quyền gửi lại OTP.")
+            if row.status not in ("PENDING_OTP", "EXPIRED"):
+                return error(409, "PAYMENT_NOT_PENDING", "Giao dịch không còn chờ OTP.")
+            otp = db.scalar(select(Otp).where(Otp.payment_id == payment_id).with_for_update())
+            if not otp or otp.used_at:
+                return error(409, "PAYMENT_NOT_PENDING", "Giao dịch không còn chờ OTP.")
+            now = now_utc()
+            wait_seconds = 30 - (now - aware(otp.issued_at)).total_seconds()
+            if wait_seconds > 0:
+                return error(409, "OTP_RESEND_TOO_SOON", "Vui lòng đợi trước khi gửi lại OTP.",
+                             {"Retry-After": str(max(1, int(wait_seconds) + 1))})
+            wallet_row = db.scalar(select(Wallet).where(Wallet.user_id == row.user_id).with_for_update())
+            tuition_row = db.scalar(select(Tuition).where(Tuition.tuition_id == row.tuition_id).with_for_update())
+            if not tuition_row or tuition_row.status != "UNPAID":
+                row.status, row.failure_code = "FAILED", "TUITION_ALREADY_PAID"
+                db.commit()
+                return error(409, "TUITION_ALREADY_PAID", "Học phí đã thanh toán.")
+            if not wallet_row or wallet_row.balance < row.amount:
+                row.status, row.failure_code = "FAILED", "INSUFFICIENT_BALANCE"
+                db.commit()
+                return error(422, "INSUFFICIENT_BALANCE", "Số dư không đủ.")
+            code = new_otp_code(db, now, otp.code_hash)
+            if code is None: return error(500, "INTERNAL_ERROR", "Không tạo được OTP.")
+            expires = now + timedelta(minutes=5)
+            otp.otp_id = "otp_" + uuid4().hex
+            otp.code_hash, otp.issued_at, otp.expires_at = otp_hash(payment_id, code), now, expires
+            row.otp_expires_at, row.status, row.failure_code = expires, "PENDING_OTP", None
+            message_id = "otp:" + payment_id + ":" + otp.otp_id
+            db.commit()
+            result = public(db, row)
+        delivered = notify({"messageId": message_id, "type": "OTP", "to": claims["email"],
+                            "data": {"paymentId": payment_id, "otp": code, "expiresAt": iso(expires)}})
+        if not delivered:
+            return error(503, "NOTIFICATION_UNAVAILABLE", "Chưa gửi được OTP. Vui lòng thử lại sau.")
+        return result
+    except OperationalError:
+        return error(409, "REQUEST_IN_PROGRESS", "Giao dịch đang được xử lý.", {"Retry-After": "1"})
 
 
 @app.get("/api/v1/payments")

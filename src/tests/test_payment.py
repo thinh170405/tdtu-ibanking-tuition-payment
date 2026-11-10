@@ -101,3 +101,32 @@ def test_expired_otp_and_email_failure(setup, monkeypatch):
     result = create(client, "u1", "HP002")
     assert result.status_code == 503
     assert client.get("/api/v1/wallet", headers=headers("u1")).json()["balance"] == 10000000
+
+
+def test_resend_otp_replaces_old_code_and_recovers_expired_payment(setup):
+    module, messages = setup
+    client = TestClient(module.app)
+    created = create(client, "u1", "HP001")
+    pid = created.json()["paymentId"]
+    first_code = messages[0]["data"]["otp"]
+    path = f"/api/v1/payments/{pid}/resend-otp"
+    too_soon = client.post(path, headers=headers("u1"))
+    assert too_soon.status_code == 409 and too_soon.json()["code"] == "OTP_RESEND_TOO_SOON"
+    with module.SessionLocal.begin() as db:
+        db.scalar(module.select(module.Otp).where(module.Otp.payment_id == pid)).issued_at = datetime.now(timezone.utc) - timedelta(seconds=31)
+    resent = client.post(path, headers=headers("u1"))
+    assert resent.status_code == 200 and resent.json()["status"] == "PENDING_OTP"
+    second_code = messages[-1]["data"]["otp"]
+    assert second_code != first_code
+    assert client.post(f"/api/v1/payments/{pid}/confirm", headers=headers("u1"), json={"otp": first_code}).json()["code"] == "INVALID_OTP"
+    with module.SessionLocal.begin() as db:
+        db.get(module.Payment, pid).status = "EXPIRED"
+        otp = db.scalar(module.select(module.Otp).where(module.Otp.payment_id == pid))
+        otp.issued_at = datetime.now(timezone.utc) - timedelta(minutes=6)
+        otp.expires_at = datetime.now(timezone.utc) - timedelta(minutes=1)
+    recovered = client.post(path, headers=headers("u1"))
+    assert recovered.status_code == 200 and recovered.json()["status"] == "PENDING_OTP"
+    assert client.post(f"/api/v1/payments/{pid}/confirm", headers=headers("u1"), json={"otp": second_code}).json()["code"] == "INVALID_OTP"
+    final_code = messages[-1]["data"]["otp"]
+    assert client.post(f"/api/v1/payments/{pid}/confirm", headers=headers("u1"), json={"otp": final_code}).json()["status"] == "SUCCESS"
+    assert client.post(path, headers=headers("u1")).json()["code"] == "PAYMENT_NOT_PENDING"

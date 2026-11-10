@@ -78,6 +78,7 @@ Phần lớn API nằm dưới `/api/v1`. Ngoài các API sau, mỗi backend có
 | Payment | `POST /api/v1/payments` | Nhận `tuitionId`, `termsAccepted`, `requestId` (UUID); tạo `PENDING_OTP` và gửi OTP. Thành công trả HTTP 201. |
 | Payment | `GET /api/v1/payments` | Trả lịch sử giao dịch của người dùng, sắp theo thời gian tạo giảm dần. |
 | Payment | `GET /api/v1/payments/{payment_id}` | Trả một giao dịch nếu thuộc người dùng hiện tại. |
+| Payment | `POST /api/v1/payments/{payment_id}/resend-otp` | Gửi mã OTP mới sau tối thiểu 30 giây; vô hiệu mã cũ và đặt lại hạn 5 phút. |
 | Payment | `POST /api/v1/payments/{payment_id}/confirm` | Nhận OTP 6 chữ số; xác nhận và hoàn tất thanh toán. |
 | Notification | `POST /internal/v1/notifications/email` | Payment gọi với `X-Internal-Key`; nhận yêu cầu loại `OTP` hoặc `PAYMENT_SUCCESS`. |
 
